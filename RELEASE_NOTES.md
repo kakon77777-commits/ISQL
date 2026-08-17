@@ -1,5 +1,17 @@
 # Release Notes
 
+## v1.0.0 — Compact Machine-Native Locality Index
+
+- Added canonical `ILI1` compact binary locality-index format with raw SHA-256 material, registry-binding deduplication, canonical varints, CRC32 validation, and encode/decode byte canonicality.
+- Added bounded indexed recall using exact block postings plus registry/resolution total-sum neighbor tables; detailed heuristic scoring no longer requires a full entry scan per query.
+- Preserved the rule that heuristic recall cannot decide storage; only actual `ISD8` byte reranking can choose a base.
+- Added `locality-native-build`, `locality-native-info`, and `locality-native-select`.
+- 256-base controlled corpus: JSON index 219,185 B → ILI1 37,421 B (17.07%); 64 metadata probes and 8 actual reranks still match exhaustive oracle and select 92 B from a 143 B target.
+- 4096-base controlled corpus: ILI1 598,061 B (~146.01 B/entry); 64 metadata probes (1.5625%) and 8 actual reranks select the planted 92 B base.
+- Retained v0.9 JSON locality index APIs/CLI for compatibility and inspection.
+- Preserved v0.4 numeric wire, v0.5 registry wire, v0.6 D40 carrier, v0.7 ISN7, and v0.8 ISD8 frozen behavior.
+- v1.0 remains an experimental runtime milestone, not a universal-compression or production-security claim.
+
 ## v0.9.0 — ISQL-MEM Locality Index and Automatic Base Selection
 
 - Added rebuildable locality signatures/index for standalone `ISN7` bases.

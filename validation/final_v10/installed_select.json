@@ -1,0 +1,78 @@
+{
+  "best_delta_candidate_bytes": 87,
+  "bytes_saved_vs_standalone": 34,
+  "candidate_pool_count": 2,
+  "compact_recall": {
+    "candidates": [
+      {
+        "comparable_block_count": 5,
+        "exact_block_count": 5,
+        "frame_bytes": 121,
+        "frame_ref": "one.isql7",
+        "frame_sha256": "0e311629c1415c1e01680f5f1e16336fdc2c239171db8589c3313745453c43c0",
+        "item_count_distance": 0,
+        "normalized_sum_distance": 0.0,
+        "same_registry": true
+      },
+      {
+        "comparable_block_count": 5,
+        "exact_block_count": 0,
+        "frame_bytes": 126,
+        "frame_ref": "three.isql7",
+        "frame_sha256": "4b05e20902e3d43632f0150414c5412ca4063b3a168739655b3a30e541b38bf8",
+        "item_count_distance": 5,
+        "normalized_sum_distance": 0.14788732394366197,
+        "same_registry": false
+      }
+    ],
+    "entry_count": 2,
+    "index_probe_count": 2,
+    "probe_ratio": 1.0,
+    "schema": "isql.compact-locality-recall/v1.0"
+  },
+  "evaluations": [
+    {
+      "delta_bytes": 87,
+      "frame_ref": "one.isql7",
+      "frame_sha256": "0e311629c1415c1e01680f5f1e16336fdc2c239171db8589c3313745453c43c0",
+      "heuristic": {
+        "comparable_block_count": 5,
+        "exact_block_count": 5,
+        "frame_bytes": 121,
+        "frame_ref": "one.isql7",
+        "frame_sha256": "0e311629c1415c1e01680f5f1e16336fdc2c239171db8589c3313745453c43c0",
+        "item_count_distance": 0,
+        "normalized_sum_distance": 0.0,
+        "same_registry": true
+      },
+      "recall_rank": 1
+    },
+    {
+      "delta_bytes": 163,
+      "frame_ref": "three.isql7",
+      "frame_sha256": "4b05e20902e3d43632f0150414c5412ca4063b3a168739655b3a30e541b38bf8",
+      "heuristic": {
+        "comparable_block_count": 5,
+        "exact_block_count": 0,
+        "frame_bytes": 126,
+        "frame_ref": "three.isql7",
+        "frame_sha256": "4b05e20902e3d43632f0150414c5412ca4063b3a168739655b3a30e541b38bf8",
+        "item_count_distance": 5,
+        "normalized_sum_distance": 0.14788732394366197,
+        "same_registry": false
+      },
+      "recall_rank": 2
+    }
+  ],
+  "mode": "delta",
+  "output_file": "/tmp/isql_v10_smoke/selected.isqld8",
+  "recalled_candidate_count": 2,
+  "schema": "isql.compact-locality-base-selection/v1.0",
+  "selected_base_ref": "one.isql7",
+  "selected_base_sha256": "0e311629c1415c1e01680f5f1e16336fdc2c239171db8589c3313745453c43c0",
+  "selected_frame_bytes": 87,
+  "selected_ratio": 0.71900826446281,
+  "selected_recall_rank": 1,
+  "standalone_frame_bytes": 121,
+  "target_frame_sha256": "c8fb7ed9c43e4cd26fad0720826baaac62b4f9531aec1caa0759abd6d2e74a01"
+}

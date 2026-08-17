@@ -1,0 +1,9 @@
+{
+  "entry_count": 2,
+  "format": "ILI1",
+  "index_bytes": 352,
+  "index_file": "/tmp/isql_v10_smoke/index.ili1",
+  "index_hash": "5896f9de45973f476a690826531e7396bbf8810e97ddd08bcfaee93885bfdf4b",
+  "registry_binding_count": 2,
+  "schema": "isql.locality-native-build/v1.0"
+}

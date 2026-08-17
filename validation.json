@@ -1,74 +1,105 @@
 {
-  "compileall": "PASS",
-  "feature": "ISQL-MEM v0.9 Locality Index and Automatic Base Selection",
-  "installed_smoke": {
-    "automatic_selection": "PASS",
-    "delta_decode_byte_identical_to_target": true,
-    "index_build": "PASS",
-    "mode": "delta",
-    "selected_base_ref": "one.isql7",
-    "selected_frame_bytes": 87
-  },
-  "integrity": {
-    "json_files": 64,
-    "utf8_files": 218
-  },
-  "invariants": {
-    "actual_isd8_bytes_decide_selection": true,
-    "index_is_derived": true,
-    "loaded_base_bound_by_sha256": true,
-    "one_hop_delta_only": true,
-    "only_standalone_isn7_indexed": true,
-    "target_self_excluded_by_sha256": true,
-    "v04_v08_formats_unchanged": true
-  },
-  "live": {
-    "frozen_identical": {
-      "oracle_match": true,
-      "selected": 87,
-      "standalone": 121
-    },
-    "frozen_low_locality": {
-      "best_delta": 168,
-      "mode": "native",
-      "oracle_match": true,
-      "selected": 126,
-      "standalone": 126
-    },
-    "frozen_near": {
-      "oracle_match": true,
-      "selected": 97,
-      "standalone": 121
-    },
-    "synthetic_256": {
-      "actual_reranks": 8,
-      "base_frames_total_bytes": 36595,
-      "candidate_pool": 256,
-      "index_json_bytes": 220384,
-      "oracle_match": true,
-      "pruning_fraction": 0.96875,
-      "selected": 92,
-      "standalone": 143
-    }
-  },
-  "release": "ISQL Core Runtime v0.9.0",
+  "release": "ISQL Core Runtime v1.0.0",
+  "version": "1.0.0",
+  "feature": "Compact Machine-Native Locality Index (ILI1)",
   "tests": {
-    "cli": 30,
-    "errors": 0,
+    "non_cli": 197,
+    "cli": 32,
+    "total": 229,
     "failures": 0,
-    "non_cli": 177,
-    "total": 207
+    "errors": 0,
+    "status": "PASS"
   },
+  "compileall": "PASS",
   "wheel": {
-    "artifact": [
-      {
-        "bytes": 52938,
-        "name": "isql_core_runtime-0.9.0-py3-none-any.whl",
-        "sha256": "778d215004e365f166aa8f9d66dcf1d1909d948f9e26da2ca0af9992f69140a8"
-      }
-    ],
     "offline_build": "PASS",
     "target_install": "PASS",
-    "version": "0.9.0"
-  }
+    "version": "1.0.0",
+    "evidence_build": "validation/final_v10/wheel_build.txt",
+    "evidence_install": "validation/final_v10/wheel_install.txt"
+  },
+  "installed_smoke": {
+    "index_bytes": 352,
+    "installed_version": "1.0.0",
+    "restored_equals_target": true,
+    "restored_sha256": "c8fb7ed9c43e4cd26fad0720826baaac62b4f9531aec1caa0759abd6d2e74a01",
+    "selected_base_ref": "one.isql7",
+    "selected_frame_bytes": 87,
+    "target_sha256": "c8fb7ed9c43e4cd26fad0720826baaac62b4f9531aec1caa0759abd6d2e74a01"
+  },
+  "integrity": {
+    "utf8_files": 228,
+    "json_files": 73,
+    "ili1": [
+      {
+        "path": "validation/v10/v10_index_256.ili1",
+        "bytes": 37421,
+        "entries": 256,
+        "sha256": "5e4a3c02757bb3825a65db496d11e8225cffcdcceed79fb14b6a15bc7465e243",
+        "canonical_round_trip": true
+      },
+      {
+        "path": "validation/v10/v10_index_4096.ili1",
+        "bytes": 598061,
+        "entries": 4096,
+        "sha256": "009f4b1f0b2682e6d8c07fa7ba7459364ac2d881fa533a83bbc1eed98ef42645",
+        "canonical_round_trip": true
+      }
+    ],
+    "status": "PASS"
+  },
+  "live": {
+    "cases": [
+      {
+        "actual_rerank_count": 8,
+        "compact_bytes_saved": 181764,
+        "compact_ili1_bytes": 37421,
+        "compact_index_sha256": "5e4a3c02757bb3825a65db496d11e8225cffcdcceed79fb14b6a15bc7465e243",
+        "compact_vs_json_ratio": 0.1707279238999019,
+        "entries": 256,
+        "index_probe_count": 64,
+        "index_probe_ratio": 0.25,
+        "legacy_json_index_bytes": 219185,
+        "matches_exhaustive_oracle": true,
+        "name": "synthetic-256-oracle",
+        "oracle_selected_base_ref": "base-good.isql7",
+        "oracle_selected_frame_bytes": 92,
+        "selected_base_ref": "base-good.isql7",
+        "selected_frame_bytes": 92,
+        "standalone_bytes": 143
+      },
+      {
+        "actual_rerank_count": 8,
+        "bytes_per_entry": 146.010986328125,
+        "compact_ili1_bytes": 598061,
+        "compact_index_sha256": "009f4b1f0b2682e6d8c07fa7ba7459364ac2d881fa533a83bbc1eed98ef42645",
+        "entries": 4096,
+        "index_probe_count": 64,
+        "index_probe_ratio": 0.015625,
+        "name": "synthetic-4096-scale",
+        "selected_base_ref": "base-good.isql7",
+        "selected_frame_bytes": 92,
+        "standalone_bytes": 143
+      }
+    ],
+    "claims": {
+      "compact_index_is_derived": true,
+      "heuristic_is_not_storage_decision": true,
+      "no_embedding_dependency": true,
+      "v09_json_index_remains_supported": true
+    },
+    "schema": "isql.v1.0-live-summary/v1"
+  },
+  "invariants": {
+    "compact_index_is_derived": true,
+    "compact_index_round_trip_canonical": true,
+    "raw_hashes_not_hex_in_runtime_index": true,
+    "query_uses_bounded_metadata_probe_set": true,
+    "actual_isd8_bytes_decide_selection": true,
+    "v09_json_index_remains_supported": true,
+    "legacy_v04_v09_artifacts_unchanged": true,
+    "no_embedding_dependency": true,
+    "no_wall_clock_claims": true
+  },
+  "scope_note": "Experimental coherent runtime milestone; not a universal compression or production-security claim."
 }

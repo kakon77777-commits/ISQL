@@ -1,0 +1,10 @@
+test_invalid_semantic_analysis_fails_closed (tests.test_cli_v02.CLIV02Tests.test_invalid_semantic_analysis_fails_closed) ... ok
+test_memory_compare_reports_baseline_and_semantic (tests.test_cli_v02.CLIV02Tests.test_memory_compare_reports_baseline_and_semantic) ... ok
+test_memory_decode_auto_selects_semantic_decoder (tests.test_cli_v02.CLIV02Tests.test_memory_decode_auto_selects_semantic_decoder) ... ok
+test_memory_encode_accepts_semantic_analysis_json (tests.test_cli_v02.CLIV02Tests.test_memory_encode_accepts_semantic_analysis_json) ... ok
+test_memory_profiles_lists_both_profiles (tests.test_cli_v02.CLIV02Tests.test_memory_profiles_lists_both_profiles) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 5.069s
+
+OK

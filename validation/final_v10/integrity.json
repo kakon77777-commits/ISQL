@@ -1,0 +1,21 @@
+{
+  "utf8_files": 228,
+  "json_files": 73,
+  "ili1": [
+    {
+      "path": "validation/v10/v10_index_256.ili1",
+      "bytes": 37421,
+      "entries": 256,
+      "sha256": "5e4a3c02757bb3825a65db496d11e8225cffcdcceed79fb14b6a15bc7465e243",
+      "canonical_round_trip": true
+    },
+    {
+      "path": "validation/v10/v10_index_4096.ili1",
+      "bytes": 598061,
+      "entries": 4096,
+      "sha256": "009f4b1f0b2682e6d8c07fa7ba7459364ac2d881fa533a83bbc1eed98ef42645",
+      "canonical_round_trip": true
+    }
+  ],
+  "status": "PASS"
+}

@@ -1,0 +1,70 @@
+{
+  "schema": "isql.cli-test-summary/v1",
+  "modules": [
+    {
+      "module": "test_cli",
+      "tests": 4,
+      "status": "PASS",
+      "evidence": "validation/final_v10/cli_modules/test_cli.txt"
+    },
+    {
+      "module": "test_cli_v02",
+      "tests": 5,
+      "status": "PASS",
+      "evidence": "validation/final_v10/cli_modules/test_cli_v02.txt"
+    },
+    {
+      "module": "test_cli_v03",
+      "tests": 5,
+      "status": "PASS",
+      "evidence": "validation/final_v10/cli_modules/test_cli_v03.txt"
+    },
+    {
+      "module": "test_cli_v04",
+      "tests": 4,
+      "status": "PASS",
+      "evidence": "validation/final_v10/cli_modules/test_cli_v04.txt"
+    },
+    {
+      "module": "test_cli_v05",
+      "tests": 3,
+      "status": "PASS",
+      "evidence": "validation/final_v10/cli_modules/test_cli_v05.txt"
+    },
+    {
+      "module": "test_cli_v06",
+      "tests": 3,
+      "status": "PASS",
+      "evidence": "validation/final_v10/cli_modules/test_cli_v06.txt"
+    },
+    {
+      "module": "test_cli_v07",
+      "tests": 2,
+      "status": "PASS",
+      "evidence": "validation/final_v10/cli_modules/test_cli_v07.txt"
+    },
+    {
+      "module": "test_cli_v08",
+      "tests": 2,
+      "status": "PASS",
+      "evidence": "validation/final_v10/cli_modules/test_cli_v08.txt"
+    },
+    {
+      "module": "test_cli_v09",
+      "tests": 2,
+      "status": "PASS",
+      "evidence": "validation/final_v10/cli_modules/test_cli_v09.txt"
+    },
+    {
+      "module": "test_cli_v10",
+      "tests": 2,
+      "status": "PASS",
+      "evidence": "validation/final_v10/cli_modules/test_cli_v10.txt"
+    }
+  ],
+  "cli_total": 32,
+  "non_cli_total": 197,
+  "total": 229,
+  "failures": 0,
+  "errors": 0
+}

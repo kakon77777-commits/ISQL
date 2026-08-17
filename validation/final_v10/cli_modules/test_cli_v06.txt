@@ -1,0 +1,8 @@
+test_bcd4_cli_round_trip (tests.test_cli_v06.CLIV06Tests.test_bcd4_cli_round_trip) ... ok
+test_invalid_carrier_file_fails_closed (tests.test_cli_v06.CLIV06Tests.test_invalid_carrier_file_fails_closed) ... ok
+test_pack_unpack_and_info_binary_carrier (tests.test_cli_v06.CLIV06Tests.test_pack_unpack_and_info_binary_carrier) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 4.206s
+
+OK

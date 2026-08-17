@@ -1,0 +1,15 @@
+{
+  "entry_count": 2,
+  "format": "ILI1",
+  "index_bytes": 352,
+  "index_hash": "5896f9de45973f476a690826531e7396bbf8810e97ddd08bcfaee93885bfdf4b",
+  "registry_binding_count": 2,
+  "registry_hashes": [
+    "9a0991535396fc7e1725d74e324859e991d2100fab05e18704125d9289161700",
+    "fa9418119f870e6db9e09c000389b3ffbd4aa24b3815209fc34c53e457052ef4"
+  ],
+  "resolutions": [
+    "R2"
+  ],
+  "schema": "isql.locality-native-info/v1.0"
+}

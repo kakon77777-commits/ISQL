@@ -1,0 +1,7 @@
+test_index_build_info_and_select_delta (tests.test_cli_v09.CLIV09Tests.test_index_build_info_and_select_delta) ... ok
+test_select_falls_back_to_native (tests.test_cli_v09.CLIV09Tests.test_select_falls_back_to_native) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 3.285s
+
+OK

@@ -1,0 +1,7 @@
+test_native_compile_decode_info_and_debug (tests.test_cli_v07.CLIV07Tests.test_native_compile_decode_info_and_debug) ... ok
+test_native_decode_rejects_wrong_registry_store (tests.test_cli_v07.CLIV07Tests.test_native_decode_rejects_wrong_registry_store) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 4.161s
+
+OK

@@ -1,0 +1,9 @@
+{
+  "index_bytes": 352,
+  "installed_version": "1.0.0",
+  "restored_equals_target": true,
+  "restored_sha256": "c8fb7ed9c43e4cd26fad0720826baaac62b4f9531aec1caa0759abd6d2e74a01",
+  "selected_base_ref": "one.isql7",
+  "selected_frame_bytes": 87,
+  "target_sha256": "c8fb7ed9c43e4cd26fad0720826baaac62b4f9531aec1caa0759abd6d2e74a01"
+}

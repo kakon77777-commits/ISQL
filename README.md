@@ -1,4 +1,40 @@
-# ISQL Core Runtime v0.9.0
+# ISQL Core Runtime v1.0.0
+
+ISQL Core Runtime v1.0.0 closes the first end-to-end **AI-native memory runtime**: compact semantic coordinates, machine-native memory frames, one-hop locality deltas, and a compact machine-native locality index whose heuristic recall is still subordinated to actual byte cost.
+
+## v1.0 in one line
+
+```text
+ISN7 memory pool
+→ ILI1 compact machine-native locality index
+→ bounded candidate recall
+→ top-k actual ISD8 byte rerank
+→ store ISD8 only when smaller, otherwise ISN7
+```
+
+### v1.0 controlled results
+
+- 256-base deterministic corpus: v0.9-style JSON index **219,185 B** → `ILI1` **37,421 B (17.07%)**.
+- Same 256-base corpus: compact recall probes 64 metadata entries, reranks only 8 actual deltas, and still matches exhaustive oracle: **143 B target → 92 B delta** using `base-good.isql7`.
+- 4096-base corpus: `ILI1` **598,061 B (~146.01 B/entry)**; query probes 64/4096 metadata entries and reranks 8 actual deltas, selecting the planted **92 B** base.
+- No embedding or external ANN dependency.
+- Heuristic similarity never decides storage; real `ISD8` byte length does.
+- v0.9 JSON index remains supported as a legacy/inspection path.
+
+See `docs/ISQL_Core_v1.0_Compact_Machine_Native_Locality_Index.md`.
+
+### v1.0 runtime CLI
+
+```bash
+isql-core locality-native-build --frames-dir ./bases --index locality.ili1
+isql-core locality-native-info --index locality.ili1
+isql-core locality-native-select --index locality.ili1 --frames-dir ./bases \
+  --target target.isql7 --out selected.bin --top-k 8 --probe-factor 4
+```
+
+---
+
+## Historical v0.9 Runtime Notes
 
 ISQL Core Runtime v0.9.0 implements **ISQL-MEM v0.9 Locality Index + Automatic Base Selection** without changing the v0.7 `ISN7` or v0.8 `ISD8` wire formats.
 

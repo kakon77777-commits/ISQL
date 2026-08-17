@@ -1,0 +1,42 @@
+{
+  "cases": [
+    {
+      "actual_rerank_count": 8,
+      "compact_bytes_saved": 181764,
+      "compact_ili1_bytes": 37421,
+      "compact_index_sha256": "5e4a3c02757bb3825a65db496d11e8225cffcdcceed79fb14b6a15bc7465e243",
+      "compact_vs_json_ratio": 0.1707279238999019,
+      "entries": 256,
+      "index_probe_count": 64,
+      "index_probe_ratio": 0.25,
+      "legacy_json_index_bytes": 219185,
+      "matches_exhaustive_oracle": true,
+      "name": "synthetic-256-oracle",
+      "oracle_selected_base_ref": "base-good.isql7",
+      "oracle_selected_frame_bytes": 92,
+      "selected_base_ref": "base-good.isql7",
+      "selected_frame_bytes": 92,
+      "standalone_bytes": 143
+    },
+    {
+      "actual_rerank_count": 8,
+      "bytes_per_entry": 146.010986328125,
+      "compact_ili1_bytes": 598061,
+      "compact_index_sha256": "009f4b1f0b2682e6d8c07fa7ba7459364ac2d881fa533a83bbc1eed98ef42645",
+      "entries": 4096,
+      "index_probe_count": 64,
+      "index_probe_ratio": 0.015625,
+      "name": "synthetic-4096-scale",
+      "selected_base_ref": "base-good.isql7",
+      "selected_frame_bytes": 92,
+      "standalone_bytes": 143
+    }
+  ],
+  "claims": {
+    "compact_index_is_derived": true,
+    "heuristic_is_not_storage_decision": true,
+    "no_embedding_dependency": true,
+    "v09_json_index_remains_supported": true
+  },
+  "schema": "isql.v1.0-live-summary/v1"
+}

@@ -1,0 +1,9 @@
+test_address_text (tests.test_cli.CLITests.test_address_text) ... ok
+test_memory_encode_decode_and_recoverability (tests.test_cli.CLITests.test_memory_encode_decode_and_recoverability) ... ok
+test_parse (tests.test_cli.CLITests.test_parse) ... ok
+test_registry_info (tests.test_cli.CLITests.test_registry_info) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 3.728s
+
+OK

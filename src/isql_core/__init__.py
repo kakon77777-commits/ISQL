@@ -1,4 +1,4 @@
-"""ISQL Core Runtime / ISQL-MEM v0.9 locality index and automatic base selection."""
+"""ISQL Core Runtime v1.0 compact machine-native locality index and automatic base selection."""
 
 from .code import ISQLCode, parse_code
 from .address import address_code_to_digest, digest_to_address_code
@@ -78,6 +78,20 @@ from .locality import (
     save_locality_index,
 )
 
+
+from .compact_locality import (
+    CompactRegistryBinding,
+    CompactLocalityEntry,
+    CompactLocalityIndex,
+    CompactRecallResult,
+    CompactBaseSelectionResult,
+    build_compact_locality_index,
+    recall_compact_candidates,
+    select_compact_locality_base,
+    load_compact_locality_index,
+    save_compact_locality_index,
+)
+
 from .wire import (
     NumericWireCompileResult,
     compile_numeric_wire,
@@ -87,7 +101,7 @@ from .wire import (
     encode_uint,
 )
 
-__version__ = "0.9.0"
+__version__ = "1.0.0"
 
 __all__ = [
     "ISQLCode",
@@ -157,5 +171,15 @@ __all__ = [
     "select_locality_base",
     "load_locality_index",
     "save_locality_index",
+    "CompactRegistryBinding",
+    "CompactLocalityEntry",
+    "CompactLocalityIndex",
+    "CompactRecallResult",
+    "CompactBaseSelectionResult",
+    "build_compact_locality_index",
+    "recall_compact_candidates",
+    "select_compact_locality_base",
+    "load_compact_locality_index",
+    "save_compact_locality_index",
     "__version__",
 ]

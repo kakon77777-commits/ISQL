@@ -1,0 +1,7 @@
+test_corrupt_native_index_fails_closed (tests.test_cli_v10.CLIV10Tests.test_corrupt_native_index_fails_closed) ... ok
+test_native_index_build_info_and_select (tests.test_cli_v10.CLIV10Tests.test_native_index_build_info_and_select) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 3.194s
+
+OK

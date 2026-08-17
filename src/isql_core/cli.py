@@ -40,6 +40,12 @@ from .locality import (
     save_locality_index,
     select_locality_base,
 )
+from .compact_locality import (
+    build_compact_locality_index,
+    load_compact_locality_index,
+    save_compact_locality_index,
+    select_compact_locality_base,
+)
 
 
 def _json(value: object) -> str:
@@ -112,7 +118,7 @@ def _decode_auto(store: MemoryStore, code):
 
 
 def build_parser() -> argparse.ArgumentParser:
-    p = argparse.ArgumentParser(prog="isql-core", description="ISQL Core Runtime / ISQL-MEM v0.9")
+    p = argparse.ArgumentParser(prog="isql-core", description="ISQL Core Runtime v1.0")
     sub = p.add_subparsers(dest="command", required=True)
 
     sp = sub.add_parser("parse", help="Parse an ISQL wire code")
@@ -230,6 +236,21 @@ def build_parser() -> argparse.ArgumentParser:
     sp.add_argument("--target", required=True)
     sp.add_argument("--out", required=True)
     sp.add_argument("--top-k", type=int, default=8)
+
+    sp = sub.add_parser("locality-native-build", help="Build compact machine-native ILI1 locality index")
+    sp.add_argument("--frames-dir", required=True)
+    sp.add_argument("--index", required=True)
+
+    sp = sub.add_parser("locality-native-info", help="Inspect compact machine-native ILI1 locality index")
+    sp.add_argument("--index", required=True)
+
+    sp = sub.add_parser("locality-native-select", help="Indexed compact recall plus actual-byte ISD8 rerank")
+    sp.add_argument("--index", required=True)
+    sp.add_argument("--frames-dir", required=True)
+    sp.add_argument("--target", required=True)
+    sp.add_argument("--out", required=True)
+    sp.add_argument("--top-k", type=int, default=8)
+    sp.add_argument("--probe-factor", type=int, default=4)
 
     sp = sub.add_parser("memory-decode", help="Decode a stored ISQL-MEM code using its profile decoder")
     sp.add_argument("--store", required=True)
@@ -521,6 +542,62 @@ def main(argv: list[str] | None = None) -> int:
             out_path = Path(args.out)
             out_path.parent.mkdir(parents=True, exist_ok=True)
             out_path.write_bytes(result.frame)
+            payload = result.to_dict()
+            payload["output_file"] = str(out_path)
+            print(_json(payload))
+            return 0
+
+
+        if args.command == "locality-native-build":
+            frames_dir = Path(args.frames_dir).resolve()
+            rows = []
+            for path in sorted(frames_dir.rglob("*.isql7")):
+                if path.is_file():
+                    rows.append((path.relative_to(frames_dir).as_posix(), path.read_bytes()))
+            index = build_compact_locality_index(rows)
+            save_compact_locality_index(args.index, index)
+            index_path = Path(args.index)
+            print(_json({
+                "schema": "isql.locality-native-build/v1.0",
+                "format": "ILI1",
+                "entry_count": len(index.entries),
+                "registry_binding_count": len(index.registry_bindings),
+                "index_hash": index.content_hash(),
+                "index_bytes": index_path.stat().st_size,
+                "index_file": str(index_path),
+            }))
+            return 0
+
+        if args.command == "locality-native-info":
+            index = load_compact_locality_index(args.index)
+            bindings = index.registry_bindings
+            print(_json({
+                "schema": "isql.locality-native-info/v1.0",
+                "format": "ILI1",
+                "entry_count": len(index.entries),
+                "registry_binding_count": len(bindings),
+                "index_hash": index.content_hash(),
+                "index_bytes": Path(args.index).stat().st_size,
+                "resolutions": sorted({entry.resolution for entry in index.entries}),
+                "registry_hashes": sorted({binding.registry_hash for binding in bindings}),
+            }))
+            return 0
+
+        if args.command == "locality-native-select":
+            index = load_compact_locality_index(args.index)
+            frames_dir = Path(args.frames_dir).resolve()
+            def _load_compact_base(ref: str) -> bytes:
+                candidate = (frames_dir / Path(*ref.split("/"))).resolve()
+                if not candidate.is_relative_to(frames_dir):
+                    raise ValueError("locality frame ref escapes frames dir")
+                return candidate.read_bytes()
+            target = Path(args.target).read_bytes()
+            result = select_compact_locality_base(
+                target, index, _load_compact_base, top_k=args.top_k, probe_factor=args.probe_factor
+            )
+            out_path = Path(args.out)
+            out_path.parent.mkdir(parents=True, exist_ok=True)
+            out_path.write_bytes(result.selection.frame)
             payload = result.to_dict()
             payload["output_file"] = str(out_path)
             print(_json(payload))

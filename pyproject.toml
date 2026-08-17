@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "isql-core-runtime"
-version = "0.9.0"
-description = "ISQL Core Runtime with automatic locality indexing and actual-byte base selection for AI-native one-hop delta memory."
+version = "1.0.0"
+description = "ISQL Core Runtime v1.0 with compact machine-native locality indexing and actual-byte base selection for AI-native one-hop delta memory."
 requires-python = ">=3.11"
 authors = [{name = "Neo.K / EVEMISSLAB"}]
 

@@ -1,29 +1,27 @@
-# ISQL Core Runtime v0.9.0 — Demo Results
+# ISQL Core Runtime v1.0.0 — Live Results
 
-## Locality Index / Automatic Base Selection
+## 256-base exhaustive-oracle fixture
 
-| Case | Pool | Reranked | Standalone | Selected | Mode | Oracle match |
-|---|---:|---:|---:|---:|---|---|
-| Frozen identical neighbor | 2 | 2 | 121 B | **87 B** | delta | yes |
-| Frozen near neighbor | 3 | 2 | 121 B | **97 B** | delta | yes |
-| Frozen low locality | 2 | 2 | **126 B** | **126 B** | native | yes |
-| Synthetic 256-base | 256 | **8** | 143 B | **92 B** | delta | yes |
+- standalone target: **143 B**;
+- v0.9-style JSON locality index: **219,185 B**;
+- v1.0 `ILI1`: **37,421 B**;
+- compact index / JSON ratio: **17.07%**;
+- metadata probe set: **64/256 = 25%**;
+- actual ISD8 reranks: **8**;
+- selected base: `base-good.isql7`;
+- selected frame: **92 B**;
+- exhaustive 256-base oracle: same base, same **92 B** result.
 
-The 256-base run prunes **96.875%** of actual ISD8 evaluations while selecting the same base and same 92-byte result as exhaustive actual-byte search.
+## 4096-base structural scale fixture
 
-## Important negative / cost result
+- entries: **4096**;
+- compact `ILI1`: **598,061 B**;
+- mean: **146.01 B/indexed base**;
+- metadata probe set: **64/4096 = 1.5625%**;
+- actual ISD8 reranks: **8**;
+- selected base: `base-good.isql7`;
+- selected frame: **92 B** from 143 B standalone.
 
-The current locality index is JSON derived speed infrastructure, not a compression representation:
+No wall-clock claim is made. The benchmark records structural index size and candidate/rerank counts only.
 
-- 256 base frames: **36,595 B** total;
-- locality index JSON: **220,384 B**.
-
-This overhead is retained in the release evidence. v0.9 optimizes base-search work, not index storage.
-
-## Decision invariant
-
-The recall heuristic only supplies candidates. Final selection always compares real encoded bytes:
-
-$$
-oxed{	ext{heuristic recall}ightarrow	ext{actual ISD8 rerank}ightarrow\min(	ext{ISD8},	ext{ISN7})}
-$$
+Full machine-readable evidence: `validation/v10/v10_live_summary.json`.
