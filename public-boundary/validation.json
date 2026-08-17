@@ -1,0 +1,19 @@
+{
+  "artifact": "ISQL Public 1.0 Protocol / Conformance / Research Boundary",
+  "date": "2026-08-17",
+  "utf8": true,
+  "canonical_markdown": "ISQL_Public_1.0_Protocol_Conformance_Research_Boundary.md",
+  "machine_readable_boundary": "PUBLIC_BOUNDARY_v1.json",
+  "conformance_example": "CONFORMANCE_VECTOR_FORMAT_v1.example.json",
+  "contains_protocol_boundary": true,
+  "contains_conformance_classes": true,
+  "contains_golden_vectors": true,
+  "contains_research_boundary": true,
+  "contains_promotion_boundary": true,
+  "contains_reference_runtime_demotion": true,
+  "contains_second_implementation_gate": true,
+  "math_display_delimiters_balanced": true,
+  "forbidden_latex_bracket_delimiters": false,
+  "contains_tbd_todo": false,
+  "boundary_component_count": 19
+}

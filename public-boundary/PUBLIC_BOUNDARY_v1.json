@@ -1,0 +1,135 @@
+{
+  "schema": "isql.public-boundary/v1",
+  "protocol": "ISQL-PUBLIC-1.0",
+  "basis_runtime": "ISQL-Core-Runtime-1.0.0",
+  "date": "2026-08-17",
+  "principle": "Specification > Conformance Vectors > Reference Implementation",
+  "components": [
+    {
+      "id": "identity.sha256-exact-source",
+      "status": "public-stable",
+      "normative": true,
+      "replacement_requires_major": true,
+      "notes": "Raw 256-bit SHA-256 of exact source bytes is current Public 1.0 identity material."
+    },
+    {
+      "id": "registry.revision-hash-binding",
+      "status": "public-stable",
+      "normative": true,
+      "replacement_requires_major": true
+    },
+    {
+      "id": "ISN7",
+      "status": "public-stable",
+      "normative": true,
+      "wire_frozen": true,
+      "replacement_requires_major": true
+    },
+    {
+      "id": "ISD8",
+      "status": "public-stable",
+      "normative": true,
+      "wire_frozen": true,
+      "max_delta_depth": 1,
+      "replacement_requires_major": true
+    },
+    {
+      "id": "ILI1",
+      "status": "public-stable",
+      "normative": true,
+      "wire_frozen": true,
+      "derived": true,
+      "rebuildable": true
+    },
+    {
+      "id": "recovery.exact-vs-semantic",
+      "status": "public-stable",
+      "normative": true,
+      "replacement_requires_major": true
+    },
+    {
+      "id": "locality.actual-byte-final-selection",
+      "status": "public-stable",
+      "normative": true,
+      "algorithmic": false
+    },
+    {
+      "id": "locality.recall-heuristic",
+      "status": "public-replaceable",
+      "normative": false,
+      "algorithmic": true
+    },
+    {
+      "id": "semantic-analyzer",
+      "status": "public-replaceable",
+      "normative": false,
+      "model_neutral": true
+    },
+    {
+      "id": "ai-decoder-model",
+      "status": "public-replaceable",
+      "normative": false,
+      "model_neutral": true
+    },
+    {
+      "id": "numeric-memory-wire-v0.4",
+      "status": "legacy-experimental",
+      "normative": false
+    },
+    {
+      "id": "numeric-registry-wire-v0.5",
+      "status": "legacy-experimental",
+      "normative": false
+    },
+    {
+      "id": "BCD4",
+      "status": "legacy-experimental",
+      "normative": false
+    },
+    {
+      "id": "D40",
+      "status": "legacy-experimental",
+      "normative": false
+    },
+    {
+      "id": "decimal-address-view",
+      "status": "inspection-compatibility",
+      "normative": false
+    },
+    {
+      "id": "json-locality-index-v0.9",
+      "status": "inspection-legacy",
+      "normative": false,
+      "derived": true
+    },
+    {
+      "id": "python-reference-runtime",
+      "status": "reference-implementation",
+      "normative": false
+    },
+    {
+      "id": "internal-new-coordinate-topologies",
+      "status": "research-internal",
+      "normative": false
+    },
+    {
+      "id": "internal-new-frame-families",
+      "status": "research-internal",
+      "normative": false
+    }
+  ],
+  "promotion_pipeline": [
+    "research-candidate",
+    "independent-validation",
+    "specification",
+    "conformance-vectors",
+    "public-release"
+  ],
+  "public_conformance_classes": {
+    "C1": "Core Decoder",
+    "C2": "Core Encoder",
+    "C3": "Memory Runtime",
+    "C4": "Locality Runtime",
+    "C5": "AI Semantic Adapter"
+  }
+}

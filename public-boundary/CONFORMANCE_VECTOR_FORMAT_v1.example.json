@@ -1,0 +1,19 @@
+{
+  "schema": "isql.conformance-vector/v1",
+  "vector_id": "isql-public-1.0/isn7/example",
+  "class": "ISN7",
+  "spec_version": "ISQL-PUBLIC-1.0",
+  "valid": true,
+  "input": {
+    "description": "Binary canonical source is stored separately from JSON metadata."
+  },
+  "expected": {
+    "decode_result": "implementation-defined JSON diagnostic view",
+    "canonical_sha256": "<sha256-of-binary-vector>"
+  },
+  "requirements": [
+    "decoder accepts canonical binary vector",
+    "encoder reproduces byte-identical binary vector for C2+",
+    "registry/address binding matches vector metadata"
+  ]
+}

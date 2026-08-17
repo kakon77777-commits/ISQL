@@ -1,290 +1,94 @@
-# ISQL Core Runtime v1.0.0
+# ISQL
 
-ISQL Core Runtime v1.0.0 closes the first end-to-end **AI-native memory runtime**: compact semantic coordinates, machine-native memory frames, one-hop locality deltas, and a compact machine-native locality index whose heuristic recall is still subordinated to actual byte cost.
+**ISQL Public 1.0 — Protocol / Conformance / Research Boundary**
+中文標題：ISQL 公開版 1.0：協議、相容性測試與研究邊界
 
-## v1.0 in one line
+**Status:** Public Core Specification Boundary
+**Basis:** ISQL Core Runtime v1.0.0
+**Primary audience:** third-party implementers, AI/agent runtime developers, auditors, researchers
+
+> This document specifies the Public 1.0 boundary, but cross-implementation interoperability is **not yet independently proven**. A second implementation plus a complete golden/invalid conformance vector set remains a release gate for claiming independent protocol interoperability.
+
+---
+
+## What this repository is
+
+The canonical public description of ISQL 1.0 is
+**[`public-boundary/ISQL_Public_1.0_Protocol_Conformance_Research_Boundary.md`](public-boundary/ISQL_Public_1.0_Protocol_Conformance_Research_Boundary.md)**.
+
+It is not a new algorithm version and not v1.1. Its purpose is to take the completed **ISQL Core Runtime v1.0.0** — a research/engineering result — and organize it into a **public stable boundary** that a third party can understand, implement independently, verify, and critique.
+
+Core principle:
 
 ```text
-ISN7 memory pool
-→ ILI1 compact machine-native locality index
-→ bounded candidate recall
-→ top-k actual ISD8 byte rerank
-→ store ISD8 only when smaller, otherwise ISN7
+Specification > Conformance Vectors > Reference Implementation
 ```
 
-### v1.0 controlled results
+The Python reference runtime (`docs/RUNTIME_NOTES.md`, `src/`) is **an** implementation. It is not ISQL itself.
 
-- 256-base deterministic corpus: v0.9-style JSON index **219,185 B** → `ILI1` **37,421 B (17.07%)**.
-- Same 256-base corpus: compact recall probes 64 metadata entries, reranks only 8 actual deltas, and still matches exhaustive oracle: **143 B target → 92 B delta** using `base-good.isql7`.
-- 4096-base corpus: `ILI1` **598,061 B (~146.01 B/entry)**; query probes 64/4096 metadata entries and reranks 8 actual deltas, selecting the planted **92 B** base.
-- No embedding or external ANN dependency.
-- Heuristic similarity never decides storage; real `ISD8` byte length does.
-- v0.9 JSON index remains supported as a legacy/inspection path.
+## Public vs. Experimental
 
-See `docs/ISQL_Core_v1.0_Compact_Machine_Native_Locality_Index.md`.
+Starting at v1.0, ISQL formally splits into two governance lines:
 
-### v1.0 runtime CLI
+- **Public ISQL** — stable identity, canonical encodings, deterministic decode, independent implementations, backward compatibility, reproducible test vectors, fail-closed behavior, explicit versioning, externally auditable claims. Priority: stability over novelty velocity.
+- **Experimental / Internal ISQL** — free to change coordinate topology, registry architecture, memory organization, AI decoder, index/search architecture, compression, or break backward compatibility. Nothing here becomes Public protocol just because it works in an experimental branch — promotion requires: research candidate → independent validation → specification → conformance vectors → public release.
+
+## Public 1.0 stable core
+
+`(Identity, Registry Binding, ISN7, ISD8, ILI1, Exact/Semantic Recovery Boundary, Fail-Closed Canonicality)`
+
+- **ISN7** — canonical standalone machine-native memory frame.
+- **ISD8** — optional one-hop locality delta frame; base MUST be a standalone ISN7 (decode depth ≤ 1).
+- **ILI1** — compact machine-native locality index; derived and rebuildable, never itself a source of identity.
+- **Registry binding** — every canonical object binds `(registry revision, registry SHA-256)`; wrong revision/hash fails closed.
+- **Exact vs. semantic recovery** — an AI decoder producing "the same meaning" MUST NOT be represented as exact recovery.
+
+What is explicitly **not** canonical meaning: Python class/file layout, CLI spelling, the current semantic-analyzer prompt/model, current heuristic coefficients, current benchmark fixtures, or any of the v0.4–v0.6/v0.9 legacy wire formats. Those are reference, legacy, or research artifacts — replacing them does not stop something from being ISQL.
+
+## Conformance classes
+
+| Class | Requires | Scope |
+|---|---|---|
+| C1 | — | Core Decoder |
+| C2 | C1 | Core Encoder (`Encode(Decode(b)) = b`) |
+| C3 | C2 | Memory Runtime (stable identity, registry binding, ISN7/ISD8 construction) |
+| C4 | C3 | Locality Runtime (index, recall, mandatory actual-byte rerank) |
+| C5 | — (optional) | AI Semantic Adapter (model-neutral, provenance-tracked) |
+
+A third party does not need to import the Python package, reuse its classes, or match its CLI — only produce the same canonical logical result/bytes against the normative vectors.
+
+## What Public 1.0 does **not** claim
+
+Universal compression optimum, a completed AGI-native universal language, lossless semantic reconstruction for arbitrary information, a globally optimal semantic ontology, a production cryptographic protocol, universal ANN superiority, or that natural language has been replaced. `CRC32` is accidental-corruption detection only; `SHA-256` is used for identity/binding, not for encryption, authentication, or secrecy.
+
+## Documents in this repository
+
+- **[`public-boundary/ISQL_Public_1.0_Protocol_Conformance_Research_Boundary.md`](public-boundary/ISQL_Public_1.0_Protocol_Conformance_Research_Boundary.md)** — the full normative/public-boundary specification (46 sections: conformance classes, wire canonicality, golden/invalid vector requirements, compatibility policy, benchmark boundary, acceptance gate).
+- **[`public-boundary/PUBLIC_BOUNDARY_v1.json`](public-boundary/PUBLIC_BOUNDARY_v1.json)** — machine-readable component classification (public-stable / public-replaceable / legacy-experimental / research-internal).
+- **[`public-boundary/SOURCE_BASIS.md`](public-boundary/SOURCE_BASIS.md)** — which v1.0 artifacts this boundary was derived from.
+- **[`public-boundary/CONFORMANCE_VECTOR_FORMAT_v1.example.json`](public-boundary/CONFORMANCE_VECTOR_FORMAT_v1.example.json)** — starter format for future golden/invalid conformance vectors.
+- **[`docs/RUNTIME_NOTES.md`](docs/RUNTIME_NOTES.md)** — the Python `isql-core` v1.0.0 reference-implementation README: quickstart, CLI, and the full v0.1→v1.0 controlled-experiment results. Non-normative.
+- **[`docs/`](docs/)** — per-version design docs (`ISQL_MEM_v0.x_*.md`) and superpowers plans/specs behind each release.
+
+## Acceptance gate (not yet complete)
+
+- [x] Stable-core specification
+- [x] Boundary manifest
+- [ ] Golden vectors (positive/invalid)
+- [x] Python reference runtime
+- [ ] Second independent decoder implementation
+- [ ] Benchmark protocol separated from benchmark results
+
+Until a second independent implementation passes the core vectors, this repository can specify the Public 1.0 protocol boundary, but **cross-implementation interoperability is not yet independently proven** — that distinction must stay explicit.
+
+## Quickstart (reference implementation)
 
 ```bash
+pip install -e .
 isql-core locality-native-build --frames-dir ./bases --index locality.ili1
 isql-core locality-native-info --index locality.ili1
 isql-core locality-native-select --index locality.ili1 --frames-dir ./bases \
   --target target.isql7 --out selected.bin --top-k 8 --probe-factor 4
 ```
 
----
-
-## Historical v0.9 Runtime Notes
-
-ISQL Core Runtime v0.9.0 implements **ISQL-MEM v0.9 Locality Index + Automatic Base Selection** without changing the v0.7 `ISN7` or v0.8 `ISD8` wire formats.
-
-## v0.9 in one line
-
-```text
-standalone ISN7 memory pool
-→ derived block-signature locality index
-→ top-k candidate recall
-→ actual ISD8 byte rerank
-→ write ISD8 only when smaller, otherwise ISN7
-```
-
-Frozen results: 121 B → **87 B** for an identical-semantic neighbor, 121 B → **97 B** for a near neighbor, and low-locality target correctly remains **126 B standalone**. A deterministic 256-base corpus evaluates only 8 candidates and still matches the exhaustive 256-base byte oracle, selecting a **92 B** delta from a 143 B target.
-
-The v0.9 index is explicitly derived speed infrastructure: the current auditable JSON form is larger than the indexed frames and is not claimed as a compression format.
-
-See `docs/ISQL_MEM_v0.9_Locality_Index_and_Automatic_Base_Selection.md`.
-
----
-
-## Historical v0.8 Runtime Notes
-
-ISQL Core Runtime v0.8.0 implements **ISQL-MEM v0.8 Locality Delta Frames + Random-Access Partial Decode** on top of the unchanged v0.7 machine-native `ISN7` frame.
-
-## v0.8 in one line
-
-```text
-standalone ISN7 base
-+ nearby spectral memory
-→ canonical COPY / DELTA / REPLACE blocks
-→ ISD8 only when smaller
-→ block-level random access
-```
-
-Frozen live results: identical semantic neighbor **121 B → 87 B**; same-registry near neighbor **121 B → 97 B**; registry-growth low-locality case rejects a 168 B delta and keeps the **126 B standalone** target.
-
-See `docs/ISQL_MEM_v0.8_Locality_Delta_and_Random_Access.md`.
-
----
-
-## Historical v0.7 Runtime Notes
-
-ISQL Core Runtime v0.7.0 implements **ISQL-MEM v0.7 Machine-Native Canonical Representation**. Human-readable decimal text is no longer a canonical requirement.
-
-## v0.7 in one line
-
-```text
-semantic coordinates
-→ spectral integer sequence
-→ raw address + raw registry binding
-→ ISN7 block-bit-packed binary frame
-```
-
-The canonical machine path does **not** call the v0.4 numeric-wire codec or v0.6 decimal carrier codecs. Decimal/text forms remain compatibility, inspection, and export views only.
-
-### Frozen R2 live result
-
-- 262 B ASCII numeric → 122 B D40 → **121 B native frame**.
-- 262 B ASCII numeric → 122 B D40 → **121 B native frame**.
-- 278 B ASCII numeric → 128 B D40 → **126 B native frame**.
-- Coordinate round-trip fidelity: **1.0** for all three.
-- Native frame stores raw 32-byte source address and raw 32-byte registry hash directly.
-
-See `docs/ISQL_MEM_v0.7_Machine_Native_Canonical_Representation.md`.
-
----
-
-## Historical v0.6 Runtime Notes
-ISQL Core Runtime v0.6.0 implements **ISQL-MEM v0.6 Physical Digit Carrier Packing** without changing the canonical v0.4 numeric memory wire or v0.5 numeric registry wire.
-
-## v0.6 in one line
-
-```text
-canonical digits-only wire
-→ BCD4 / D40 physical packing
-→ binary storage/transport
-→ exact unpack to the same canonical digits
-```
-
-The canonical sequence remains digits-only. The binary carrier is transport-only and does not create a new memory profile.
-
-### Live result
-
-- 3515 B cold registry numeric wire → **1477 B D40 carrier**; direct v0.5 structural binary is 1452 B, so packed-numeric overhead is only **25 B / +1.72%**.
-- 902 B partial-growth registry wire → **388 B D40 carrier** versus 368 B structural binary (**+20 B / +5.43%**).
-- 262 B memory numeric wire → **122 B D40 carrier** (~46.6%).
-- 278 B memory numeric wire → **128 B D40 carrier** (~46.0%).
-- BCD4 provides a simpler ~50% payload-density baseline; D40 uses 12 decimal digits per 5 bytes.
-- All carriers unpack byte-for-byte to the original numeric wire.
-
-See `docs/ISQL_MEM_v0.6_Physical_Digit_Carrier_Packing.md`.
-
----
-
-## Historical v0.5 Runtime Notes
-
-ISQL Core Runtime v0.5.0 implements **ISQL-MEM v0.5 Hierarchical Spectral Registry Compaction** while preserving every v0.4 memory code and numeric wire.
-
-## v0.5 in one line
-
-```text
-canonical spectral registry
-→ shared lexeme registry
-→ namespace value programs
-→ incremental structural delta
-→ digits-only registry wire
-```
-
-The canonical spectral registry remains authoritative. The hierarchical registry is a derived, exactly reconstructable representation.
-
-### Live result
-
-- Cold canonical JSON append delta: 1902 B → structural hierarchical delta: **1452 B (76.3%)**.
-- Partial-vocabulary append delta: 600 B → **368 B (61.3%)**.
-- Warm identical vocabulary: **0 B registry update required**.
-- ASCII digits-only transport is larger (3515 B / 902 B), so v0.5 explicitly separates semantic structural compaction from physical decimal-carrier density.
-- Coordinate fidelity remains **1.0** and canonical registry hashes reconstruct exactly.
-
-See `docs/ISQL_MEM_v0.5_Hierarchical_Spectral_Registry_Compaction.md`.
-
----
-
-## Historical v0.4 Runtime Notes
-
-ISQL Core Runtime v0.4.0 implements **ISQL-MEM v0.4 Numeric Wire Encoding** on top of the v0.1–v0.3 code-space, stable addressing, multi-resolution memory, AI semantic analysis, and registry-backed spectral coordinate layers.
-
-## Four coexisting memory profiles
-
-One stable source address can now carry four independent representations:
-
-```text
-baseline  -> deterministic v0.1 representation
-semantic  -> verbose typed AI semantic coordinates (v0.2)
-spectral  -> registry-backed sparse integer coordinates (v0.3)
-numeric   -> digits-only self-delimiting wire over spectral coordinates (v0.4)
-```
-
-Adding the `numeric` profile does not alter stable `ISQL-ADDR` identity or any existing baseline/semantic/spectral MEM code when compared from the same registry state.
-
-## Numeric wire
-
-The canonical v0.4 runtime carrier contains ASCII digits `0-9` only.
-
-It serializes:
-
-- numeric-wire magic;
-- wire protocol version;
-- exact spectral registry revision;
-- full 256-bit spectral registry hash encoded as a decimal integer;
-- spectral sequence item count;
-- the sparse integer spectral sequence;
-- CRC32 corruption guard.
-
-There are no commas, braces, JSON keys, Base64 symbols, hexadecimal characters, separators, or floating-point values in the wire.
-
-Integers use a self-delimiting decimal-length token. Lengths 1–9 use a one-digit length prefix. Larger decimal integers use an extended length-of-length form. Noncanonical leading zeros and malformed/truncated lengths fail closed.
-
-CRC32 is only a transport corruption guard. Semantic identity remains bound by the full SHA-256 spectral registry hash and registry revision.
-
-## Pipeline
-
-```text
-source bytes
-  -> stable ISQL-ADDR
-  -> AI SemanticAnalysis
-  -> append-only Spectral Registry
-  -> sparse SpectralPacket
-  -> digits-only Numeric Wire
-  -> ISQL-MEM numeric R1/R2
-  -> NumericWireDecoder
-  -> spectral packet reconstruction
-  -> registry expansion
-  -> semantic coordinates
-  -> recovery / fidelity measurement
-```
-
-The v0.3 spectral sequence already removes relation-object JSON structure: relations are represented as counted subject/predicate/object integer tuples. v0.4 serializes that structural sequence without JSON framing overhead.
-
-## Live v0.4 experiment
-
-The release reuses the same three-memory fixture family used by v0.3.
-
-| Memory | Verbose coords | Spectral packet JSON | Numeric wire | Registry delta | Numeric total | Coordinate fidelity |
-|---|---:|---:|---:|---:|---:|---:|
-| 1 cold | 2131 B | 321 B | **262 B** | 1607 B | **1869 B** | 1.000 |
-| 2 full vocabulary reuse | 2131 B | 318 B | **262 B** | 0 B | **262 B** | 1.000 |
-| 3 partial vocabulary growth | 2162 B | 332 B | **278 B** | 310 B | **588 B** | 1.000 |
-
-For these controlled fixtures:
-
-- cold total is about 87.7% of verbose typed coordinates;
-- fully warm numeric wire is about 12.3% of verbose typed coordinates;
-- partial-growth total is about 27.2% of verbose typed coordinates;
-- numeric wire is about 81.6–83.7% of the already compact v0.3 packet JSON;
-- typed-coordinate round-trip fidelity remains 1.0.
-
-This is a controlled engineering fixture, not a universal compression benchmark.
-
-## CLI
-
-Create baseline + semantic + spectral + numeric profiles:
-
-```bash
-isql-core memory-encode --store ./memory --text "..." \
-  --semantic-analysis-file analysis.json --numeric-wire
-```
-
-Compile a numeric wire without creating a memory record:
-
-```bash
-isql-core numeric-wire-compile --store ./memory \
-  --semantic-analysis-file analysis.json
-```
-
-Decode a standalone numeric wire back to spectral packet metadata:
-
-```bash
-isql-core numeric-wire-decode --wire 94040...
-```
-
-Decode any stored profile automatically:
-
-```bash
-isql-core memory-decode --store ./memory --code ISQL1:MEM:R2:...
-```
-
-Compare all profiles:
-
-```bash
-isql-core memory-compare --store ./memory \
-  --address ISQL1:ADDR:R0:H... --resolution R2 \
-  --source-file source.txt --semantic-reference-file analysis.json
-```
-
-## Compatibility and invariants
-
-- v0.1/v0.2/v0.3 memory records remain readable.
-- `numeric` is additive; previous profiles remain canonical and independently decodable.
-- Numeric R1/R2 layer data is exactly one digits-only `wire` field.
-- Wire decoding recreates the same spectral registry revision/hash and integer sequence.
-- Registry mismatch fails during spectral expansion.
-- R4 remains the only layer allowed to declare exact recovery.
-- `registry_delta_bytes` is measurement metadata and is intentionally excluded from canonical numeric-wire semantics.
-
-## Non-goals of v0.4
-
-- the shared registry is still a textual dictionary on disk;
-- no claim that all ISQL state is now numeric;
-- no entropy coding/arithmetic coding;
-- no distributed registry synchronization or concurrent writer protocol;
-- no cryptographic claim for CRC32;
-- no universal compression claim from three fixtures.
+See [`docs/RUNTIME_NOTES.md`](docs/RUNTIME_NOTES.md) for the full CLI surface, every historical version's controlled results (v0.4 through v1.0), and non-goals.
