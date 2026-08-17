@@ -1,81 +1,74 @@
 {
-  "release": "ISQL Core Runtime v0.8.0",
-  "feature": "ISQL-MEM v0.8 Locality Delta Frames and Random-Access Partial Decode",
-  "tests": {
-    "non_cli": 161,
-    "cli": 28,
-    "total": 189,
-    "failures": 0,
-    "errors": 0
-  },
   "compileall": "PASS",
-  "wheel_build": "PASS",
-  "wheel_install": "PASS",
+  "feature": "ISQL-MEM v0.9 Locality Index and Automatic Base Selection",
   "installed_smoke": {
-    "schema": "isql.v08-installed-smoke/v0.8",
-    "delta_bytes": 87,
-    "target_native_bytes": 121,
-    "ratio": 0.71900826446281,
-    "block_2_values": 16,
-    "restored_byte_equal": true,
-    "delta_sha256": "78f826d1d0a163632b2445e635702e0dccfcae99d7c45e9d0b3083cd505f90c8"
-  },
-  "live_summary": {
-    "schema": "isql.v08-live-summary/v0.8",
-    "cases": [
-      {
-        "case": "identical_semantic_neighbor",
-        "standalone_bytes": 121,
-        "delta_bytes": 87,
-        "selected_mode": "delta",
-        "selected_bytes": 87,
-        "ratio": 0.71900826446281,
-        "mode_counts": {
-          "copy": 5,
-          "delta": 0,
-          "replace": 0
-        },
-        "random_block_2_match": true
-      },
-      {
-        "case": "same_registry_near_neighbor",
-        "standalone_bytes": 121,
-        "delta_bytes": 97,
-        "selected_mode": "delta",
-        "selected_bytes": 97,
-        "ratio": 0.8016528925619835,
-        "mode_counts": {
-          "copy": 3,
-          "delta": 2,
-          "replace": 0
-        },
-        "random_block_1_match": true
-      },
-      {
-        "case": "registry_growth_low_locality",
-        "standalone_bytes": 126,
-        "delta_bytes": 168,
-        "selected_mode": "native",
-        "selected_bytes": 126,
-        "ratio": 1.0
-      }
-    ],
-    "compatibility": {
-      "v07_isn7_unchanged": true
-    },
-    "delta_chain_depth": 1
-  },
-  "compatibility": {
-    "v04_numeric_memory_wire": "UNCHANGED",
-    "v05_registry_numeric_wire": "UNCHANGED",
-    "v06_d40_carrier": "UNCHANGED",
-    "v07_isn7_frames": "UNCHANGED"
+    "automatic_selection": "PASS",
+    "delta_decode_byte_identical_to_target": true,
+    "index_build": "PASS",
+    "mode": "delta",
+    "selected_base_ref": "one.isql7",
+    "selected_frame_bytes": 87
   },
   "integrity": {
-    "utf8_files_checked": 175,
-    "json_files_checked": 56,
-    "jsonl_rows_checked": 0,
-    "delta_chain_depth": 1,
-    "installed_restored_target_byte_equal": true
+    "json_files": 64,
+    "utf8_files": 218
+  },
+  "invariants": {
+    "actual_isd8_bytes_decide_selection": true,
+    "index_is_derived": true,
+    "loaded_base_bound_by_sha256": true,
+    "one_hop_delta_only": true,
+    "only_standalone_isn7_indexed": true,
+    "target_self_excluded_by_sha256": true,
+    "v04_v08_formats_unchanged": true
+  },
+  "live": {
+    "frozen_identical": {
+      "oracle_match": true,
+      "selected": 87,
+      "standalone": 121
+    },
+    "frozen_low_locality": {
+      "best_delta": 168,
+      "mode": "native",
+      "oracle_match": true,
+      "selected": 126,
+      "standalone": 126
+    },
+    "frozen_near": {
+      "oracle_match": true,
+      "selected": 97,
+      "standalone": 121
+    },
+    "synthetic_256": {
+      "actual_reranks": 8,
+      "base_frames_total_bytes": 36595,
+      "candidate_pool": 256,
+      "index_json_bytes": 220384,
+      "oracle_match": true,
+      "pruning_fraction": 0.96875,
+      "selected": 92,
+      "standalone": 143
+    }
+  },
+  "release": "ISQL Core Runtime v0.9.0",
+  "tests": {
+    "cli": 30,
+    "errors": 0,
+    "failures": 0,
+    "non_cli": 177,
+    "total": 207
+  },
+  "wheel": {
+    "artifact": [
+      {
+        "bytes": 52938,
+        "name": "isql_core_runtime-0.9.0-py3-none-any.whl",
+        "sha256": "778d215004e365f166aa8f9d66dcf1d1909d948f9e26da2ca0af9992f69140a8"
+      }
+    ],
+    "offline_build": "PASS",
+    "target_install": "PASS",
+    "version": "0.9.0"
   }
 }

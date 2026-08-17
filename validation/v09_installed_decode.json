@@ -1,0 +1,6 @@
+{
+  "output_file": "validation/v09_installed_restored.isql7",
+  "schema": "isql.delta-decode/v0.8",
+  "target_frame_bytes": 121,
+  "target_frame_sha256": "c8fb7ed9c43e4cd26fad0720826baaac62b4f9531aec1caa0759abd6d2e74a01"
+}

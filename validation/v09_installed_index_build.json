@@ -1,0 +1,6 @@
+{
+  "entry_count": 2,
+  "index_file": "validation/v09_installed_index.json",
+  "index_hash": "4755c27049323d424c2bda74ea636624af8294ce50b54ba99adab2c12ecc74f8",
+  "schema": "isql.locality-index-build/v0.9"
+}

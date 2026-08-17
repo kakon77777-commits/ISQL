@@ -1,4 +1,26 @@
-# ISQL Core Runtime v0.8.0
+# ISQL Core Runtime v0.9.0
+
+ISQL Core Runtime v0.9.0 implements **ISQL-MEM v0.9 Locality Index + Automatic Base Selection** without changing the v0.7 `ISN7` or v0.8 `ISD8` wire formats.
+
+## v0.9 in one line
+
+```text
+standalone ISN7 memory pool
+→ derived block-signature locality index
+→ top-k candidate recall
+→ actual ISD8 byte rerank
+→ write ISD8 only when smaller, otherwise ISN7
+```
+
+Frozen results: 121 B → **87 B** for an identical-semantic neighbor, 121 B → **97 B** for a near neighbor, and low-locality target correctly remains **126 B standalone**. A deterministic 256-base corpus evaluates only 8 candidates and still matches the exhaustive 256-base byte oracle, selecting a **92 B** delta from a 143 B target.
+
+The v0.9 index is explicitly derived speed infrastructure: the current auditable JSON form is larger than the indexed frames and is not claimed as a compression format.
+
+See `docs/ISQL_MEM_v0.9_Locality_Index_and_Automatic_Base_Selection.md`.
+
+---
+
+## Historical v0.8 Runtime Notes
 
 ISQL Core Runtime v0.8.0 implements **ISQL-MEM v0.8 Locality Delta Frames + Random-Access Partial Decode** on top of the unchanged v0.7 machine-native `ISN7` frame.
 

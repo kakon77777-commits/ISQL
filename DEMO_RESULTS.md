@@ -1,38 +1,29 @@
-# ISQL-MEM v0.8 Live Results
+# ISQL Core Runtime v0.9.0 — Demo Results
 
-## Case 1 — identical semantic neighbor
+## Locality Index / Automatic Base Selection
 
-Frozen memory #1 and #2 have different stable source addresses but the same R2 typed spectral coordinate sequence.
+| Case | Pool | Reranked | Standalone | Selected | Mode | Oracle match |
+|---|---:|---:|---:|---:|---|---|
+| Frozen identical neighbor | 2 | 2 | 121 B | **87 B** | delta | yes |
+| Frozen near neighbor | 3 | 2 | 121 B | **97 B** | delta | yes |
+| Frozen low locality | 2 | 2 | **126 B** | **126 B** | native | yes |
+| Synthetic 256-base | 256 | **8** | 143 B | **92 B** | delta | yes |
 
-- standalone target ISN7: **121 B**
-- ISD8 delta: **87 B**
-- selected ratio: **71.90%**
-- modes: **5 COPY / 0 DELTA / 0 REPLACE**
-- registry binding inherited from base
-- random-access block 2 exactly matches the corresponding full target slice
+The 256-base run prunes **96.875%** of actual ISD8 evaluations while selecting the same base and same 92-byte result as exhaustive actual-byte search.
 
-## Case 2 — same-registry near neighbor
+## Important negative / cost result
 
-A new target reorders a small number of already-registered semantic coordinates without adding vocabulary.
+The current locality index is JSON derived speed infrastructure, not a compression representation:
 
-- standalone target ISN7: **121 B**
-- ISD8 delta: **97 B**
-- selected ratio: **80.17%**
-- modes: **3 COPY / 2 DELTA / 0 REPLACE**
-- registry revision/hash remains identical to the base
-- random-access block 1 exactly matches the corresponding full target slice
+- 256 base frames: **36,595 B** total;
+- locality index JSON: **220,384 B**.
 
-## Case 3 — registry growth / low locality
+This overhead is retained in the release evidence. v0.9 optimizes base-search work, not index storage.
 
-Frozen memory #3 changes coordinate structure and advances the registry.
+## Decision invariant
 
-- standalone target ISN7: **126 B**
-- candidate ISD8: **168 B**
-- locality compiler selection: **native**
-- selected bytes: **126 B**
+The recall heuristic only supplies candidates. Final selection always compares real encoded bytes:
 
-The compiler therefore does not force delta encoding when locality is harmful.
-
-## Partial-decode proof
-
-The test suite includes a frame whose later delta payload is deliberately corrupted while the outer CRC is recomputed. `decode_delta_block(..., block=0)` still succeeds, while full-frame decode fails. This proves the block API does not unpack unrelated target payload blocks.
+$$
+oxed{	ext{heuristic recall}ightarrow	ext{actual ISD8 rerank}ightarrow\min(	ext{ISD8},	ext{ISN7})}
+$$

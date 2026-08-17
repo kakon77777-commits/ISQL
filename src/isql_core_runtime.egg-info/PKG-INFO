@@ -1,0 +1,6 @@
+Metadata-Version: 2.4
+Name: isql-core-runtime
+Version: 0.9.0
+Summary: ISQL Core Runtime with automatic locality indexing and actual-byte base selection for AI-native one-hop delta memory.
+Author: Neo.K / EVEMISSLAB
+Requires-Python: >=3.11

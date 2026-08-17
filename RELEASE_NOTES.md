@@ -1,5 +1,18 @@
 # Release Notes
 
+## v0.9.0 — ISQL-MEM Locality Index and Automatic Base Selection
+
+- Added rebuildable locality signatures/index for standalone `ISN7` bases.
+- Added deterministic top-k recall using registry match, exact block fingerprints, coarse block sums, and item-count distance.
+- Added actual-byte reranking: recalled candidates are really encoded as `ISD8`; heuristic score never decides the final base.
+- Added automatic fallback to standalone `ISN7` when all deltas are larger.
+- Added SHA-256 binding for loaded base refs and target self-exclusion.
+- Added `locality-index-build`, `locality-index-info`, and `locality-select` CLI commands.
+- Frozen identical-neighbor case: 121 B → 87 B; near-neighbor case: 121 B → 97 B; low-locality case remains 126 B standalone.
+- 256-base deterministic corpus: top-8 rerank matches exhaustive 256-base oracle and selects 92 B from 143 B target, pruning 96.875% of actual delta encodes.
+- Explicitly records current JSON index overhead: 220,384 B for 256 entries versus 36,595 B of indexed base frames; index is speed infrastructure, not compression.
+- Preserves v0.4-v0.8 wire formats unchanged.
+
 ## v0.8.0 — ISQL-MEM Locality Delta Frames and Random Access
 
 - Added one-hop `ISD8` locality delta frames referencing exact standalone `ISN7` bases by SHA-256.

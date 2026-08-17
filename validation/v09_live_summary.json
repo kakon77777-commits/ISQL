@@ -1,0 +1,472 @@
+{
+  "cases": [
+    {
+      "best_delta_candidate_bytes": 87,
+      "bytes_saved": 34,
+      "candidate_pool_count": 2,
+      "evaluations": [
+        {
+          "delta_bytes": 87,
+          "frame_ref": "one.isql7",
+          "frame_sha256": "0e311629c1415c1e01680f5f1e16336fdc2c239171db8589c3313745453c43c0",
+          "heuristic": {
+            "comparable_block_count": 5,
+            "exact_block_count": 5,
+            "frame_bytes": 121,
+            "frame_ref": "one.isql7",
+            "frame_sha256": "0e311629c1415c1e01680f5f1e16336fdc2c239171db8589c3313745453c43c0",
+            "item_count_distance": 0,
+            "normalized_sum_distance": 0.0,
+            "same_registry": true
+          },
+          "recall_rank": 1
+        },
+        {
+          "delta_bytes": 163,
+          "frame_ref": "three.isql7",
+          "frame_sha256": "4b05e20902e3d43632f0150414c5412ca4063b3a168739655b3a30e541b38bf8",
+          "heuristic": {
+            "comparable_block_count": 5,
+            "exact_block_count": 0,
+            "frame_bytes": 126,
+            "frame_ref": "three.isql7",
+            "frame_sha256": "4b05e20902e3d43632f0150414c5412ca4063b3a168739655b3a30e541b38bf8",
+            "item_count_distance": 5,
+            "normalized_sum_distance": 0.14788732394366197,
+            "same_registry": false
+          },
+          "recall_rank": 2
+        }
+      ],
+      "index_entries": 2,
+      "index_json_bytes": 1741,
+      "matches_exhaustive_oracle": true,
+      "mode": "delta",
+      "name": "frozen-identical-neighbor",
+      "oracle_mode": "delta",
+      "oracle_selected_base_sha256": "0e311629c1415c1e01680f5f1e16336fdc2c239171db8589c3313745453c43c0",
+      "oracle_selected_bytes": 87,
+      "recalled": [
+        {
+          "comparable_block_count": 5,
+          "exact_block_count": 5,
+          "frame_bytes": 121,
+          "frame_ref": "one.isql7",
+          "frame_sha256": "0e311629c1415c1e01680f5f1e16336fdc2c239171db8589c3313745453c43c0",
+          "item_count_distance": 0,
+          "normalized_sum_distance": 0.0,
+          "same_registry": true
+        },
+        {
+          "comparable_block_count": 5,
+          "exact_block_count": 0,
+          "frame_bytes": 126,
+          "frame_ref": "three.isql7",
+          "frame_sha256": "4b05e20902e3d43632f0150414c5412ca4063b3a168739655b3a30e541b38bf8",
+          "item_count_distance": 5,
+          "normalized_sum_distance": 0.14788732394366197,
+          "same_registry": false
+        }
+      ],
+      "recalled_candidate_count": 2,
+      "selected_base_ref": "one.isql7",
+      "selected_base_sha256": "0e311629c1415c1e01680f5f1e16336fdc2c239171db8589c3313745453c43c0",
+      "selected_bytes": 87,
+      "selected_ratio": 0.71900826446281,
+      "selected_recall_rank": 1,
+      "standalone_bytes": 121
+    },
+    {
+      "best_delta_candidate_bytes": 97,
+      "bytes_saved": 24,
+      "candidate_pool_count": 3,
+      "evaluations": [
+        {
+          "delta_bytes": 97,
+          "frame_ref": "one.isql7",
+          "frame_sha256": "0e311629c1415c1e01680f5f1e16336fdc2c239171db8589c3313745453c43c0",
+          "heuristic": {
+            "comparable_block_count": 5,
+            "exact_block_count": 3,
+            "frame_bytes": 121,
+            "frame_ref": "one.isql7",
+            "frame_sha256": "0e311629c1415c1e01680f5f1e16336fdc2c239171db8589c3313745453c43c0",
+            "item_count_distance": 0,
+            "normalized_sum_distance": 0.0,
+            "same_registry": true
+          },
+          "recall_rank": 1
+        },
+        {
+          "delta_bytes": 97,
+          "frame_ref": "two.isql7",
+          "frame_sha256": "c8fb7ed9c43e4cd26fad0720826baaac62b4f9531aec1caa0759abd6d2e74a01",
+          "heuristic": {
+            "comparable_block_count": 5,
+            "exact_block_count": 3,
+            "frame_bytes": 121,
+            "frame_ref": "two.isql7",
+            "frame_sha256": "c8fb7ed9c43e4cd26fad0720826baaac62b4f9531aec1caa0759abd6d2e74a01",
+            "item_count_distance": 0,
+            "normalized_sum_distance": 0.0,
+            "same_registry": true
+          },
+          "recall_rank": 2
+        }
+      ],
+      "index_entries": 3,
+      "index_json_bytes": 2586,
+      "matches_exhaustive_oracle": true,
+      "mode": "delta",
+      "name": "frozen-near-neighbor",
+      "oracle_mode": "delta",
+      "oracle_selected_base_sha256": "0e311629c1415c1e01680f5f1e16336fdc2c239171db8589c3313745453c43c0",
+      "oracle_selected_bytes": 97,
+      "recalled": [
+        {
+          "comparable_block_count": 5,
+          "exact_block_count": 3,
+          "frame_bytes": 121,
+          "frame_ref": "one.isql7",
+          "frame_sha256": "0e311629c1415c1e01680f5f1e16336fdc2c239171db8589c3313745453c43c0",
+          "item_count_distance": 0,
+          "normalized_sum_distance": 0.0,
+          "same_registry": true
+        },
+        {
+          "comparable_block_count": 5,
+          "exact_block_count": 3,
+          "frame_bytes": 121,
+          "frame_ref": "two.isql7",
+          "frame_sha256": "c8fb7ed9c43e4cd26fad0720826baaac62b4f9531aec1caa0759abd6d2e74a01",
+          "item_count_distance": 0,
+          "normalized_sum_distance": 0.0,
+          "same_registry": true
+        }
+      ],
+      "recalled_candidate_count": 2,
+      "selected_base_ref": "one.isql7",
+      "selected_base_sha256": "0e311629c1415c1e01680f5f1e16336fdc2c239171db8589c3313745453c43c0",
+      "selected_bytes": 97,
+      "selected_ratio": 0.8016528925619835,
+      "selected_recall_rank": 1,
+      "standalone_bytes": 121
+    },
+    {
+      "best_delta_candidate_bytes": 168,
+      "bytes_saved": 0,
+      "candidate_pool_count": 2,
+      "evaluations": [
+        {
+          "delta_bytes": 168,
+          "frame_ref": "one.isql7",
+          "frame_sha256": "0e311629c1415c1e01680f5f1e16336fdc2c239171db8589c3313745453c43c0",
+          "heuristic": {
+            "comparable_block_count": 5,
+            "exact_block_count": 0,
+            "frame_bytes": 121,
+            "frame_ref": "one.isql7",
+            "frame_sha256": "0e311629c1415c1e01680f5f1e16336fdc2c239171db8589c3313745453c43c0",
+            "item_count_distance": 5,
+            "normalized_sum_distance": 0.12883435582822086,
+            "same_registry": false
+          },
+          "recall_rank": 1
+        },
+        {
+          "delta_bytes": 168,
+          "frame_ref": "two.isql7",
+          "frame_sha256": "c8fb7ed9c43e4cd26fad0720826baaac62b4f9531aec1caa0759abd6d2e74a01",
+          "heuristic": {
+            "comparable_block_count": 5,
+            "exact_block_count": 0,
+            "frame_bytes": 121,
+            "frame_ref": "two.isql7",
+            "frame_sha256": "c8fb7ed9c43e4cd26fad0720826baaac62b4f9531aec1caa0759abd6d2e74a01",
+            "item_count_distance": 5,
+            "normalized_sum_distance": 0.12883435582822086,
+            "same_registry": false
+          },
+          "recall_rank": 2
+        }
+      ],
+      "index_entries": 2,
+      "index_json_bytes": 1739,
+      "matches_exhaustive_oracle": true,
+      "mode": "native",
+      "name": "frozen-low-locality-fallback",
+      "oracle_mode": "native",
+      "oracle_selected_base_sha256": null,
+      "oracle_selected_bytes": 126,
+      "recalled": [
+        {
+          "comparable_block_count": 5,
+          "exact_block_count": 0,
+          "frame_bytes": 121,
+          "frame_ref": "one.isql7",
+          "frame_sha256": "0e311629c1415c1e01680f5f1e16336fdc2c239171db8589c3313745453c43c0",
+          "item_count_distance": 5,
+          "normalized_sum_distance": 0.12883435582822086,
+          "same_registry": false
+        },
+        {
+          "comparable_block_count": 5,
+          "exact_block_count": 0,
+          "frame_bytes": 121,
+          "frame_ref": "two.isql7",
+          "frame_sha256": "c8fb7ed9c43e4cd26fad0720826baaac62b4f9531aec1caa0759abd6d2e74a01",
+          "item_count_distance": 5,
+          "normalized_sum_distance": 0.12883435582822086,
+          "same_registry": false
+        }
+      ],
+      "recalled_candidate_count": 2,
+      "selected_base_ref": null,
+      "selected_base_sha256": null,
+      "selected_bytes": 126,
+      "selected_ratio": 1.0,
+      "selected_recall_rank": null,
+      "standalone_bytes": 126
+    },
+    {
+      "base_frames_total_bytes": 36595,
+      "best_delta_candidate_bytes": 92,
+      "bytes_saved": 51,
+      "candidate_pool_count": 256,
+      "candidate_pruning_fraction": 0.96875,
+      "evaluations": [
+        {
+          "delta_bytes": 92,
+          "frame_ref": "base-good.isql7",
+          "frame_sha256": "0c3311baa067c18fa05630d8816d885289eccbb513913f1a64f2b210f546bec1",
+          "heuristic": {
+            "comparable_block_count": 5,
+            "exact_block_count": 4,
+            "frame_bytes": 143,
+            "frame_ref": "base-good.isql7",
+            "frame_sha256": "0c3311baa067c18fa05630d8816d885289eccbb513913f1a64f2b210f546bec1",
+            "item_count_distance": 0,
+            "normalized_sum_distance": 0.0,
+            "same_registry": true
+          },
+          "recall_rank": 1
+        },
+        {
+          "delta_bytes": 152,
+          "frame_ref": "base-104.isql7",
+          "frame_sha256": "5b37aff3a622f8936bf0cf96bc60b9b2bd94c89ccb643fb65b574328effe49a7",
+          "heuristic": {
+            "comparable_block_count": 5,
+            "exact_block_count": 0,
+            "frame_bytes": 143,
+            "frame_ref": "base-104.isql7",
+            "frame_sha256": "5b37aff3a622f8936bf0cf96bc60b9b2bd94c89ccb643fb65b574328effe49a7",
+            "item_count_distance": 0,
+            "normalized_sum_distance": 0.1363496460449369,
+            "same_registry": true
+          },
+          "recall_rank": 2
+        },
+        {
+          "delta_bytes": 152,
+          "frame_ref": "base-097.isql7",
+          "frame_sha256": "66067d477584130db7026cbea492c7622b9b613320787a3f93459582b8468c65",
+          "heuristic": {
+            "comparable_block_count": 5,
+            "exact_block_count": 0,
+            "frame_bytes": 143,
+            "frame_ref": "base-097.isql7",
+            "frame_sha256": "66067d477584130db7026cbea492c7622b9b613320787a3f93459582b8468c65",
+            "item_count_distance": 0,
+            "normalized_sum_distance": 0.16712834718374883,
+            "same_registry": true
+          },
+          "recall_rank": 3
+        },
+        {
+          "delta_bytes": 152,
+          "frame_ref": "base-252.isql7",
+          "frame_sha256": "88cbe7b1a8195419e233ab4a083e8fefd81562cc5c826c7335bd1731326898ee",
+          "heuristic": {
+            "comparable_block_count": 5,
+            "exact_block_count": 0,
+            "frame_bytes": 143,
+            "frame_ref": "base-252.isql7",
+            "frame_sha256": "88cbe7b1a8195419e233ab4a083e8fefd81562cc5c826c7335bd1731326898ee",
+            "item_count_distance": 0,
+            "normalized_sum_distance": 0.1745152354570637,
+            "same_registry": true
+          },
+          "recall_rank": 4
+        },
+        {
+          "delta_bytes": 152,
+          "frame_ref": "base-212.isql7",
+          "frame_sha256": "f8aef6b7df134807cf9455f3b841509494645e58d2b8c35f85a94c95b3a6dd47",
+          "heuristic": {
+            "comparable_block_count": 5,
+            "exact_block_count": 0,
+            "frame_bytes": 143,
+            "frame_ref": "base-212.isql7",
+            "frame_sha256": "f8aef6b7df134807cf9455f3b841509494645e58d2b8c35f85a94c95b3a6dd47",
+            "item_count_distance": 0,
+            "normalized_sum_distance": 0.18805786395814098,
+            "same_registry": true
+          },
+          "recall_rank": 5
+        },
+        {
+          "delta_bytes": 152,
+          "frame_ref": "base-179.isql7",
+          "frame_sha256": "dd4885c85631d8f08074118106b974cdd02547ab8019f303be28d44885c4eff4",
+          "heuristic": {
+            "comparable_block_count": 5,
+            "exact_block_count": 0,
+            "frame_bytes": 143,
+            "frame_ref": "base-179.isql7",
+            "frame_sha256": "dd4885c85631d8f08074118106b974cdd02547ab8019f303be28d44885c4eff4",
+            "item_count_distance": 0,
+            "normalized_sum_distance": 0.19852262234533702,
+            "same_registry": true
+          },
+          "recall_rank": 6
+        },
+        {
+          "delta_bytes": 152,
+          "frame_ref": "base-195.isql7",
+          "frame_sha256": "ebefcec174afc8466ab26d7afbf3e4fa4e049a798fc736e991fe8da7240941f5",
+          "heuristic": {
+            "comparable_block_count": 5,
+            "exact_block_count": 0,
+            "frame_bytes": 143,
+            "frame_ref": "base-195.isql7",
+            "frame_sha256": "ebefcec174afc8466ab26d7afbf3e4fa4e049a798fc736e991fe8da7240941f5",
+            "item_count_distance": 0,
+            "normalized_sum_distance": 0.20006155740227763,
+            "same_registry": true
+          },
+          "recall_rank": 7
+        },
+        {
+          "delta_bytes": 152,
+          "frame_ref": "base-093.isql7",
+          "frame_sha256": "61c18b383b4d41c1fda17f10559ca62d36f3d9ff9611e788ff7dc59412546e5b",
+          "heuristic": {
+            "comparable_block_count": 5,
+            "exact_block_count": 0,
+            "frame_bytes": 143,
+            "frame_ref": "base-093.isql7",
+            "frame_sha256": "61c18b383b4d41c1fda17f10559ca62d36f3d9ff9611e788ff7dc59412546e5b",
+            "item_count_distance": 0,
+            "normalized_sum_distance": 0.20714065866420436,
+            "same_registry": true
+          },
+          "recall_rank": 8
+        }
+      ],
+      "index_entries": 256,
+      "index_json_bytes": 220384,
+      "matches_exhaustive_oracle": true,
+      "mode": "delta",
+      "name": "synthetic-256-base-top8",
+      "oracle_mode": "delta",
+      "oracle_selected_base_sha256": "0c3311baa067c18fa05630d8816d885289eccbb513913f1a64f2b210f546bec1",
+      "oracle_selected_bytes": 92,
+      "recalled": [
+        {
+          "comparable_block_count": 5,
+          "exact_block_count": 4,
+          "frame_bytes": 143,
+          "frame_ref": "base-good.isql7",
+          "frame_sha256": "0c3311baa067c18fa05630d8816d885289eccbb513913f1a64f2b210f546bec1",
+          "item_count_distance": 0,
+          "normalized_sum_distance": 0.0,
+          "same_registry": true
+        },
+        {
+          "comparable_block_count": 5,
+          "exact_block_count": 0,
+          "frame_bytes": 143,
+          "frame_ref": "base-104.isql7",
+          "frame_sha256": "5b37aff3a622f8936bf0cf96bc60b9b2bd94c89ccb643fb65b574328effe49a7",
+          "item_count_distance": 0,
+          "normalized_sum_distance": 0.1363496460449369,
+          "same_registry": true
+        },
+        {
+          "comparable_block_count": 5,
+          "exact_block_count": 0,
+          "frame_bytes": 143,
+          "frame_ref": "base-097.isql7",
+          "frame_sha256": "66067d477584130db7026cbea492c7622b9b613320787a3f93459582b8468c65",
+          "item_count_distance": 0,
+          "normalized_sum_distance": 0.16712834718374883,
+          "same_registry": true
+        },
+        {
+          "comparable_block_count": 5,
+          "exact_block_count": 0,
+          "frame_bytes": 143,
+          "frame_ref": "base-252.isql7",
+          "frame_sha256": "88cbe7b1a8195419e233ab4a083e8fefd81562cc5c826c7335bd1731326898ee",
+          "item_count_distance": 0,
+          "normalized_sum_distance": 0.1745152354570637,
+          "same_registry": true
+        },
+        {
+          "comparable_block_count": 5,
+          "exact_block_count": 0,
+          "frame_bytes": 143,
+          "frame_ref": "base-212.isql7",
+          "frame_sha256": "f8aef6b7df134807cf9455f3b841509494645e58d2b8c35f85a94c95b3a6dd47",
+          "item_count_distance": 0,
+          "normalized_sum_distance": 0.18805786395814098,
+          "same_registry": true
+        },
+        {
+          "comparable_block_count": 5,
+          "exact_block_count": 0,
+          "frame_bytes": 143,
+          "frame_ref": "base-179.isql7",
+          "frame_sha256": "dd4885c85631d8f08074118106b974cdd02547ab8019f303be28d44885c4eff4",
+          "item_count_distance": 0,
+          "normalized_sum_distance": 0.19852262234533702,
+          "same_registry": true
+        },
+        {
+          "comparable_block_count": 5,
+          "exact_block_count": 0,
+          "frame_bytes": 143,
+          "frame_ref": "base-195.isql7",
+          "frame_sha256": "ebefcec174afc8466ab26d7afbf3e4fa4e049a798fc736e991fe8da7240941f5",
+          "item_count_distance": 0,
+          "normalized_sum_distance": 0.20006155740227763,
+          "same_registry": true
+        },
+        {
+          "comparable_block_count": 5,
+          "exact_block_count": 0,
+          "frame_bytes": 143,
+          "frame_ref": "base-093.isql7",
+          "frame_sha256": "61c18b383b4d41c1fda17f10559ca62d36f3d9ff9611e788ff7dc59412546e5b",
+          "item_count_distance": 0,
+          "normalized_sum_distance": 0.20714065866420436,
+          "same_registry": true
+        }
+      ],
+      "recalled_candidate_count": 8,
+      "selected_base_ref": "base-good.isql7",
+      "selected_base_sha256": "0c3311baa067c18fa05630d8816d885289eccbb513913f1a64f2b210f546bec1",
+      "selected_bytes": 92,
+      "selected_ratio": 0.6433566433566433,
+      "selected_recall_rank": 1,
+      "standalone_bytes": 143
+    }
+  ],
+  "notes": [
+    "Index JSON is derived speed infrastructure, not canonical memory.",
+    "Final base selection is based on actual ISD8 bytes after top-k recall.",
+    "Top-k result is compared with exhaustive actual-byte oracle in every case."
+  ],
+  "schema": "isql.v09-live-summary/v0.9"
+}
