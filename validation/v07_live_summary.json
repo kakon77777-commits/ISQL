@@ -1,41 +1,6 @@
 {
-  "release": "ISQL Core Runtime v0.7.0",
-  "package_version": "0.7.0",
-  "feature": "ISQL-MEM v0.7 Machine-Native Canonical Representation",
-  "canonical_path": "spectral integer sequence -> ISN7 machine-native binary frame",
-  "human_readable_required": false,
-  "tests": {
-    "non_cli": 141,
-    "cli": 26,
-    "total": 167,
-    "failures": 0,
-    "errors": 0
-  },
-  "compileall": true,
-  "wheel_build_offline": true,
-  "wheel_install_target": true,
-  "installed_native_smoke": {
-    "package_version": "0.7.0",
-    "frame_bytes": 121,
-    "frame_sha256": "0e311629c1415c1e01680f5f1e16336fdc2c239171db8589c3313745453c43c0",
-    "address_match": true,
-    "coordinate_fidelity": 1.0,
-    "registry_hash": "fa9418119f870e6db9e09c000389b3ffbd4aa24b3815209fc34c53e457052ef4"
-  },
-  "installed_cli_info": {
-    "address_sha256": "ec88706dd897964792501ec0381087dca3ca992bedfe47895f81a053eecccff3",
-    "frame_bytes": 121,
-    "frame_sha256": "0e311629c1415c1e01680f5f1e16336fdc2c239171db8589c3313745453c43c0",
-    "kind": "spectral-memory",
-    "max_coordinate": 25,
-    "registry_hash": "fa9418119f870e6db9e09c000389b3ffbd4aa24b3815209fc34c53e457052ef4",
-    "registry_revision": 1,
-    "resolution": "R2",
-    "schema": "isql.native-frame-info/v0.7",
-    "sequence_items": 68,
-    "version": 7
-  },
-  "live_rows": [
+  "schema": "isql.v07-live-summary/v0.7",
+  "rows": [
     {
       "memory": 1,
       "address": "ISQL1:ADDR:R0:H106986899423495569474907434058611738091957888076345694899399123936551788924915",
@@ -111,22 +76,5 @@
         "frame_sha256": "4b05e20902e3d43632f0150414c5412ca4063b3a168739655b3a30e541b38bf8"
       }
     }
-  ],
-  "compatibility": {
-    "v04_numeric_memory_wire_unchanged": true,
-    "v05_registry_numeric_wire_unchanged": true,
-    "v06_d40_carrier_unchanged": true
-  },
-  "invariants": {
-    "native_path_uses_decimal_intermediary": false,
-    "raw_address_digest_bytes": 32,
-    "raw_registry_hash_bytes": 32,
-    "coordinate_fidelity": 1.0,
-    "debug_render_canonical": false,
-    "native_reencode_exact": true
-  },
-  "integrity": {
-    "utf8_text_files": 151,
-    "json_files": 48
-  }
+  ]
 }

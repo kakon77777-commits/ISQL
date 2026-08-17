@@ -1,5 +1,31 @@
-# ISQL Core Runtime v0.6.0
+# ISQL Core Runtime v0.7.0
 
+ISQL Core Runtime v0.7.0 implements **ISQL-MEM v0.7 Machine-Native Canonical Representation**. Human-readable decimal text is no longer a canonical requirement.
+
+## v0.7 in one line
+
+```text
+semantic coordinates
+→ spectral integer sequence
+→ raw address + raw registry binding
+→ ISN7 block-bit-packed binary frame
+```
+
+The canonical machine path does **not** call the v0.4 numeric-wire codec or v0.6 decimal carrier codecs. Decimal/text forms remain compatibility, inspection, and export views only.
+
+### Frozen R2 live result
+
+- 262 B ASCII numeric → 122 B D40 → **121 B native frame**.
+- 262 B ASCII numeric → 122 B D40 → **121 B native frame**.
+- 278 B ASCII numeric → 128 B D40 → **126 B native frame**.
+- Coordinate round-trip fidelity: **1.0** for all three.
+- Native frame stores raw 32-byte source address and raw 32-byte registry hash directly.
+
+See `docs/ISQL_MEM_v0.7_Machine_Native_Canonical_Representation.md`.
+
+---
+
+## Historical v0.6 Runtime Notes
 ISQL Core Runtime v0.6.0 implements **ISQL-MEM v0.6 Physical Digit Carrier Packing** without changing the canonical v0.4 numeric memory wire or v0.5 numeric registry wire.
 
 ## v0.6 in one line

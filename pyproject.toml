@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "isql-core-runtime"
-version = "0.6.0"
-description = "ISQL Core Runtime with packed physical carriers for canonical numeric ISQL wires."
+version = "0.7.0"
+description = "ISQL Core Runtime with machine-native canonical spectral memory frames for AI-first ISQL."
 requires-python = ">=3.11"
 authors = [{name = "Neo.K / EVEMISSLAB"}]
 

@@ -26,6 +26,7 @@ from .registry_wire import (
 )
 from .wire import compile_numeric_wire, decode_numeric_wire
 from .carrier import compile_digit_carrier, inspect_digit_carrier, unpack_digit_carrier
+from .native import compile_native_memory, expand_native_memory, inspect_native_frame, render_native_debug
 
 
 def _json(value: object) -> str:
@@ -98,7 +99,7 @@ def _decode_auto(store: MemoryStore, code):
 
 
 def build_parser() -> argparse.ArgumentParser:
-    p = argparse.ArgumentParser(prog="isql-core", description="ISQL Core Runtime / ISQL-MEM v0.6")
+    p = argparse.ArgumentParser(prog="isql-core", description="ISQL Core Runtime / ISQL-MEM v0.7")
     sub = p.add_subparsers(dest="command", required=True)
 
     sp = sub.add_parser("parse", help="Parse an ISQL wire code")
@@ -162,6 +163,21 @@ def build_parser() -> argparse.ArgumentParser:
 
     sp = sub.add_parser("carrier-info", help="Inspect a binary physical carrier")
     sp.add_argument("--file", required=True)
+
+    sp = sub.add_parser("native-compile", help="Compile a stored MemoryRecord JSON into canonical machine-native binary")
+    sp.add_argument("--record", required=True)
+    sp.add_argument("--resolution", choices=["R1", "R2"], default="R2")
+    sp.add_argument("--out", required=True)
+
+    sp = sub.add_parser("native-decode", help="Decode a canonical machine-native memory frame using its spectral registry")
+    sp.add_argument("--store", required=True)
+    sp.add_argument("--input", required=True)
+
+    sp = sub.add_parser("native-info", help="Inspect canonical machine-native frame metadata")
+    sp.add_argument("--input", required=True)
+
+    sp = sub.add_parser("native-debug", help="Render a non-canonical human debug view of a native frame")
+    sp.add_argument("--input", required=True)
 
     sp = sub.add_parser("memory-decode", help="Decode a stored ISQL-MEM code using its profile decoder")
     sp.add_argument("--store", required=True)
@@ -329,6 +345,33 @@ def main(argv: list[str] | None = None) -> int:
 
         if args.command == "carrier-info":
             print(_json(inspect_digit_carrier(Path(args.file).read_bytes())))
+            return 0
+
+        if args.command == "native-compile":
+            raw = json.loads(Path(args.record).read_text(encoding="utf-8"))
+            if not isinstance(raw, dict):
+                raise ValueError("native record must decode to an object")
+            record = MemoryRecord.from_dict(raw)
+            result = compile_native_memory(record, resolution=args.resolution)
+            out_path = Path(args.out)
+            out_path.parent.mkdir(parents=True, exist_ok=True)
+            out_path.write_bytes(result.frame)
+            payload = result.to_dict()
+            payload["output_file"] = str(out_path)
+            print(_json(payload))
+            return 0
+
+        if args.command == "native-decode":
+            coords = expand_native_memory(Path(args.input).read_bytes(), SpectralRegistryStore(args.store))
+            print(_json(coords.to_dict()))
+            return 0
+
+        if args.command == "native-info":
+            print(_json(inspect_native_frame(Path(args.input).read_bytes())))
+            return 0
+
+        if args.command == "native-debug":
+            print(render_native_debug(Path(args.input).read_bytes()), end="")
             return 0
 
         if args.command == "registry-compare":

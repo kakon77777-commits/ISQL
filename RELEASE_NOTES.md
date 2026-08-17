@@ -1,5 +1,18 @@
 # Release Notes
 
+## v0.7.0 — ISQL-MEM Machine-Native Canonical Representation
+
+- Removed human-readable decimal text from the canonical memory requirement.
+- Added `ISN7` binary spectral-memory frame.
+- Stores stable source address as raw 32-byte SHA-256 material.
+- Stores registry SHA-256 as raw 32-byte material.
+- Added canonical 16-value block bit-packing for spectral integer sequences.
+- Added `native-compile`, `native-decode`, `native-info`, and `native-debug` CLI commands.
+- Debug rendering is explicitly non-canonical and never required for decode.
+- Native decode verifies exact spectral registry revision/hash before semantic expansion.
+- Preserved v0.4 numeric memory wire, v0.5 registry wire, and v0.6 D40 carrier byte-for-byte.
+- Frozen R2 native frames are 121/121/126 B versus v0.6 D40 122/122/128 B with coordinate fidelity 1.0.
+
 ## v0.6.0 — ISQL-MEM Physical Digit Carrier Packing
 
 - Added transport-only `IPC6` binary carrier framing while preserving canonical digits-only wires.

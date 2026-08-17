@@ -1,0 +1,8 @@
+{
+  "package_version": "0.7.0",
+  "frame_bytes": 121,
+  "frame_sha256": "0e311629c1415c1e01680f5f1e16336fdc2c239171db8589c3313745453c43c0",
+  "address_match": true,
+  "coordinate_fidelity": 1.0,
+  "registry_hash": "fa9418119f870e6db9e09c000389b3ffbd4aa24b3815209fc34c53e457052ef4"
+}

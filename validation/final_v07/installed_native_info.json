@@ -1,0 +1,13 @@
+{
+  "address_sha256": "ec88706dd897964792501ec0381087dca3ca992bedfe47895f81a053eecccff3",
+  "frame_bytes": 121,
+  "frame_sha256": "0e311629c1415c1e01680f5f1e16336fdc2c239171db8589c3313745453c43c0",
+  "kind": "spectral-memory",
+  "max_coordinate": 25,
+  "registry_hash": "fa9418119f870e6db9e09c000389b3ffbd4aa24b3815209fc34c53e457052ef4",
+  "registry_revision": 1,
+  "resolution": "R2",
+  "schema": "isql.native-frame-info/v0.7",
+  "sequence_items": 68,
+  "version": 7
+}

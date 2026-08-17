@@ -1,6 +1,7 @@
-"""ISQL Core Runtime / ISQL-MEM v0.6 physical digit carrier packing."""
+"""ISQL Core Runtime / ISQL-MEM v0.7 machine-native canonical representation."""
 
 from .code import ISQLCode, parse_code
+from .address import address_code_to_digest, digest_to_address_code
 from .semantics import SemanticAnalysis, SemanticCoordinateSet, SemanticRelation
 from .spectral import (
     SpectralPacket,
@@ -33,6 +34,17 @@ from .carrier import (
     unpack_digit_carrier,
 )
 
+from .native import (
+    NativeMemoryCompileResult,
+    NativeSpectralFrame,
+    compile_native_memory,
+    decode_native_spectral_frame,
+    encode_native_spectral_frame,
+    expand_native_memory,
+    inspect_native_frame,
+    render_native_debug,
+)
+
 from .wire import (
     NumericWireCompileResult,
     compile_numeric_wire,
@@ -42,11 +54,13 @@ from .wire import (
     encode_uint,
 )
 
-__version__ = "0.6.0"
+__version__ = "0.7.0"
 
 __all__ = [
     "ISQLCode",
     "parse_code",
+    "address_code_to_digest",
+    "digest_to_address_code",
     "SemanticAnalysis",
     "SemanticCoordinateSet",
     "SemanticRelation",
@@ -66,6 +80,14 @@ __all__ = [
     "decode_registry_delta_wire",
     "encode_registry_delta_binary",
     "encode_registry_delta_wire",
+    "NativeMemoryCompileResult",
+    "NativeSpectralFrame",
+    "compile_native_memory",
+    "decode_native_spectral_frame",
+    "encode_native_spectral_frame",
+    "expand_native_memory",
+    "inspect_native_frame",
+    "render_native_debug",
     "CarrierCompileResult",
     "compile_digit_carrier",
     "inspect_digit_carrier",
