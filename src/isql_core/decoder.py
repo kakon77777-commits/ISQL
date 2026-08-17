@@ -252,3 +252,60 @@ class SpectralCoordinateDecoder:
             decoder_id=self.decoder_id,
             decoder_contract=self.decoder_contract,
         )
+
+class NumericWireDecoder:
+    decoder_id = "numeric-wire-decoder/v0.4"
+    decoder_contract = "isql-numeric-wire-memory-recovery/v0.4"
+
+    def __init__(self, store: MemoryStore) -> None:
+        self.store = store
+
+    def _coords_from_wire_data(self, data: Mapping[str, Any]) -> SemanticCoordinateSet:
+        from .spectral import SpectralRegistryStore, expand_spectral_packet
+        from .wire import decode_numeric_wire
+
+        raw = data.get("wire")
+        if not isinstance(raw, str):
+            raise ISQLExecutionError("NUMERIC_WIRE_REQUIRED")
+        packet = decode_numeric_wire(raw)
+        return expand_spectral_packet(packet, SpectralRegistryStore(self.store.root))
+
+    def decode(self, code: ISQLCode, *, context: Mapping[str, Any] | None = None) -> DecodeResult:
+        if code.domain != "MEM":
+            raise ISQLExecutionError("NUMERIC_WIRE_DECODER_REQUIRES_MEM_CODE")
+        record = self.store.find_by_memory_code(code)
+        variant, layer = _locate_variant_layer(record, code)
+        if variant.profile_id != "numeric":
+            raise ISQLExecutionError("NUMERIC_WIRE_DECODER_REQUIRES_NUMERIC_PROFILE")
+        data = dict(layer.data)
+        recovered: str | None = None
+        exact = False
+        if code.resolution in ("R1", "R2"):
+            coords = self._coords_from_wire_data(data)
+            parts: list[str] = [coords.summary]
+            if code.resolution == "R1":
+                if coords.concepts:
+                    parts.append("Concepts: " + "; ".join(coords.concepts) + ".")
+            else:
+                parts.extend(coords.claims)
+                for rel in coords.relations:
+                    parts.append(f"{rel.subject} {rel.predicate} {rel.object}.")
+            if coords.intent:
+                parts.append(f"Intent: {coords.intent}.")
+            recovered = " ".join(x.strip() for x in parts if x.strip()) or None
+        elif code.resolution == "R3":
+            recovered = str(data.get("normalized_text", "")) or None
+        elif code.resolution == "R4" and "exact_source" in data:
+            recovered = str(data["exact_source"])
+            exact = True
+        return DecodeResult(
+            code=code,
+            address_wire=record.address.to_wire(),
+            resolution=code.resolution,
+            profile_id=variant.profile_id,
+            recovered_text=recovered,
+            data=data,
+            exact=exact,
+            decoder_id=self.decoder_id,
+            decoder_contract=self.decoder_contract,
+        )

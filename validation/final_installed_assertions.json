@@ -1,0 +1,11 @@
+{
+  "installed_version": "0.4.0",
+  "digits_only": true,
+  "cold_registry_delta_bytes": 1607,
+  "warm_registry_delta_bytes": 0,
+  "wire_bytes": 262,
+  "packet_bytes": 321,
+  "wire_vs_packet_ratio": 0.8161993769470405,
+  "round_trip_sequence": true,
+  "round_trip_registry_hash": true
+}

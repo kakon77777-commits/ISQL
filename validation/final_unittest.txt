@@ -18,6 +18,10 @@ test_memory_decode_auto_selects_spectral_decoder (test_cli_v03.CLIV03Tests.test_
 test_memory_encode_spectral_flag_adds_third_profile (test_cli_v03.CLIV03Tests.test_memory_encode_spectral_flag_adds_third_profile) ... ok
 test_spectral_flag_without_semantic_analysis_fails_closed (test_cli_v03.CLIV03Tests.test_spectral_flag_without_semantic_analysis_fails_closed) ... ok
 test_spectral_registry_info_and_compile_show_warm_reuse (test_cli_v03.CLIV03Tests.test_spectral_registry_info_and_compile_show_warm_reuse) ... ok
+test_memory_compare_includes_numeric_compaction (test_cli_v04.CLIV04Tests.test_memory_compare_includes_numeric_compaction) ... ok
+test_memory_encode_numeric_wire_adds_numeric_profile_and_decode_auto_selects (test_cli_v04.CLIV04Tests.test_memory_encode_numeric_wire_adds_numeric_profile_and_decode_auto_selects) ... ok
+test_numeric_wire_compile_and_decode_round_trip (test_cli_v04.CLIV04Tests.test_numeric_wire_compile_and_decode_round_trip) ... ok
+test_numeric_wire_without_semantic_analysis_fails_closed (test_cli_v04.CLIV04Tests.test_numeric_wire_without_semantic_analysis_fails_closed) ... ok
 test_code_constructor_is_canonical (test_code.CodeTests.test_code_constructor_is_canonical) ... ok
 test_control_must_be_letters (test_code.CodeTests.test_control_must_be_letters) ... ok
 test_invalid_protocol_rejected (test_code.CodeTests.test_invalid_protocol_rejected) ... ok
@@ -44,6 +48,18 @@ test_memory_variant_requires_profile_id (test_memory_v02.MemoryV02SchemaTests.te
 test_record_exposes_baseline_variant_and_legacy_layers_view (test_memory_v02.MemoryV02SchemaTests.test_record_exposes_baseline_variant_and_legacy_layers_view) ... ok
 test_v01_record_migrates_to_baseline_profile (test_memory_v02.MemoryV02SchemaTests.test_v01_record_migrates_to_baseline_profile) ... ok
 test_v02_round_trip_preserves_variants (test_memory_v02.MemoryV02SchemaTests.test_v02_round_trip_preserves_variants) ... ok
+test_numeric_profile_is_additive_and_does_not_change_existing_codes (test_numeric_memory_encoding.NumericMemoryEncodingTests.test_numeric_profile_is_additive_and_does_not_change_existing_codes) ... ok
+test_numeric_r1_r2_store_only_digits_wire (test_numeric_memory_encoding.NumericMemoryEncodingTests.test_numeric_r1_r2_store_only_digits_wire) ... ok
+test_numeric_r2_wire_recovers_same_coordinates_as_spectral_r2 (test_numeric_memory_encoding.NumericMemoryEncodingTests.test_numeric_r2_wire_recovers_same_coordinates_as_spectral_r2) ... ok
+test_numeric_r4_keeps_exact_source_contract (test_numeric_memory_encoding.NumericMemoryEncodingTests.test_numeric_r4_keeps_exact_source_contract) ... ok
+test_numeric_r2_decoder_recovers_coordinates_and_stays_non_exact (test_numeric_recovery.NumericRecoveryTests.test_numeric_r2_decoder_recovers_coordinates_and_stays_non_exact) ... ok
+test_numeric_r4_is_exact_only_via_source_contract (test_numeric_recovery.NumericRecoveryTests.test_numeric_r4_is_exact_only_via_source_contract) ... ok
+test_profile_comparison_reports_numeric_wire_compaction_and_fidelity (test_numeric_recovery.NumericRecoveryTests.test_profile_comparison_reports_numeric_wire_compaction_and_fidelity) ... ok
+test_checksum_corruption_fails_closed (test_numeric_wire.NumericWireTests.test_checksum_corruption_fails_closed) ... ok
+test_noncanonical_uint_with_leading_zero_fails_closed (test_numeric_wire.NumericWireTests.test_noncanonical_uint_with_leading_zero_fails_closed) ... ok
+test_numeric_wire_is_digits_only_and_round_trips_semantic_packet (test_numeric_wire.NumericWireTests.test_numeric_wire_is_digits_only_and_round_trips_semantic_packet) ... ok
+test_trailing_digits_fail_closed (test_numeric_wire.NumericWireTests.test_trailing_digits_fail_closed) ... ok
+test_uint_codec_round_trips_small_and_large_values (test_numeric_wire.NumericWireTests.test_uint_codec_round_trips_small_and_large_values) ... ok
 test_address_only_allows_r0 (test_registry.RegistryTests.test_address_only_allows_r0) ... ok
 test_bootstrap_domains_exact (test_registry.RegistryTests.test_bootstrap_domains_exact) ... ok
 test_memory_allows_all_resolution_levels (test_registry.RegistryTests.test_memory_allows_all_resolution_levels) ... ok
@@ -88,6 +104,6 @@ test_store_commits_revision_snapshots_and_reloads_exact_revision (test_spectral_
 test_unknown_namespace_fails_closed (test_spectral_registry.SpectralRegistryTests.test_unknown_namespace_fails_closed) ... ok
 
 ----------------------------------------------------------------------
-Ran 88 tests in 14.423s
+Ran 104 tests in 19.601s
 
 OK

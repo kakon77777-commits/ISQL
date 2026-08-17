@@ -7,7 +7,7 @@ import sys
 
 from .address import address_bytes, address_text
 from .code import parse_code
-from .decoder import DeterministicMemoryDecoder, SemanticCoordinateDecoder, SpectralCoordinateDecoder
+from .decoder import DeterministicMemoryDecoder, NumericWireDecoder, SemanticCoordinateDecoder, SpectralCoordinateDecoder
 from .errors import ISQLError, ISQLExecutionError
 from .memory import MemoryRecord, encode_text_memory
 from .recoverability import SemanticReference, compare_memory_profiles, evaluate_recovery
@@ -15,6 +15,7 @@ from .registry import DomainRegistry
 from .semantics import SemanticAnalysis
 from .store import MemoryStore
 from .spectral import SpectralRegistryStore, compile_spectral_packet
+from .wire import compile_numeric_wire, decode_numeric_wire
 
 
 def _json(value: object) -> str:
@@ -81,11 +82,13 @@ def _decode_auto(store: MemoryStore, code):
         return SemanticCoordinateDecoder(store).decode(code)
     if profile_id == "spectral":
         return SpectralCoordinateDecoder(store).decode(code)
+    if profile_id == "numeric":
+        return NumericWireDecoder(store).decode(code)
     raise ISQLExecutionError("NO_DECODER_FOR_MEMORY_PROFILE")
 
 
 def build_parser() -> argparse.ArgumentParser:
-    p = argparse.ArgumentParser(prog="isql-core", description="ISQL Core Runtime / ISQL-MEM v0.3")
+    p = argparse.ArgumentParser(prog="isql-core", description="ISQL Core Runtime / ISQL-MEM v0.4")
     sub = p.add_subparsers(dest="command", required=True)
 
     sp = sub.add_parser("parse", help="Parse an ISQL wire code")
@@ -109,12 +112,23 @@ def build_parser() -> argparse.ArgumentParser:
     sem.add_argument("--semantic-analysis-json")
     sem.add_argument("--semantic-analysis-file")
     sp.add_argument("--spectral", action="store_true", help="Compile semantic analysis into registry-backed spectral packets")
+    sp.add_argument("--numeric-wire", action="store_true", help="Add digits-only numeric wire profile (implies spectral compilation)")
 
     sp = sub.add_parser("spectral-compile", help="Compile semantic analysis into a sparse spectral packet")
     sp.add_argument("--store", required=True)
     sem = sp.add_mutually_exclusive_group(required=True)
     sem.add_argument("--semantic-analysis-json")
     sem.add_argument("--semantic-analysis-file")
+
+
+    sp = sub.add_parser("numeric-wire-compile", help="Compile semantic analysis into spectral packet plus digits-only numeric wire")
+    sp.add_argument("--store", required=True)
+    sem = sp.add_mutually_exclusive_group(required=True)
+    sem.add_argument("--semantic-analysis-json")
+    sem.add_argument("--semantic-analysis-file")
+
+    sp = sub.add_parser("numeric-wire-decode", help="Decode a digits-only numeric wire into its spectral packet metadata")
+    sp.add_argument("--wire", required=True)
 
     sp = sub.add_parser("spectral-registry-info", help="Inspect the shared spectral registry")
     sp.add_argument("--store", required=True)
@@ -179,12 +193,16 @@ def main(argv: list[str] | None = None) -> int:
             semantic_analysis = _load_semantic_analysis(args)
             if args.spectral and semantic_analysis is None:
                 raise ValueError("--spectral requires semantic analysis")
+            if args.numeric_wire and semantic_analysis is None:
+                raise ValueError("--numeric-wire requires semantic analysis")
+            spectral_enabled = bool(args.spectral or args.numeric_wire)
             record = encode_text_memory(
                 text,
                 metadata=metadata,
                 source_ref=args.source_ref,
                 semantic_analysis=semantic_analysis,
-                spectral_registry_store=SpectralRegistryStore(args.store) if args.spectral else None,
+                spectral_registry_store=SpectralRegistryStore(args.store) if spectral_enabled else None,
+                numeric_wire=args.numeric_wire,
             )
             store = MemoryStore(args.store)
             store.put(record)
@@ -197,6 +215,27 @@ def main(argv: list[str] | None = None) -> int:
                 raise ValueError("semantic analysis required")
             result = compile_spectral_packet(semantic_analysis.coordinates, SpectralRegistryStore(args.store))
             print(_json(result.to_dict()))
+            return 0
+
+        if args.command == "numeric-wire-compile":
+            semantic_analysis = _load_semantic_analysis(args)
+            if semantic_analysis is None:
+                raise ValueError("semantic analysis required")
+            spectral = compile_spectral_packet(semantic_analysis.coordinates, SpectralRegistryStore(args.store))
+            numeric = compile_numeric_wire(spectral.packet)
+            print(_json({
+                "schema": "isql.numeric-wire-compile/v0.4",
+                "spectral": spectral.to_dict(),
+                "numeric_wire": numeric.to_dict(),
+            }))
+            return 0
+
+        if args.command == "numeric-wire-decode":
+            packet = decode_numeric_wire(args.wire)
+            print(_json({
+                "schema": "isql.numeric-wire-decode/v0.4",
+                "packet": packet.to_dict(),
+            }))
             return 0
 
         if args.command == "spectral-registry-info":

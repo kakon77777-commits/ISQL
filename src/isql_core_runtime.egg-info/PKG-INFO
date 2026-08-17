@@ -1,6 +1,0 @@
-Metadata-Version: 2.4
-Name: isql-core-runtime
-Version: 0.3.0
-Summary: ISQL Core Runtime with registry-backed spectral coordinate compaction for multi-resolution AI memory.
-Author: Neo.K / EVEMISSLAB
-Requires-Python: >=3.11

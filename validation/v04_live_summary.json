@@ -1,29 +1,5 @@
 {
-  "compileall": true,
-  "installed_cli": {
-    "cold_registry_delta_bytes": 1607,
-    "digits_only": true,
-    "round_trip_registry_hash": true,
-    "round_trip_sequence": true,
-    "spectral_packet_bytes": 321,
-    "warm_registry_delta_bytes": 0,
-    "wire_bytes": 262
-  },
-  "integrity": {
-    "coordinate_round_trip": true,
-    "json_files_checked": 22,
-    "numeric_r1_r2_digits_only": true,
-    "previous_profiles_preserved": true,
-    "r4_exact_contract_preserved": true,
-    "utf8_files_checked": 76
-  },
-  "isql_mem": "v0.4 Numeric Wire Encoding",
-  "limitations": [
-    "The shared spectral registry is still a textual JSON dictionary.",
-    "CRC32 is an accidental-corruption guard, not cryptographic authentication.",
-    "The three live fixtures are not a universal compression benchmark."
-  ],
-  "live_experiment": [
+  "rows": [
     {
       "address": "ISQL1:ADDR:R0:H106986899423495569474907434058611738091957888076345694899399123936551788924915",
       "coordinate_fidelity": 1.0,
@@ -67,13 +43,5 @@
       "wire_vs_packet_ratio": 0.8373493975903614
     }
   ],
-  "release": "ISQL Core Runtime v0.4.0",
-  "status": "VALID",
-  "tests": {
-    "errors": 0,
-    "failures": 0,
-    "total": 104
-  },
-  "wheel_build": true,
-  "wheel_install": true
+  "schema": "isql.v04-live-summary/v0.4"
 }

@@ -5,11 +5,12 @@ import json
 import re
 from typing import Any
 
-from .decoder import DecodeResult, DeterministicMemoryDecoder, SemanticCoordinateDecoder, SpectralCoordinateDecoder
+from .decoder import DecodeResult, DeterministicMemoryDecoder, NumericWireDecoder, SemanticCoordinateDecoder, SpectralCoordinateDecoder
 from .memory import MemoryRecord
 from .semantics import SemanticCoordinateSet
 from .store import MemoryStore
 from .spectral import SpectralPacket, SpectralRegistryStore, expand_spectral_packet
+from .wire import decode_numeric_wire
 
 _TOKEN_RE = re.compile(r"[^\W_]+(?:['’-][^\W_]+)?", re.UNICODE)
 
@@ -186,13 +187,37 @@ class SpectralCompactionReport:
 
 
 @dataclass(frozen=True, slots=True)
+class NumericWireCompactionReport:
+    verbose_coordinate_bytes: int
+    spectral_packet_bytes: int
+    wire_bytes: int
+    registry_delta_bytes: int
+    cold_total_bytes: int
+    wire_vs_packet_ratio: float
+    warm_ratio_vs_coordinates: float
+    cold_ratio_vs_coordinates: float
+
+    def to_dict(self) -> dict[str, object]:
+        return {
+            "verbose_coordinate_bytes": self.verbose_coordinate_bytes,
+            "spectral_packet_bytes": self.spectral_packet_bytes,
+            "wire_bytes": self.wire_bytes,
+            "registry_delta_bytes": self.registry_delta_bytes,
+            "cold_total_bytes": self.cold_total_bytes,
+            "wire_vs_packet_ratio": self.wire_vs_packet_ratio,
+            "warm_ratio_vs_coordinates": self.warm_ratio_vs_coordinates,
+            "cold_ratio_vs_coordinates": self.cold_ratio_vs_coordinates,
+        }
+
+
+@dataclass(frozen=True, slots=True)
 class ProfileRecoveryEntry:
     profile_id: str
     code: str
     layer_data_bytes: int
     recovery: RecoveryReport
     coordinate_fidelity: CoordinateFidelityReport | None
-    compaction: SpectralCompactionReport | None = None
+    compaction: SpectralCompactionReport | NumericWireCompactionReport | None = None
 
     def to_dict(self) -> dict[str, object]:
         return {
@@ -274,6 +299,47 @@ def _spectral_compaction(layer_data: dict[str, object], coords: SemanticCoordina
     )
 
 
+def _coords_from_numeric_layer(record: MemoryRecord, store: MemoryStore, resolution: str) -> SemanticCoordinateSet | None:
+    layer = record.get_layer("numeric", resolution)
+    raw_wire = None
+    if resolution in ("R1", "R2"):
+        raw_wire = layer.data.get("wire")
+    elif resolution == "R3":
+        raw_wire = layer.data.get("wire")
+    if not isinstance(raw_wire, str):
+        return None
+    packet = decode_numeric_wire(raw_wire)
+    return expand_spectral_packet(packet, SpectralRegistryStore(store.root))
+
+
+def _numeric_compaction(
+    record: MemoryRecord,
+    resolution: str,
+    coords: SemanticCoordinateSet | None,
+) -> NumericWireCompactionReport | None:
+    if resolution not in ("R1", "R2") or coords is None:
+        return None
+    raw_wire = record.get_layer("numeric", resolution).data.get("wire")
+    raw_packet = record.get_layer("spectral", resolution).data.get("packet")
+    if not isinstance(raw_wire, str) or not isinstance(raw_packet, dict):
+        return None
+    packet = SpectralPacket.from_dict(raw_packet)
+    wire_bytes = len(raw_wire.encode("ascii"))
+    packet_bytes = len(packet.canonical_bytes())
+    verbose_bytes = len(json.dumps(coords.to_dict(), ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode("utf-8"))
+    cold_total = wire_bytes + packet.registry_delta_bytes
+    return NumericWireCompactionReport(
+        verbose_coordinate_bytes=verbose_bytes,
+        spectral_packet_bytes=packet_bytes,
+        wire_bytes=wire_bytes,
+        registry_delta_bytes=packet.registry_delta_bytes,
+        cold_total_bytes=cold_total,
+        wire_vs_packet_ratio=wire_bytes / packet_bytes,
+        warm_ratio_vs_coordinates=wire_bytes / verbose_bytes,
+        cold_ratio_vs_coordinates=cold_total / verbose_bytes,
+    )
+
+
 def compare_memory_profiles(
     source: str,
     record: MemoryRecord,
@@ -306,6 +372,15 @@ def compare_memory_profiles(
                 else None
             )
             compaction = _spectral_compaction(layer.data, coords)
+        elif profile_id == "numeric":
+            decoded = NumericWireDecoder(store).decode(layer.code)
+            coords = _coords_from_numeric_layer(record, store, resolution)
+            fidelity = (
+                evaluate_coordinate_fidelity(semantic_reference, coords)
+                if semantic_reference is not None and coords is not None
+                else None
+            )
+            compaction = _numeric_compaction(record, resolution, coords)
         else:
             continue
         data_bytes = len(json.dumps(layer.data, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode("utf-8"))

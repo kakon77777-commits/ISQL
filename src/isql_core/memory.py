@@ -10,11 +10,13 @@ from .address import address_text
 from .code import ISQLCode, parse_code
 from .errors import ISQLValidationError
 from .semantics import SemanticAnalysis, SemanticCoordinateSet
-from .spectral import SpectralRegistryStore, compile_spectral_packet
+from .spectral import SpectralPacket, SpectralRegistryStore, compile_spectral_packet
+from .wire import encode_numeric_wire
 
 ENCODER_VERSION = "isql-mem-encoder/v0.1"
 SEMANTIC_ENCODER_VERSION = "isql-mem-semantic-encoder/v0.2"
 SPECTRAL_ENCODER_VERSION = "isql-mem-spectral-encoder/v0.3"
+NUMERIC_ENCODER_VERSION = "isql-mem-numeric-wire-encoder/v0.4"
 MEMORY_RECORD_SCHEMA = "isql.memory-record/v0.2"
 _TOKEN_RE = re.compile(r"[^\W_]+(?:['’-][^\W_]+)?", re.UNICODE)
 _SENTENCE_SPLIT_RE = re.compile(r"(?<=[.!?。！？])\s+|[\r\n]+")
@@ -445,6 +447,74 @@ def _spectral_variant(
     )
 
 
+
+def _numeric_variant(
+    text: str,
+    *,
+    address: ISQLCode,
+    metadata_obj: dict[str, Any],
+    source_ref: str | None,
+    include_exact_source: bool,
+    analysis: SemanticAnalysis,
+    spectral_variant: MemoryVariant,
+) -> MemoryVariant:
+    utf8 = text.encode("utf-8")
+    normalized_text = text.replace("\r\n", "\n").replace("\r", "\n").strip()
+    r1_packet = SpectralPacket.from_dict(spectral_variant.layers["R1"].data["packet"])
+    r2_packet = SpectralPacket.from_dict(spectral_variant.layers["R2"].data["packet"])
+    r1_wire = encode_numeric_wire(r1_packet)
+    r2_wire = encode_numeric_wire(r2_packet)
+    analyzer = {
+        "analyzer_id": analysis.analyzer_id,
+        "analyzer_contract": analysis.analyzer_contract,
+    }
+    layer_data: dict[str, dict[str, Any]] = {
+        "R0": {
+            "address": address.to_wire(),
+            "source_type": "text",
+            "byte_length": len(utf8),
+            "char_length": len(text),
+            "profile": "numeric",
+        },
+        "R1": {"wire": r1_wire},
+        "R2": {"wire": r2_wire},
+        "R3": {
+            "normalized_text": normalized_text,
+            "metadata": metadata_obj,
+            "wire": r2_wire,
+        },
+        "R4": {
+            "exact_sha256": hashlib.sha256(utf8).hexdigest(),
+            "source_ref": source_ref,
+            "profile": "numeric",
+            "analyzer": analyzer,
+        },
+    }
+    if include_exact_source:
+        layer_data["R4"]["exact_source"] = text
+
+    layers: dict[str, MemoryLayer] = {}
+    for resolution in ("R0", "R1", "R2", "R3", "R4"):
+        data = layer_data[resolution]
+        layers[resolution] = MemoryLayer(
+            resolution=resolution,
+            code=_memory_code(
+                resolution,
+                address,
+                data,
+                encoder_version=NUMERIC_ENCODER_VERSION,
+                profile_id="numeric",
+            ),
+            data=data,
+        )
+    return MemoryVariant(
+        profile_id="numeric",
+        encoder_version=NUMERIC_ENCODER_VERSION,
+        layers=layers,
+        analyzer_id=analysis.analyzer_id,
+        analyzer_contract=analysis.analyzer_contract,
+    )
+
 def encode_text_memory(
     text: str,
     *,
@@ -453,6 +523,7 @@ def encode_text_memory(
     include_exact_source: bool = True,
     semantic_analysis: SemanticAnalysis | None = None,
     spectral_registry_store: SpectralRegistryStore | None = None,
+    numeric_wire: bool = False,
 ) -> MemoryRecord:
     if not isinstance(text, str):
         raise TypeError("text must be str")
@@ -477,7 +548,7 @@ def encode_text_memory(
             analysis=semantic_analysis,
         )
         if spectral_registry_store is not None:
-            variants["spectral"] = _spectral_variant(
+            spectral_variant = _spectral_variant(
                 text,
                 address=address,
                 metadata_obj=metadata_obj,
@@ -486,6 +557,19 @@ def encode_text_memory(
                 analysis=semantic_analysis,
                 registry_store=spectral_registry_store,
             )
+            variants["spectral"] = spectral_variant
+            if numeric_wire:
+                variants["numeric"] = _numeric_variant(
+                    text,
+                    address=address,
+                    metadata_obj=metadata_obj,
+                    source_ref=source_ref,
+                    include_exact_source=include_exact_source,
+                    analysis=semantic_analysis,
+                    spectral_variant=spectral_variant,
+                )
+        elif numeric_wire:
+            raise ISQLValidationError("NUMERIC_WIRE_REQUIRES_SPECTRAL_REGISTRY")
     return MemoryRecord(
         address=address,
         source_type="text",

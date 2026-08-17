@@ -1,88 +1,108 @@
-# ISQL Core Runtime v0.3.0
+# ISQL Core Runtime v0.4.0
 
-ISQL Core Runtime v0.3.0 implements **ISQL-MEM v0.3 Spectral Coordinate Compaction** on top of the v0.1/v0.2 code-space, address, memory, AI semantic-analysis, and recoverability layers.
+ISQL Core Runtime v0.4.0 implements **ISQL-MEM v0.4 Numeric Wire Encoding** on top of the v0.1–v0.3 code-space, stable addressing, multi-resolution memory, AI semantic analysis, and registry-backed spectral coordinate layers.
 
-## What changed
+## Four coexisting memory profiles
 
-A memory can now contain three profiles under the same stable address:
+One stable source address can now carry four independent representations:
 
 ```text
 baseline  -> deterministic v0.1 representation
 semantic  -> verbose typed AI semantic coordinates (v0.2)
 spectral  -> registry-backed sparse integer coordinates (v0.3)
+numeric   -> digits-only self-delimiting wire over spectral coordinates (v0.4)
 ```
 
-The central pipeline is:
+Adding the `numeric` profile does not alter stable `ISQL-ADDR` identity or any existing baseline/semantic/spectral MEM code when compared from the same registry state.
+
+## Numeric wire
+
+The canonical v0.4 runtime carrier contains ASCII digits `0-9` only.
+
+It serializes:
+
+- numeric-wire magic;
+- wire protocol version;
+- exact spectral registry revision;
+- full 256-bit spectral registry hash encoded as a decimal integer;
+- spectral sequence item count;
+- the sparse integer spectral sequence;
+- CRC32 corruption guard.
+
+There are no commas, braces, JSON keys, Base64 symbols, hexadecimal characters, separators, or floating-point values in the wire.
+
+Integers use a self-delimiting decimal-length token. Lengths 1–9 use a one-digit length prefix. Larger decimal integers use an extended length-of-length form. Noncanonical leading zeros and malformed/truncated lengths fail closed.
+
+CRC32 is only a transport corruption guard. Semantic identity remains bound by the full SHA-256 spectral registry hash and registry revision.
+
+## Pipeline
 
 ```text
 source bytes
   -> stable ISQL-ADDR
-  -> AI SemanticAnalysis (authoring/provenance)
+  -> AI SemanticAnalysis
   -> append-only Spectral Registry
   -> sparse SpectralPacket
-  -> ISQL-MEM spectral R1/R2
-  -> deterministic registry expansion
-  -> semantic reconstruction / fidelity measurement
+  -> digits-only Numeric Wire
+  -> ISQL-MEM numeric R1/R2
+  -> NumericWireDecoder
+  -> spectral packet reconstruction
+  -> registry expansion
+  -> semantic coordinates
+  -> recovery / fidelity measurement
 ```
 
-## Spectral registry
+The v0.3 spectral sequence already removes relation-object JSON structure: relations are represented as counted subject/predicate/object integer tuples. v0.4 serializes that structural sequence without JSON framing overhead.
 
-The shared registry has independent namespaces for summary, atom, predicate, claim, intent, uncertainty, tag, and language. IDs are namespace-local, positive integers, append-only, revisioned, and snapshot-addressable.
+## Live v0.4 experiment
 
-Every packet records:
+The release reuses the same three-memory fixture family used by v0.3.
 
-- registry ID;
-- exact registry revision;
-- registry SHA-256 hash;
-- sparse integer sequence;
-- registry delta bytes charged by that compilation.
+| Memory | Verbose coords | Spectral packet JSON | Numeric wire | Registry delta | Numeric total | Coordinate fidelity |
+|---|---:|---:|---:|---:|---:|---:|
+| 1 cold | 2131 B | 321 B | **262 B** | 1607 B | **1869 B** | 1.000 |
+| 2 full vocabulary reuse | 2131 B | 318 B | **262 B** | 0 B | **262 B** | 1.000 |
+| 3 partial vocabulary growth | 2162 B | 332 B | **278 B** | 310 B | **588 B** | 1.000 |
 
-Unknown or mismatched registry revisions/hashes fail closed.
+For these controlled fixtures:
 
-## Cold vs warm compaction
+- cold total is about 87.7% of verbose typed coordinates;
+- fully warm numeric wire is about 12.3% of verbose typed coordinates;
+- partial-growth total is about 27.2% of verbose typed coordinates;
+- numeric wire is about 81.6–83.7% of the already compact v0.3 packet JSON;
+- typed-coordinate round-trip fidelity remains 1.0.
 
-The live release experiment shows why registry cost must be separated from packet cost:
-
-| Memory | Semantic R2 layer | Packet | Registry delta | Packet + delta | Coordinate fidelity |
-|---|---:|---:|---:|---:|---:|
-| 1 cold | 2265 B | 321 B | 1607 B | 1928 B | 1.000 |
-| 2 same vocabulary | 2265 B | 318 B | 0 B | 318 B | 1.000 |
-| 3 partial new vocabulary | 2296 B | 332 B | 310 B | 642 B | 1.000 |
-
-The second memory demonstrates the intended amortization: after vocabulary is shared, the runtime packet is about 15% of the verbose coordinate representation for this fixture.
-
-This is a small controlled experiment, not a universal compression benchmark.
+This is a controlled engineering fixture, not a universal compression benchmark.
 
 ## CLI
 
-Create the v0.2 baseline + semantic profiles:
+Create baseline + semantic + spectral + numeric profiles:
 
 ```bash
 isql-core memory-encode --store ./memory --text "..." \
+  --semantic-analysis-file analysis.json --numeric-wire
+```
+
+Compile a numeric wire without creating a memory record:
+
+```bash
+isql-core numeric-wire-compile --store ./memory \
   --semantic-analysis-file analysis.json
 ```
 
-Also compile the v0.3 spectral profile:
+Decode a standalone numeric wire back to spectral packet metadata:
 
 ```bash
-isql-core memory-encode --store ./memory --text "..." \
-  --semantic-analysis-file analysis.json --spectral
+isql-core numeric-wire-decode --wire 94040...
 ```
 
-Compile coordinates without creating a memory:
+Decode any stored profile automatically:
 
 ```bash
-isql-core spectral-compile --store ./memory \
-  --semantic-analysis-file analysis.json
+isql-core memory-decode --store ./memory --code ISQL1:MEM:R2:...
 ```
 
-Inspect the shared registry:
-
-```bash
-isql-core spectral-registry-info --store ./memory
-```
-
-Compare profiles:
+Compare all profiles:
 
 ```bash
 isql-core memory-compare --store ./memory \
@@ -90,18 +110,21 @@ isql-core memory-compare --store ./memory \
   --source-file source.txt --semantic-reference-file analysis.json
 ```
 
-## Compatibility
+## Compatibility and invariants
 
-- v0.1 memory records remain readable.
-- v0.2 memory records remain readable.
-- Existing baseline and semantic MEM codes are unchanged when a spectral profile is added.
+- v0.1/v0.2/v0.3 memory records remain readable.
+- `numeric` is additive; previous profiles remain canonical and independently decodable.
+- Numeric R1/R2 layer data is exactly one digits-only `wire` field.
+- Wire decoding recreates the same spectral registry revision/hash and integer sequence.
+- Registry mismatch fails during spectral expansion.
 - R4 remains the only layer allowed to declare exact recovery.
+- `registry_delta_bytes` is measurement metadata and is intentionally excluded from canonical numeric-wire semantics.
 
-## Non-goals of v0.3
+## Non-goals of v0.4
 
-- no external AI SDK dependency;
-- no embedding/vector database;
-- no distributed registry synchronization;
-- no concurrent registry writer protocol;
-- no final pure-digit packet wire format;
-- no claim that one fixture establishes general compression performance.
+- the shared registry is still a textual dictionary on disk;
+- no claim that all ISQL state is now numeric;
+- no entropy coding/arithmetic coding;
+- no distributed registry synchronization or concurrent writer protocol;
+- no cryptographic claim for CRC32;
+- no universal compression claim from three fixtures.

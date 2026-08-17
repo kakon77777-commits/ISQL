@@ -1,41 +1,54 @@
-# ISQL-MEM v0.3 Live Spectral Compaction Results
+# ISQL-MEM v0.4 — Numeric Wire Live Results
 
-## Experiment
+Date: 2026-08-17
 
-Three distinct source texts were stored under three distinct stable `ISQL-ADDR` values.
-
-- Memory 1 uses the initial semantic vocabulary and pays the cold registry creation cost.
-- Memory 2 uses different surface wording but the same semantic coordinate vocabulary.
-- Memory 3 reuses most prior vocabulary while adding a few new spectral/compaction concepts.
-
-All records contain baseline, semantic, and spectral profiles.
+The v0.4 experiment reuses the same three semantic-coordinate fixture family from v0.3 so the only new variable is numeric wire serialization.
 
 ## R2 results
 
-| Memory | Semantic layer bytes | Spectral layer bytes | Packet bytes | Registry delta | Cold total | Warm ratio vs coordinates | Cold ratio vs coordinates | Coordinate fidelity |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| 1 | 2265 | 332 | 321 | 1607 | 1928 | 0.1506 | 0.9047 | 1.0000 |
-| 2 | 2265 | 329 | 318 | 0 | 318 | 0.1492 | 0.1492 | 1.0000 |
-| 3 | 2296 | 343 | 332 | 310 | 642 | 0.1536 | 0.2969 | 1.0000 |
+| Memory | Verbose coordinates | v0.3 SpectralPacket JSON | v0.4 numeric wire | Registry delta | v0.4 total | Coordinate fidelity |
+|---|---:|---:|---:|---:|---:|---:|
+| 1 — cold registry | 2131 B | 321 B | **262 B** | 1607 B | **1869 B** | 1.000 |
+| 2 — full vocabulary reuse | 2131 B | 318 B | **262 B** | **0 B** | **262 B** | 1.000 |
+| 3 — partial vocabulary growth | 2162 B | 332 B | **278 B** | 310 B | **588 B** | 1.000 |
 
-## Interpretation
+## Ratios
 
-The v0.2 negative result was that verbose semantic JSON preserved structure but was larger than the deterministic baseline. v0.3 changes the runtime representation rather than adding more semantic prose.
+Memory 1:
 
-For this controlled fixture:
+- wire / SpectralPacket JSON: 0.8162
+- wire / verbose coordinates: 0.1229
+- wire + cold registry delta / verbose coordinates: **0.8771**
 
-$$
-\text{packet size}\approx 0.15\times\text{verbose coordinate size}
-$$
+Memory 2:
 
-after vocabulary is already registered.
+- wire / SpectralPacket JSON: 0.8239
+- wire / verbose coordinates: **0.1229**
+- registry delta: **0 B**
 
-The first memory still pays registry construction cost. That cost is not hidden: packet + registry growth is 1928 B, about 90.5% of the corresponding verbose coordinate representation.
+Memory 3:
 
-The third memory demonstrates partial reuse: a small registry delta is paid only for newly introduced vocabulary.
+- wire / SpectralPacket JSON: 0.8373
+- wire / verbose coordinates: 0.1286
+- wire + registry delta / verbose coordinates: **0.2720**
 
-Coordinate fidelity is 1.0 because the packet deterministically expands back to the same typed semantic coordinates used by the semantic profile. Text token recovery remains unchanged between semantic and spectral decoders for the same coordinates; v0.3 is compressing representation, not inventing a better semantic analyzer.
+## What changed from v0.3
 
-## What this does not prove
+v0.3 already replaced verbose relation objects and semantic strings with shared registry IDs and sparse integer tuple structure. v0.4 removes packet JSON framing from the runtime carrier.
 
-This does not prove universal semantic compression, optimal coding, or that every corpus will reach the same ratios. Registry amortization depends on vocabulary reuse. The current packet remains a registry-backed integer sequence encoded in compact JSON metadata, not the final pure-numeric ISQL wire format.
+The wire contains ASCII digits only and reconstructs the same:
+
+- registry revision;
+- full registry SHA-256 binding;
+- sparse integer sequence;
+- typed semantic coordinates.
+
+All three fixtures round-trip to the original v0.2 coordinate sets exactly.
+
+## Important negative boundary
+
+The shared Spectral Registry is still a textual dictionary stored as JSON snapshots. Therefore v0.4 is **not** yet a fully numeric representation of the whole memory system.
+
+The result demonstrated here is narrower:
+
+> A registry-backed typed semantic packet can use a deterministic, separator-free, digits-only runtime carrier while preserving the typed coordinate set exactly.
