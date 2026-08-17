@@ -1,24 +1,65 @@
 {
-  "version": "v0.2",
-  "canonical_source": "ISQL_Core_Code_Base_Space_v0.2_2026-08-17.md",
-  "encoding": "UTF-8",
-  "utf8_decode": true,
-  "display_math_delimiter": "$$...$$",
-  "inline_math_delimiter": "$...$",
-  "forbidden_bracket_math": false,
-  "forbidden_parenthesis_math": false,
-  "display_delimiter_count": 250,
-  "display_delimiters_balanced": true,
-  "sections_present": {
-    "kernel": true,
-    "domains": true,
-    "address_memory_split": true,
-    "multi_resolution": true,
-    "decoder_contract": true,
-    "recoverability": true,
-    "code_space": true,
-    "invariants": true,
-    "experiments": true
+  "release": "ISQL-Core-Runtime-0.1.0",
+  "spec": "ISQL Core Code Base Space v0.2",
+  "fresh_unittest": {
+    "tests": 36,
+    "failures": 0,
+    "errors": 0
   },
-  "contains_tbd": false
+  "compileall": "PASS",
+  "wheel_build_install": "PASS",
+  "installed_cli_registry_domains": 6,
+  "utf8_files_checked": 41,
+  "json_files_checked": 5,
+  "canonical_domains": [
+    "ADDR",
+    "MEM",
+    "SEM",
+    "STATE",
+    "EXEC",
+    "RESERVED"
+  ],
+  "live_demo": {
+    "address": "ISQL1:ADDR:R0:H43127207063024224783191743044983672590754433598968256686708319828084954117824",
+    "recovery_curve": [
+      {
+        "resolution": "R0",
+        "semantic_score": 0.0,
+        "exact": false,
+        "recovered_chars": 0
+      },
+      {
+        "resolution": "R1",
+        "semantic_score": 0.2619047619047619,
+        "exact": false,
+        "recovered_chars": 160
+      },
+      {
+        "resolution": "R2",
+        "semantic_score": 1.0,
+        "exact": false,
+        "recovered_chars": 786
+      },
+      {
+        "resolution": "R3",
+        "semantic_score": 1.0,
+        "exact": false,
+        "recovered_chars": 786
+      },
+      {
+        "resolution": "R4",
+        "semantic_score": 1.0,
+        "exact": true,
+        "recovered_chars": 786
+      }
+    ]
+  },
+  "invariants": {
+    "digits_not_float": true,
+    "address_memory_separated": true,
+    "exact_semantic_recovery_separated": true,
+    "reserved_fail_closed": true,
+    "decoder_identity_recorded": true,
+    "r0_to_r4_present": true
+  }
 }
