@@ -42,8 +42,9 @@ class MemoryStore:
         for path in sorted(self.records_dir.glob("*.json")):
             data = json.loads(path.read_text(encoding="utf-8"))
             record = MemoryRecord.from_dict(data)
-            layer = record.layers.get(code.resolution)
-            if layer is not None and layer.code == code:
-                return record
+            for variant in record.variants.values():
+                layer = variant.layers.get(code.resolution)
+                if layer is not None and layer.code == code:
+                    return record
         raise ISQLNotFoundError("MEMORY_CODE_NOT_FOUND")
 

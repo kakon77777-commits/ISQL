@@ -64,6 +64,6 @@ test_empty_summary_fails_closed (test_semantics.SemanticCoordinateTests.test_emp
 test_relation_requires_all_three_fields (test_semantics.SemanticCoordinateTests.test_relation_requires_all_three_fields) ... ok
 
 ----------------------------------------------------------------------
-Ran 64 tests in 8.624s
+Ran 64 tests in 7.961s
 
 OK

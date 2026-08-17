@@ -5,6 +5,8 @@ from typing import Any, Callable, Mapping, Protocol
 
 from .code import ISQLCode
 from .errors import ISQLExecutionError
+from .memory import MemoryLayer, MemoryRecord, MemoryVariant
+from .semantics import SemanticCoordinateSet
 from .store import MemoryStore
 
 
@@ -13,6 +15,7 @@ class DecodeResult:
     code: ISQLCode
     address_wire: str
     resolution: str
+    profile_id: str
     recovered_text: str | None
     data: dict[str, Any]
     exact: bool
@@ -24,6 +27,7 @@ class DecodeResult:
             "code": self.code.to_wire(),
             "address": self.address_wire,
             "resolution": self.resolution,
+            "profile_id": self.profile_id,
             "recovered_text": self.recovered_text,
             "data": self.data,
             "exact": self.exact,
@@ -37,9 +41,17 @@ class Decoder(Protocol):
         ...
 
 
+def _locate_variant_layer(record: MemoryRecord, code: ISQLCode) -> tuple[MemoryVariant, MemoryLayer]:
+    for variant in record.variants.values():
+        layer = variant.layers.get(code.resolution)
+        if layer is not None and layer.code == code:
+            return variant, layer
+    raise ISQLExecutionError("MEMORY_CODE_NOT_PRESENT_IN_RECORD")
+
+
 class DeterministicMemoryDecoder:
-    decoder_id = "deterministic-memory-decoder/v0.1"
-    decoder_contract = "isql-memory-recovery/v0.1"
+    decoder_id = "deterministic-memory-decoder/v0.2"
+    decoder_contract = "isql-memory-recovery/v0.2"
 
     def __init__(self, store: MemoryStore) -> None:
         self.store = store
@@ -48,7 +60,9 @@ class DeterministicMemoryDecoder:
         if code.domain != "MEM":
             raise ISQLExecutionError("DETERMINISTIC_MEMORY_DECODER_REQUIRES_MEM_CODE")
         record = self.store.find_by_memory_code(code)
-        layer = record.layers[code.resolution]
+        variant, layer = _locate_variant_layer(record, code)
+        if variant.profile_id != "baseline":
+            raise ISQLExecutionError("DETERMINISTIC_MEMORY_DECODER_REQUIRES_BASELINE_PROFILE")
         data = dict(layer.data)
         recovered: str | None = None
         exact = False
@@ -68,6 +82,74 @@ class DeterministicMemoryDecoder:
             code=code,
             address_wire=record.address.to_wire(),
             resolution=code.resolution,
+            profile_id=variant.profile_id,
+            recovered_text=recovered,
+            data=data,
+            exact=exact,
+            decoder_id=self.decoder_id,
+            decoder_contract=self.decoder_contract,
+        )
+
+
+class SemanticCoordinateDecoder:
+    decoder_id = "semantic-coordinate-decoder/v0.2"
+    decoder_contract = "isql-semantic-memory-recovery/v0.2"
+
+    def __init__(self, store: MemoryStore) -> None:
+        self.store = store
+
+    @staticmethod
+    def _realize_r1(data: Mapping[str, Any]) -> str | None:
+        summary = str(data.get("summary", "")).strip()
+        anchors = data.get("anchors", [])
+        intent = data.get("intent")
+        parts: list[str] = []
+        if summary:
+            parts.append(summary)
+        if isinstance(anchors, list) and anchors:
+            parts.append("Concepts: " + "; ".join(str(x) for x in anchors) + ".")
+        if isinstance(intent, str) and intent.strip():
+            parts.append("Intent: " + intent.strip() + ".")
+        return " ".join(parts) or None
+
+    @staticmethod
+    def _realize_r2(data: Mapping[str, Any]) -> str | None:
+        raw = data.get("coordinates")
+        if not isinstance(raw, Mapping):
+            raise ISQLExecutionError("SEMANTIC_R2_COORDINATES_REQUIRED")
+        coords = SemanticCoordinateSet.from_dict(raw)
+        parts: list[str] = [coords.summary]
+        parts.extend(coords.claims)
+        for rel in coords.relations:
+            parts.append(f"{rel.subject} {rel.predicate} {rel.object}.")
+        if coords.intent:
+            parts.append(f"Intent: {coords.intent}.")
+        return " ".join(x.strip() for x in parts if x.strip()) or None
+
+    def decode(self, code: ISQLCode, *, context: Mapping[str, Any] | None = None) -> DecodeResult:
+        if code.domain != "MEM":
+            raise ISQLExecutionError("SEMANTIC_COORDINATE_DECODER_REQUIRES_MEM_CODE")
+        record = self.store.find_by_memory_code(code)
+        variant, layer = _locate_variant_layer(record, code)
+        if variant.profile_id != "semantic":
+            raise ISQLExecutionError("SEMANTIC_COORDINATE_DECODER_REQUIRES_SEMANTIC_PROFILE")
+        data = dict(layer.data)
+        recovered: str | None = None
+        exact = False
+        if code.resolution == "R1":
+            recovered = self._realize_r1(data)
+        elif code.resolution == "R2":
+            recovered = self._realize_r2(data)
+        elif code.resolution == "R3":
+            recovered = str(data.get("normalized_text", "")) or None
+        elif code.resolution == "R4" and "exact_source" in data:
+            recovered = str(data["exact_source"])
+            exact = True
+        return DecodeResult(
+            code=code,
+            address_wire=record.address.to_wire(),
+            resolution=code.resolution,
+            profile_id=variant.profile_id,
             recovered_text=recovered,
             data=data,
             exact=exact,
@@ -106,6 +188,7 @@ class CallableAIDecoder:
             code=base_result.code,
             address_wire=base_result.address_wire,
             resolution=base_result.resolution,
+            profile_id=base_result.profile_id,
             recovered_text=rendered,
             data=base_result.data,
             exact=False,

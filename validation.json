@@ -1,65 +1,105 @@
 {
-  "release": "ISQL-Core-Runtime-0.1.0",
-  "spec": "ISQL Core Code Base Space v0.2",
-  "fresh_unittest": {
-    "tests": 36,
+  "release": "ISQL Core Runtime v0.2.0 / ISQL-MEM v0.2",
+  "version": "0.2.0",
+  "memory_schema": "isql.memory-record/v0.2",
+  "semantic_analysis_schema": "isql.semantic-analysis/v0.2",
+  "tests": {
+    "count": 64,
     "failures": 0,
-    "errors": 0
+    "errors": 0,
+    "command": "PYTHONPATH=src python -m unittest discover -s tests -v"
   },
-  "compileall": "PASS",
-  "wheel_build_install": "PASS",
-  "installed_cli_registry_domains": 6,
-  "utf8_files_checked": 41,
-  "json_files_checked": 5,
-  "canonical_domains": [
-    "ADDR",
-    "MEM",
-    "SEM",
-    "STATE",
-    "EXEC",
-    "RESERVED"
+  "compileall": true,
+  "wheel_build": true,
+  "wheel_install": true,
+  "installed_version": "0.2.0",
+  "installed_semantic_compare": true,
+  "stable_address": "ISQL1:ADDR:R0:H37437785231397108278540881178228903202353507366643505156119544624382725236688",
+  "profiles": [
+    "baseline",
+    "semantic"
   ],
-  "live_demo": {
-    "address": "ISQL1:ADDR:R0:H43127207063024224783191743044983672590754433598968256686708319828084954117824",
-    "recovery_curve": [
-      {
-        "resolution": "R0",
-        "semantic_score": 0.0,
-        "exact": false,
-        "recovered_chars": 0
+  "live_comparisons": {
+    "R0": {
+      "baseline": {
+        "layer_data_bytes": 165,
+        "token_semantic_score": 0.0,
+        "coordinate_fidelity": null,
+        "exact": false
       },
-      {
-        "resolution": "R1",
-        "semantic_score": 0.2619047619047619,
-        "exact": false,
-        "recovered_chars": 160
-      },
-      {
-        "resolution": "R2",
-        "semantic_score": 1.0,
-        "exact": false,
-        "recovered_chars": 786
-      },
-      {
-        "resolution": "R3",
-        "semantic_score": 1.0,
-        "exact": false,
-        "recovered_chars": 786
-      },
-      {
-        "resolution": "R4",
-        "semantic_score": 1.0,
-        "exact": true,
-        "recovered_chars": 786
+      "semantic": {
+        "layer_data_bytes": 304,
+        "token_semantic_score": 0.0,
+        "coordinate_fidelity": null,
+        "exact": false
       }
-    ]
+    },
+    "R1": {
+      "baseline": {
+        "layer_data_bytes": 238,
+        "token_semantic_score": 0.12060301507537688,
+        "coordinate_fidelity": null,
+        "exact": false
+      },
+      "semantic": {
+        "layer_data_bytes": 651,
+        "token_semantic_score": 0.0995260663507109,
+        "coordinate_fidelity": 0.3333333333333333,
+        "exact": false
+      }
+    },
+    "R2": {
+      "baseline": {
+        "layer_data_bytes": 1284,
+        "token_semantic_score": 0.5858585858585859,
+        "coordinate_fidelity": null,
+        "exact": false
+      },
+      "semantic": {
+        "layer_data_bytes": 2265,
+        "token_semantic_score": 0.3026315789473684,
+        "coordinate_fidelity": 0.9800000000000001,
+        "exact": false
+      }
+    },
+    "R3": {
+      "baseline": {
+        "layer_data_bytes": 2523,
+        "token_semantic_score": 1.0,
+        "coordinate_fidelity": null,
+        "exact": false
+      },
+      "semantic": {
+        "layer_data_bytes": 4835,
+        "token_semantic_score": 1.0,
+        "coordinate_fidelity": 0.9800000000000001,
+        "exact": false
+      }
+    },
+    "R4": {
+      "baseline": {
+        "layer_data_bytes": 2608,
+        "token_semantic_score": 1.0,
+        "coordinate_fidelity": null,
+        "exact": true
+      },
+      "semantic": {
+        "layer_data_bytes": 2747,
+        "token_semantic_score": 1.0,
+        "coordinate_fidelity": null,
+        "exact": true
+      }
+    }
   },
-  "invariants": {
-    "digits_not_float": true,
-    "address_memory_separated": true,
-    "exact_semantic_recovery_separated": true,
-    "reserved_fail_closed": true,
-    "decoder_identity_recorded": true,
-    "r0_to_r4_present": true
-  }
+  "integrity": {
+    "utf8_files": 83,
+    "json_files": 26,
+    "jsonl_rows": 0
+  },
+  "known_result": {
+    "semantic_r2_coordinate_fidelity": 0.9800000000000001,
+    "semantic_r2_larger_than_baseline": true,
+    "note": "The v0.2 semantic JSON representation preserves structured coordinates but does not outperform the deterministic baseline in serialized size for the bundled fixture."
+  },
+  "benchmark_caveat": "AI semantic and review fixtures were authored during the same development session; this is a mechanism test, not an independent benchmark."
 }

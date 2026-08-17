@@ -1,21 +1,38 @@
-# ISQL Core Runtime v0.1 — Live Memory Demo
+# ISQL-MEM v0.2 — Live Semantic Coordinate Experiment
 
-**Stable address:** `ISQL1:ADDR:R0:H43127207063024224783191743044983672590754433598968256686708319828084954117824`
+## Purpose
 
-| Resolution | Exact | Semantic token-Jaccard | Recovered chars |
-|---|---:|---:|---:|
-| R0 | false | 0.0000 | 0 |
-| R1 | false | 0.2619 | 160 |
-| R2 | false | 1.0000 | 786 |
-| R3 | false | 1.0000 | 786 |
-| R4 | true | 1.0000 | 786 |
+Test whether one immutable ISQL-ADDR can carry both a deterministic memory profile and an AI-assisted semantic-coordinate profile, and measure both text recovery and structured coordinate fidelity.
 
-## Interpretation
+This is a development-session mechanism test. The AI coordinate fixture and the review fixture were authored during the same development process and are **not independent scientific ground truth**.
 
-- R0 only locates the object and intentionally reconstructs no text.
-- R1 is a compact preview/keyword skeleton.
-- R2 retains structured sentence heads.
-- R3 carries a rich normalized reconstruction but is not certified as byte-exact.
-- R4 is the only layer allowed to certify exact recovery when the exact source is present.
+## Stable identity
 
-This is a deterministic baseline. AI-assisted reconstruction is intentionally not used in this demo.
+Both profiles are stored under exactly one source address. The semantic analyzer changes memory representation only; it does not participate in address generation.
+
+## Results
+
+| Resolution | Profile | Layer bytes | Token Jaccard | Coordinate aggregate | Exact |
+|---|---|---:|---:|---:|---:|
+| R0 | baseline | 165 | 0.0000 | — | false |
+| R0 | semantic | 304 | 0.0000 | — | false |
+| R1 | baseline | 238 | 0.1206 | — | false |
+| R1 | semantic | 651 | 0.0995 | 0.3333 | false |
+| R2 | baseline | 1284 | 0.5859 | — | false |
+| R2 | semantic | 2265 | 0.3026 | 0.9800 | false |
+| R3 | baseline | 2523 | 1.0000 | — | false |
+| R3 | semantic | 4835 | 1.0000 | 0.9800 | false |
+| R4 | baseline | 2608 | 1.0000 | — | true |
+| R4 | semantic | 2747 | 1.0000 | — | true |
+
+## Main finding
+
+The semantic profile succeeds at explicit structured semantic preservation, but the current JSON representation is not compact. In particular, semantic R2 is larger than deterministic R2.
+
+This creates a concrete next target:
+
+$$
+\boxed{\text{ISQL-MEM v0.3: registry-backed spectral coordinate compaction}}
+$$
+
+Instead of storing long natural-language concept/claim/relation labels repeatedly, v0.3 should test compact registry IDs, reusable coordinate dictionaries, sparse relation tuples, and shared semantic namespaces.

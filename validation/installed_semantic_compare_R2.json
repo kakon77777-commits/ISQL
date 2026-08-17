@@ -1,0 +1,47 @@
+{
+  "address": "ISQL1:ADDR:R0:H37437785231397108278540881178228903202353507366643505156119544624382725236688",
+  "profiles": {
+    "baseline": {
+      "code": "ISQL1:MEM:R2:M78828587748573810499911566329013269614628857620488089069076952788597752288278",
+      "coordinate_fidelity": null,
+      "layer_data_bytes": 1284,
+      "profile_id": "baseline",
+      "recovery": {
+        "decoder_contract": "isql-memory-recovery/v0.2",
+        "decoder_id": "deterministic-memory-decoder/v0.2",
+        "exact": false,
+        "profile_id": "baseline",
+        "recovered_chars": 1146,
+        "resolution": "R2",
+        "semantic_score": 0.5858585858585859,
+        "source_chars": 2444
+      }
+    },
+    "semantic": {
+      "code": "ISQL1:MEM:R2:M71724367718519050542611035466357692242835415826265974410846369516056808706831",
+      "coordinate_fidelity": {
+        "aggregate": 0.9800000000000001,
+        "claim_recall": 1.0,
+        "concept_f1": 0.9,
+        "concept_precision": 0.9,
+        "concept_recall": 0.9,
+        "entity_recall": 1.0,
+        "intent_match": 1.0,
+        "relation_recall": 1.0
+      },
+      "layer_data_bytes": 2265,
+      "profile_id": "semantic",
+      "recovery": {
+        "decoder_contract": "isql-semantic-memory-recovery/v0.2",
+        "decoder_id": "semantic-coordinate-decoder/v0.2",
+        "exact": false,
+        "profile_id": "semantic",
+        "recovered_chars": 1198,
+        "resolution": "R2",
+        "semantic_score": 0.3026315789473684,
+        "source_chars": 2444
+      }
+    }
+  },
+  "resolution": "R2"
+}

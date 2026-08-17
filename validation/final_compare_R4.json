@@ -1,0 +1,38 @@
+{
+  "address": "ISQL1:ADDR:R0:H37437785231397108278540881178228903202353507366643505156119544624382725236688",
+  "profiles": {
+    "baseline": {
+      "code": "ISQL1:MEM:R4:M29282144858701337307582285184032157095743109861091520257371677486409508424023",
+      "coordinate_fidelity": null,
+      "layer_data_bytes": 2608,
+      "profile_id": "baseline",
+      "recovery": {
+        "decoder_contract": "isql-memory-recovery/v0.2",
+        "decoder_id": "deterministic-memory-decoder/v0.2",
+        "exact": true,
+        "profile_id": "baseline",
+        "recovered_chars": 2444,
+        "resolution": "R4",
+        "semantic_score": 1.0,
+        "source_chars": 2444
+      }
+    },
+    "semantic": {
+      "code": "ISQL1:MEM:R4:M53376079485662927923179622011183546224429481860234026462649862707683686435029",
+      "coordinate_fidelity": null,
+      "layer_data_bytes": 2747,
+      "profile_id": "semantic",
+      "recovery": {
+        "decoder_contract": "isql-semantic-memory-recovery/v0.2",
+        "decoder_id": "semantic-coordinate-decoder/v0.2",
+        "exact": true,
+        "profile_id": "semantic",
+        "recovered_chars": 2444,
+        "resolution": "R4",
+        "semantic_score": 1.0,
+        "source_chars": 2444
+      }
+    }
+  },
+  "resolution": "R4"
+}

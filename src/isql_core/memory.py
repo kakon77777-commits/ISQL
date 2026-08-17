@@ -9,10 +9,14 @@ from typing import Any, Mapping
 from .address import address_text
 from .code import ISQLCode, parse_code
 from .errors import ISQLValidationError
+from .semantics import SemanticAnalysis
 
 ENCODER_VERSION = "isql-mem-encoder/v0.1"
+SEMANTIC_ENCODER_VERSION = "isql-mem-semantic-encoder/v0.2"
+MEMORY_RECORD_SCHEMA = "isql.memory-record/v0.2"
 _TOKEN_RE = re.compile(r"[^\W_]+(?:['’-][^\W_]+)?", re.UNICODE)
 _SENTENCE_SPLIT_RE = re.compile(r"(?<=[.!?。！？])\s+|[\r\n]+")
+_PROFILE_RE = re.compile(r"^[a-z][a-z0-9._-]{0,63}$")
 
 
 def _canonical_json(value: object) -> bytes:
@@ -23,13 +27,30 @@ def _canonical_json(value: object) -> bytes:
     return text.encode("utf-8")
 
 
-def _memory_code(resolution: str, address: ISQLCode, data: Mapping[str, Any]) -> ISQLCode:
-    material = {
-        "encoder": ENCODER_VERSION,
+def _validate_profile_id(profile_id: str) -> str:
+    if not isinstance(profile_id, str) or not _PROFILE_RE.fullmatch(profile_id):
+        raise ISQLValidationError("INVALID_MEMORY_PROFILE_ID")
+    return profile_id
+
+
+def _memory_code(
+    resolution: str,
+    address: ISQLCode,
+    data: Mapping[str, Any],
+    *,
+    encoder_version: str = ENCODER_VERSION,
+    profile_id: str = "baseline",
+) -> ISQLCode:
+    _validate_profile_id(profile_id)
+    # Preserve v0.1 baseline code identity exactly for backward compatibility.
+    material: dict[str, Any] = {
+        "encoder": encoder_version,
         "address": address.to_wire(),
         "resolution": resolution,
         "data": dict(data),
     }
+    if profile_id != "baseline":
+        material["profile"] = profile_id
     digest = hashlib.sha256(_canonical_json(material)).digest()
     payload = str(int.from_bytes(digest, "big", signed=False))
     return ISQLCode(
@@ -80,55 +101,142 @@ class MemoryLayer:
         data = value.get("data")
         if not isinstance(data, dict):
             raise ISQLValidationError("MEMORY_LAYER_DATA_MUST_BE_OBJECT")
+        _canonical_json(data)
         return cls(resolution=resolution, code=code, data=dict(data))
+
+
+@dataclass(frozen=True, slots=True)
+class MemoryVariant:
+    profile_id: str
+    encoder_version: str
+    layers: dict[str, MemoryLayer]
+    analyzer_id: str | None = None
+    analyzer_contract: str | None = None
+
+    def __post_init__(self) -> None:
+        _validate_profile_id(self.profile_id)
+        if not self.encoder_version:
+            raise ISQLValidationError("MEMORY_VARIANT_ENCODER_REQUIRED")
+        if set(self.layers) != {"R0", "R1", "R2", "R3", "R4"}:
+            raise ISQLValidationError("MEMORY_VARIANT_REQUIRES_R0_TO_R4")
+        for resolution, layer in self.layers.items():
+            if layer.resolution != resolution:
+                raise ISQLValidationError("MEMORY_VARIANT_LAYER_KEY_MISMATCH")
+        if (self.analyzer_id is None) != (self.analyzer_contract is None):
+            raise ISQLValidationError("ANALYZER_ID_CONTRACT_MUST_PAIR")
+
+    def to_dict(self) -> dict[str, Any]:
+        out: dict[str, Any] = {
+            "profile_id": self.profile_id,
+            "encoder_version": self.encoder_version,
+            "layers": {k: v.to_dict() for k, v in self.layers.items()},
+        }
+        if self.analyzer_id is not None:
+            out["analyzer_id"] = self.analyzer_id
+            out["analyzer_contract"] = self.analyzer_contract
+        return out
+
+    @classmethod
+    def from_dict(cls, value: Mapping[str, Any]) -> "MemoryVariant":
+        raw_layers = value.get("layers")
+        if not isinstance(raw_layers, dict):
+            raise ISQLValidationError("MEMORY_VARIANT_LAYERS_MUST_BE_OBJECT")
+        return cls(
+            profile_id=str(value["profile_id"]),
+            encoder_version=str(value["encoder_version"]),
+            layers={str(k): MemoryLayer.from_dict(v) for k, v in raw_layers.items()},
+            analyzer_id=str(value["analyzer_id"]) if value.get("analyzer_id") is not None else None,
+            analyzer_contract=str(value["analyzer_contract"]) if value.get("analyzer_contract") is not None else None,
+        )
 
 
 @dataclass(frozen=True, slots=True)
 class MemoryRecord:
     address: ISQLCode
-    encoder_version: str
     source_type: str
-    layers: dict[str, MemoryLayer]
+    variants: dict[str, MemoryVariant]
+    default_profile: str = "baseline"
+
+    def __post_init__(self) -> None:
+        if self.address.domain != "ADDR":
+            raise ISQLValidationError("MEMORY_ADDRESS_NOT_ADDR_DOMAIN")
+        _validate_profile_id(self.default_profile)
+        if self.default_profile not in self.variants:
+            raise ISQLValidationError("DEFAULT_MEMORY_PROFILE_MISSING")
+        for key, variant in self.variants.items():
+            if key != variant.profile_id:
+                raise ISQLValidationError("MEMORY_VARIANT_KEY_MISMATCH")
+
+    @property
+    def layers(self) -> dict[str, MemoryLayer]:
+        """Backward-compatible view of the default profile layers."""
+        return self.variants[self.default_profile].layers
+
+    @property
+    def encoder_version(self) -> str:
+        """Backward-compatible encoder version of the default profile."""
+        return self.variants[self.default_profile].encoder_version
+
+    def get_layer(self, profile_id: str, resolution: str) -> MemoryLayer:
+        return self.variants[profile_id].layers[resolution]
 
     def to_dict(self) -> dict[str, Any]:
+        # Keep v0.1 top-level encoder/layers as a compatibility view of the
+        # default profile while making variants canonical in v0.2.
         return {
-            "schema": "isql.memory-record/v0.1",
+            "schema": MEMORY_RECORD_SCHEMA,
             "address": self.address.to_wire(),
-            "encoder_version": self.encoder_version,
             "source_type": self.source_type,
+            "default_profile": self.default_profile,
+            "encoder_version": self.encoder_version,
             "layers": {k: v.to_dict() for k, v in self.layers.items()},
+            "variants": {k: v.to_dict() for k, v in self.variants.items()},
         }
 
     @classmethod
     def from_dict(cls, value: Mapping[str, Any]) -> "MemoryRecord":
-        if value.get("schema") != "isql.memory-record/v0.1":
-            raise ISQLValidationError("INVALID_MEMORY_RECORD_SCHEMA")
+        schema = value.get("schema")
         address = parse_code(str(value["address"]))
         if address.domain != "ADDR":
             raise ISQLValidationError("MEMORY_ADDRESS_NOT_ADDR_DOMAIN")
-        raw_layers = value.get("layers")
-        if not isinstance(raw_layers, dict):
-            raise ISQLValidationError("MEMORY_LAYERS_MUST_BE_OBJECT")
-        layers = {str(k): MemoryLayer.from_dict(v) for k, v in raw_layers.items()}
+
+        if schema == "isql.memory-record/v0.1":
+            raw_layers = value.get("layers")
+            if not isinstance(raw_layers, dict):
+                raise ISQLValidationError("MEMORY_LAYERS_MUST_BE_OBJECT")
+            baseline = MemoryVariant(
+                profile_id="baseline",
+                encoder_version=str(value["encoder_version"]),
+                layers={str(k): MemoryLayer.from_dict(v) for k, v in raw_layers.items()},
+            )
+            return cls(
+                address=address,
+                source_type=str(value["source_type"]),
+                variants={"baseline": baseline},
+                default_profile="baseline",
+            )
+
+        if schema != MEMORY_RECORD_SCHEMA:
+            raise ISQLValidationError("INVALID_MEMORY_RECORD_SCHEMA")
+        raw_variants = value.get("variants")
+        if not isinstance(raw_variants, dict) or not raw_variants:
+            raise ISQLValidationError("MEMORY_VARIANTS_MUST_BE_NONEMPTY_OBJECT")
+        variants = {str(k): MemoryVariant.from_dict(v) for k, v in raw_variants.items()}
         return cls(
             address=address,
-            encoder_version=str(value["encoder_version"]),
             source_type=str(value["source_type"]),
-            layers=layers,
+            variants=variants,
+            default_profile=str(value.get("default_profile", "baseline")),
         )
 
 
-def encode_text_memory(
+def _baseline_variant(
     text: str,
     *,
-    metadata: Mapping[str, Any] | None = None,
-    source_ref: str | None = None,
-    include_exact_source: bool = True,
-) -> MemoryRecord:
-    if not isinstance(text, str):
-        raise TypeError("text must be str")
-    metadata_obj = dict(metadata or {})
-    _canonical_json(metadata_obj)
+    metadata_obj: dict[str, Any],
+    source_ref: str | None,
+    include_exact_source: bool,
+) -> tuple[ISQLCode, MemoryVariant]:
     address = address_text(text)
     utf8 = text.encode("utf-8")
     normalized_text = text.replace("\r\n", "\n").replace("\r", "\n").strip()
@@ -171,10 +279,121 @@ def encode_text_memory(
             code=_memory_code(resolution, address, data),
             data=data,
         )
+    return address, MemoryVariant(
+        profile_id="baseline",
+        encoder_version=ENCODER_VERSION,
+        layers=layers,
+    )
 
+
+
+def _semantic_variant(
+    text: str,
+    *,
+    address: ISQLCode,
+    metadata_obj: dict[str, Any],
+    source_ref: str | None,
+    include_exact_source: bool,
+    analysis: SemanticAnalysis,
+) -> MemoryVariant:
+    utf8 = text.encode("utf-8")
+    normalized_text = text.replace("\r\n", "\n").replace("\r", "\n").strip()
+    coords = analysis.coordinates
+    analyzer = {
+        "analyzer_id": analysis.analyzer_id,
+        "analyzer_contract": analysis.analyzer_contract,
+    }
+    layer_data: dict[str, dict[str, Any]] = {
+        "R0": {
+            "address": address.to_wire(),
+            "source_type": "text",
+            "byte_length": len(utf8),
+            "char_length": len(text),
+            "profile": "semantic",
+            "analyzer": analyzer,
+        },
+        "R1": {
+            "summary": coords.summary,
+            "anchors": list(coords.concepts[:5]),
+            "intent": coords.intent,
+            "tags": list(coords.tags[:6]),
+            "language": coords.language,
+            "analyzer": analyzer,
+        },
+        "R2": {
+            "coordinates": coords.to_dict(),
+            "analyzer": analyzer,
+        },
+        "R3": {
+            "normalized_text": normalized_text,
+            "metadata": metadata_obj,
+            "semantic_analysis": analysis.to_dict(),
+        },
+        "R4": {
+            "exact_sha256": hashlib.sha256(utf8).hexdigest(),
+            "source_ref": source_ref,
+            "profile": "semantic",
+            "analyzer": analyzer,
+        },
+    }
+    if include_exact_source:
+        layer_data["R4"]["exact_source"] = text
+
+    layers: dict[str, MemoryLayer] = {}
+    for resolution in ("R0", "R1", "R2", "R3", "R4"):
+        data = layer_data[resolution]
+        layers[resolution] = MemoryLayer(
+            resolution=resolution,
+            code=_memory_code(
+                resolution,
+                address,
+                data,
+                encoder_version=SEMANTIC_ENCODER_VERSION,
+                profile_id="semantic",
+            ),
+            data=data,
+        )
+    return MemoryVariant(
+        profile_id="semantic",
+        encoder_version=SEMANTIC_ENCODER_VERSION,
+        layers=layers,
+        analyzer_id=analysis.analyzer_id,
+        analyzer_contract=analysis.analyzer_contract,
+    )
+
+def encode_text_memory(
+    text: str,
+    *,
+    metadata: Mapping[str, Any] | None = None,
+    source_ref: str | None = None,
+    include_exact_source: bool = True,
+    semantic_analysis: SemanticAnalysis | None = None,
+) -> MemoryRecord:
+    if not isinstance(text, str):
+        raise TypeError("text must be str")
+    metadata_obj = dict(metadata or {})
+    _canonical_json(metadata_obj)
+    address, baseline = _baseline_variant(
+        text,
+        metadata_obj=metadata_obj,
+        source_ref=source_ref,
+        include_exact_source=include_exact_source,
+    )
+    variants: dict[str, MemoryVariant] = {"baseline": baseline}
+    if semantic_analysis is not None:
+        if not isinstance(semantic_analysis, SemanticAnalysis):
+            raise ISQLValidationError("SEMANTIC_ANALYSIS_MUST_BE_TYPED")
+        variants["semantic"] = _semantic_variant(
+            text,
+            address=address,
+            metadata_obj=metadata_obj,
+            source_ref=source_ref,
+            include_exact_source=include_exact_source,
+            analysis=semantic_analysis,
+        )
     return MemoryRecord(
         address=address,
-        encoder_version=ENCODER_VERSION,
         source_type="text",
-        layers=layers,
+        variants=variants,
+        default_profile="baseline",
     )

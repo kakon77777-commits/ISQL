@@ -1,0 +1,439 @@
+{
+  "address": "ISQL1:ADDR:R0:H37437785231397108278540881178228903202353507366643505156119544624382725236688",
+  "default_profile": "baseline",
+  "encoder_version": "isql-mem-encoder/v0.1",
+  "layers": {
+    "R0": {
+      "code": "ISQL1:MEM:R0:M90954541753419942069458173527606956206108001091305044536918147354475003834605",
+      "data": {
+        "address": "ISQL1:ADDR:R0:H37437785231397108278540881178228903202353507366643505156119544624382725236688",
+        "byte_length": 2488,
+        "char_length": 2444,
+        "source_type": "text"
+      },
+      "resolution": "R0"
+    },
+    "R1": {
+      "code": "ISQL1:MEM:R1:M80564587697412843475383055579853482577424580589292814038740849518489015464000",
+      "data": {
+        "keywords": [
+          "the",
+          "and",
+          "is",
+          "a",
+          "as",
+          "exact",
+          "semantic",
+          "not"
+        ],
+        "preview": "ISQL-MEM v0.2 treats memory as a representation layer rather than as object identity. The exact UTF-8 source receives a stable ISQL-ADDR code derived from its b"
+      },
+      "resolution": "R1"
+    },
+    "R2": {
+      "code": "ISQL1:MEM:R2:M78828587748573810499911566329013269614628857620488089069076952788597752288278",
+      "data": {
+        "keywords": [
+          "the",
+          "and",
+          "is",
+          "a",
+          "as",
+          "exact",
+          "semantic",
+          "not"
+        ],
+        "sentence_count_observed": 26,
+        "sentence_heads": [
+          "ISQL-MEM v0.2 treats memory as a representation layer rather than as object identity.",
+          "The exact UTF-8 source receives a stable ISQL-ADDR code derived from its bytes.",
+          "That address must remain stable even when an AI later rewrites, summarizes, expands, or reclassifies the memory.",
+          "A memory record can therefore contain more than one profile under the same address.",
+          "The baseline profile is deterministic and preserves the v0.1 preview, keyword, sentence-head, normalized-text, and exact-source hierarchy.",
+          "The semantic profile stores an AI-assisted coordinate view without replacing the baseline.",
+          "R0 is a locator and does not attempt reconstruction.",
+          "R1 carries a compact gist, concept anchors, intent, tags, and language.",
+          "R2 carries typed semantic coordinates including concepts, entities, relations, claims, uncertainty, and intent.",
+          "R3 keeps normalized source text together with semantic provenance so richer reconstruction can still be audited.",
+          "R4 retains the exact-source contract and is the only layer that may declare exact recovery when the original source is present.",
+          "An AI analyzer must disclose its analyzer identifier and analysis contract."
+        ]
+      },
+      "resolution": "R2"
+    },
+    "R3": {
+      "code": "ISQL1:MEM:R3:M90468359234345409346870443402203293418472813535625530478803872334470239159784",
+      "data": {
+        "metadata": {},
+        "normalized_text": "ISQL-MEM v0.2 treats memory as a representation layer rather than as object identity. The exact UTF-8 source receives a stable ISQL-ADDR code derived from its bytes. That address must remain stable even when an AI later rewrites, summarizes, expands, or reclassifies the memory. A memory record can therefore contain more than one profile under the same address. The baseline profile is deterministic and preserves the v0.1 preview, keyword, sentence-head, normalized-text, and exact-source hierarchy. The semantic profile stores an AI-assisted coordinate view without replacing the baseline. R0 is a locator and does not attempt reconstruction. R1 carries a compact gist, concept anchors, intent, tags, and language. R2 carries typed semantic coordinates including concepts, entities, relations, claims, uncertainty, and intent. R3 keeps normalized source text together with semantic provenance so richer reconstruction can still be audited. R4 retains the exact-source contract and is the only layer that may declare exact recovery when the original source is present. An AI analyzer must disclose its analyzer identifier and analysis contract. An AI decoder must disclose its decoder identifier and decoder contract. Neither analyzer nor decoder may modify the stable source address. Semantic recovery and exact recovery are intentionally different success conditions. Token overlap is useful as a transparent baseline metric but is not treated as semantic truth. Coordinate fidelity is therefore measured separately over concepts, entities, relations, claims, and intent. The first implementation uses exact normalized coordinate labels rather than embeddings so the score is reproducible and inspectable. Future versions may add learned similarity metrics as derived evidence, but they must not silently redefine canonical identity. Profile comparison also reports serialized layer size so compression and recoverability can be examined together. A smaller representation is not automatically better if it destroys required information. Likewise, a larger representation is not automatically better if the decoder can recover the same required semantics from fewer coordinates. The purpose of v0.2 is to make this tradeoff measurable. 這一層同時保留 UTF-8 多語言來源，地址仍然只由 exact bytes 決定。 The resulting architecture allows the same memory object to be tested across deterministic and AI-assisted encoders while keeping one immutable identity anchor."
+      },
+      "resolution": "R3"
+    },
+    "R4": {
+      "code": "ISQL1:MEM:R4:M29282144858701337307582285184032157095743109861091520257371677486409508424023",
+      "data": {
+        "exact_sha256": "52c509187befda50d0acaf75cbdc8e7b9ab41060b44fb88402e9d496de56a7d0",
+        "exact_source": "ISQL-MEM v0.2 treats memory as a representation layer rather than as object identity. The exact UTF-8 source receives a stable ISQL-ADDR code derived from its bytes. That address must remain stable even when an AI later rewrites, summarizes, expands, or reclassifies the memory. A memory record can therefore contain more than one profile under the same address. The baseline profile is deterministic and preserves the v0.1 preview, keyword, sentence-head, normalized-text, and exact-source hierarchy. The semantic profile stores an AI-assisted coordinate view without replacing the baseline. R0 is a locator and does not attempt reconstruction. R1 carries a compact gist, concept anchors, intent, tags, and language. R2 carries typed semantic coordinates including concepts, entities, relations, claims, uncertainty, and intent. R3 keeps normalized source text together with semantic provenance so richer reconstruction can still be audited. R4 retains the exact-source contract and is the only layer that may declare exact recovery when the original source is present. An AI analyzer must disclose its analyzer identifier and analysis contract. An AI decoder must disclose its decoder identifier and decoder contract. Neither analyzer nor decoder may modify the stable source address. Semantic recovery and exact recovery are intentionally different success conditions. Token overlap is useful as a transparent baseline metric but is not treated as semantic truth. Coordinate fidelity is therefore measured separately over concepts, entities, relations, claims, and intent. The first implementation uses exact normalized coordinate labels rather than embeddings so the score is reproducible and inspectable. Future versions may add learned similarity metrics as derived evidence, but they must not silently redefine canonical identity. Profile comparison also reports serialized layer size so compression and recoverability can be examined together. A smaller representation is not automatically better if it destroys required information. Likewise, a larger representation is not automatically better if the decoder can recover the same required semantics from fewer coordinates. The purpose of v0.2 is to make this tradeoff measurable. 這一層同時保留 UTF-8 多語言來源，地址仍然只由 exact bytes 決定。 The resulting architecture allows the same memory object to be tested across deterministic and AI-assisted encoders while keeping one immutable identity anchor.\n",
+        "source_ref": null
+      },
+      "resolution": "R4"
+    }
+  },
+  "schema": "isql.memory-record/v0.2",
+  "source_type": "text",
+  "variants": {
+    "baseline": {
+      "encoder_version": "isql-mem-encoder/v0.1",
+      "layers": {
+        "R0": {
+          "code": "ISQL1:MEM:R0:M90954541753419942069458173527606956206108001091305044536918147354475003834605",
+          "data": {
+            "address": "ISQL1:ADDR:R0:H37437785231397108278540881178228903202353507366643505156119544624382725236688",
+            "byte_length": 2488,
+            "char_length": 2444,
+            "source_type": "text"
+          },
+          "resolution": "R0"
+        },
+        "R1": {
+          "code": "ISQL1:MEM:R1:M80564587697412843475383055579853482577424580589292814038740849518489015464000",
+          "data": {
+            "keywords": [
+              "the",
+              "and",
+              "is",
+              "a",
+              "as",
+              "exact",
+              "semantic",
+              "not"
+            ],
+            "preview": "ISQL-MEM v0.2 treats memory as a representation layer rather than as object identity. The exact UTF-8 source receives a stable ISQL-ADDR code derived from its b"
+          },
+          "resolution": "R1"
+        },
+        "R2": {
+          "code": "ISQL1:MEM:R2:M78828587748573810499911566329013269614628857620488089069076952788597752288278",
+          "data": {
+            "keywords": [
+              "the",
+              "and",
+              "is",
+              "a",
+              "as",
+              "exact",
+              "semantic",
+              "not"
+            ],
+            "sentence_count_observed": 26,
+            "sentence_heads": [
+              "ISQL-MEM v0.2 treats memory as a representation layer rather than as object identity.",
+              "The exact UTF-8 source receives a stable ISQL-ADDR code derived from its bytes.",
+              "That address must remain stable even when an AI later rewrites, summarizes, expands, or reclassifies the memory.",
+              "A memory record can therefore contain more than one profile under the same address.",
+              "The baseline profile is deterministic and preserves the v0.1 preview, keyword, sentence-head, normalized-text, and exact-source hierarchy.",
+              "The semantic profile stores an AI-assisted coordinate view without replacing the baseline.",
+              "R0 is a locator and does not attempt reconstruction.",
+              "R1 carries a compact gist, concept anchors, intent, tags, and language.",
+              "R2 carries typed semantic coordinates including concepts, entities, relations, claims, uncertainty, and intent.",
+              "R3 keeps normalized source text together with semantic provenance so richer reconstruction can still be audited.",
+              "R4 retains the exact-source contract and is the only layer that may declare exact recovery when the original source is present.",
+              "An AI analyzer must disclose its analyzer identifier and analysis contract."
+            ]
+          },
+          "resolution": "R2"
+        },
+        "R3": {
+          "code": "ISQL1:MEM:R3:M90468359234345409346870443402203293418472813535625530478803872334470239159784",
+          "data": {
+            "metadata": {},
+            "normalized_text": "ISQL-MEM v0.2 treats memory as a representation layer rather than as object identity. The exact UTF-8 source receives a stable ISQL-ADDR code derived from its bytes. That address must remain stable even when an AI later rewrites, summarizes, expands, or reclassifies the memory. A memory record can therefore contain more than one profile under the same address. The baseline profile is deterministic and preserves the v0.1 preview, keyword, sentence-head, normalized-text, and exact-source hierarchy. The semantic profile stores an AI-assisted coordinate view without replacing the baseline. R0 is a locator and does not attempt reconstruction. R1 carries a compact gist, concept anchors, intent, tags, and language. R2 carries typed semantic coordinates including concepts, entities, relations, claims, uncertainty, and intent. R3 keeps normalized source text together with semantic provenance so richer reconstruction can still be audited. R4 retains the exact-source contract and is the only layer that may declare exact recovery when the original source is present. An AI analyzer must disclose its analyzer identifier and analysis contract. An AI decoder must disclose its decoder identifier and decoder contract. Neither analyzer nor decoder may modify the stable source address. Semantic recovery and exact recovery are intentionally different success conditions. Token overlap is useful as a transparent baseline metric but is not treated as semantic truth. Coordinate fidelity is therefore measured separately over concepts, entities, relations, claims, and intent. The first implementation uses exact normalized coordinate labels rather than embeddings so the score is reproducible and inspectable. Future versions may add learned similarity metrics as derived evidence, but they must not silently redefine canonical identity. Profile comparison also reports serialized layer size so compression and recoverability can be examined together. A smaller representation is not automatically better if it destroys required information. Likewise, a larger representation is not automatically better if the decoder can recover the same required semantics from fewer coordinates. The purpose of v0.2 is to make this tradeoff measurable. 這一層同時保留 UTF-8 多語言來源，地址仍然只由 exact bytes 決定。 The resulting architecture allows the same memory object to be tested across deterministic and AI-assisted encoders while keeping one immutable identity anchor."
+          },
+          "resolution": "R3"
+        },
+        "R4": {
+          "code": "ISQL1:MEM:R4:M29282144858701337307582285184032157095743109861091520257371677486409508424023",
+          "data": {
+            "exact_sha256": "52c509187befda50d0acaf75cbdc8e7b9ab41060b44fb88402e9d496de56a7d0",
+            "exact_source": "ISQL-MEM v0.2 treats memory as a representation layer rather than as object identity. The exact UTF-8 source receives a stable ISQL-ADDR code derived from its bytes. That address must remain stable even when an AI later rewrites, summarizes, expands, or reclassifies the memory. A memory record can therefore contain more than one profile under the same address. The baseline profile is deterministic and preserves the v0.1 preview, keyword, sentence-head, normalized-text, and exact-source hierarchy. The semantic profile stores an AI-assisted coordinate view without replacing the baseline. R0 is a locator and does not attempt reconstruction. R1 carries a compact gist, concept anchors, intent, tags, and language. R2 carries typed semantic coordinates including concepts, entities, relations, claims, uncertainty, and intent. R3 keeps normalized source text together with semantic provenance so richer reconstruction can still be audited. R4 retains the exact-source contract and is the only layer that may declare exact recovery when the original source is present. An AI analyzer must disclose its analyzer identifier and analysis contract. An AI decoder must disclose its decoder identifier and decoder contract. Neither analyzer nor decoder may modify the stable source address. Semantic recovery and exact recovery are intentionally different success conditions. Token overlap is useful as a transparent baseline metric but is not treated as semantic truth. Coordinate fidelity is therefore measured separately over concepts, entities, relations, claims, and intent. The first implementation uses exact normalized coordinate labels rather than embeddings so the score is reproducible and inspectable. Future versions may add learned similarity metrics as derived evidence, but they must not silently redefine canonical identity. Profile comparison also reports serialized layer size so compression and recoverability can be examined together. A smaller representation is not automatically better if it destroys required information. Likewise, a larger representation is not automatically better if the decoder can recover the same required semantics from fewer coordinates. The purpose of v0.2 is to make this tradeoff measurable. 這一層同時保留 UTF-8 多語言來源，地址仍然只由 exact bytes 決定。 The resulting architecture allows the same memory object to be tested across deterministic and AI-assisted encoders while keeping one immutable identity anchor.\n",
+            "source_ref": null
+          },
+          "resolution": "R4"
+        }
+      },
+      "profile_id": "baseline"
+    },
+    "semantic": {
+      "analyzer_contract": "isql-semantic-analysis/v0.2",
+      "analyzer_id": "gpt-5.6-sol/session-fixture/2026-08-17",
+      "encoder_version": "isql-mem-semantic-encoder/v0.2",
+      "layers": {
+        "R0": {
+          "code": "ISQL1:MEM:R0:M91580300663334682778139980057012763024311731970761794857876096123921529736041",
+          "data": {
+            "address": "ISQL1:ADDR:R0:H37437785231397108278540881178228903202353507366643505156119544624382725236688",
+            "analyzer": {
+              "analyzer_contract": "isql-semantic-analysis/v0.2",
+              "analyzer_id": "gpt-5.6-sol/session-fixture/2026-08-17"
+            },
+            "byte_length": 2488,
+            "char_length": 2444,
+            "profile": "semantic",
+            "source_type": "text"
+          },
+          "resolution": "R0"
+        },
+        "R1": {
+          "code": "ISQL1:MEM:R1:M109500656438824554197288462233436691628841194755870556506745895347688542191622",
+          "data": {
+            "analyzer": {
+              "analyzer_contract": "isql-semantic-analysis/v0.2",
+              "analyzer_id": "gpt-5.6-sol/session-fixture/2026-08-17"
+            },
+            "anchors": [
+              "stable source address",
+              "memory profile",
+              "deterministic baseline",
+              "AI-assisted semantic coordinates",
+              "multi-resolution memory"
+            ],
+            "intent": "define and experimentally compare deterministic and AI-assisted multi-resolution memory profiles",
+            "language": "en",
+            "summary": "ISQL-MEM v0.2 separates immutable byte-derived address identity from replaceable deterministic or AI-assisted memory representations and measures recovery quality by resolution.",
+            "tags": [
+              "ISQL",
+              "memory",
+              "AI",
+              "addressing",
+              "recoverability",
+              "multi-resolution"
+            ]
+          },
+          "resolution": "R1"
+        },
+        "R2": {
+          "code": "ISQL1:MEM:R2:M71724367718519050542611035466357692242835415826265974410846369516056808706831",
+          "data": {
+            "analyzer": {
+              "analyzer_contract": "isql-semantic-analysis/v0.2",
+              "analyzer_id": "gpt-5.6-sol/session-fixture/2026-08-17"
+            },
+            "coordinates": {
+              "claims": [
+                "Changing a memory representation must not change the stable source address.",
+                "The deterministic baseline must remain available when a semantic profile is added.",
+                "Semantic and exact recovery are distinct success conditions.",
+                "Only R4 may declare exact recovery when the original source is present.",
+                "AI analyzers and decoders must disclose their identities and contracts.",
+                "Token overlap is a transparent baseline metric rather than canonical semantic truth.",
+                "Coordinate fidelity must be measured separately from text overlap.",
+                "Representation size and recovery quality should be evaluated together."
+              ],
+              "concepts": [
+                "stable source address",
+                "memory profile",
+                "deterministic baseline",
+                "AI-assisted semantic coordinates",
+                "multi-resolution memory",
+                "exact recovery",
+                "semantic recovery",
+                "coordinate fidelity",
+                "decoder provenance",
+                "representation size"
+              ],
+              "entities": [
+                "ISQL-MEM",
+                "ISQL-ADDR",
+                "R0",
+                "R1",
+                "R2",
+                "R3",
+                "R4",
+                "AI analyzer",
+                "AI decoder"
+              ],
+              "intent": "define and experimentally compare deterministic and AI-assisted multi-resolution memory profiles",
+              "language": "en",
+              "relations": [
+                {
+                  "object": "exact source bytes",
+                  "predicate": "identifies",
+                  "subject": "ISQL-ADDR"
+                },
+                {
+                  "object": "stable source address",
+                  "predicate": "shares",
+                  "subject": "memory profile"
+                },
+                {
+                  "object": "semantic profile",
+                  "predicate": "coexists_with",
+                  "subject": "baseline profile"
+                },
+                {
+                  "object": "compact semantic gist",
+                  "predicate": "stores",
+                  "subject": "R1"
+                },
+                {
+                  "object": "typed semantic coordinates",
+                  "predicate": "stores",
+                  "subject": "R2"
+                },
+                {
+                  "object": "exact recovery",
+                  "predicate": "permits",
+                  "subject": "R4"
+                },
+                {
+                  "object": "analyzer provenance",
+                  "predicate": "must_disclose",
+                  "subject": "AI analyzer"
+                },
+                {
+                  "object": "stable source address",
+                  "predicate": "cannot_modify",
+                  "subject": "AI decoder"
+                }
+              ],
+              "summary": "ISQL-MEM v0.2 separates immutable byte-derived address identity from replaceable deterministic or AI-assisted memory representations and measures recovery quality by resolution.",
+              "tags": [
+                "ISQL",
+                "memory",
+                "AI",
+                "addressing",
+                "recoverability",
+                "multi-resolution"
+              ],
+              "uncertainty": [
+                "exact-label coordinate metrics do not capture paraphrase equivalence",
+                "learned semantic distance remains a future derived metric"
+              ]
+            }
+          },
+          "resolution": "R2"
+        },
+        "R3": {
+          "code": "ISQL1:MEM:R3:M84990353493700284514852592082337150622231016105047367271715451100055980368281",
+          "data": {
+            "metadata": {},
+            "normalized_text": "ISQL-MEM v0.2 treats memory as a representation layer rather than as object identity. The exact UTF-8 source receives a stable ISQL-ADDR code derived from its bytes. That address must remain stable even when an AI later rewrites, summarizes, expands, or reclassifies the memory. A memory record can therefore contain more than one profile under the same address. The baseline profile is deterministic and preserves the v0.1 preview, keyword, sentence-head, normalized-text, and exact-source hierarchy. The semantic profile stores an AI-assisted coordinate view without replacing the baseline. R0 is a locator and does not attempt reconstruction. R1 carries a compact gist, concept anchors, intent, tags, and language. R2 carries typed semantic coordinates including concepts, entities, relations, claims, uncertainty, and intent. R3 keeps normalized source text together with semantic provenance so richer reconstruction can still be audited. R4 retains the exact-source contract and is the only layer that may declare exact recovery when the original source is present. An AI analyzer must disclose its analyzer identifier and analysis contract. An AI decoder must disclose its decoder identifier and decoder contract. Neither analyzer nor decoder may modify the stable source address. Semantic recovery and exact recovery are intentionally different success conditions. Token overlap is useful as a transparent baseline metric but is not treated as semantic truth. Coordinate fidelity is therefore measured separately over concepts, entities, relations, claims, and intent. The first implementation uses exact normalized coordinate labels rather than embeddings so the score is reproducible and inspectable. Future versions may add learned similarity metrics as derived evidence, but they must not silently redefine canonical identity. Profile comparison also reports serialized layer size so compression and recoverability can be examined together. A smaller representation is not automatically better if it destroys required information. Likewise, a larger representation is not automatically better if the decoder can recover the same required semantics from fewer coordinates. The purpose of v0.2 is to make this tradeoff measurable. 這一層同時保留 UTF-8 多語言來源，地址仍然只由 exact bytes 決定。 The resulting architecture allows the same memory object to be tested across deterministic and AI-assisted encoders while keeping one immutable identity anchor.",
+            "semantic_analysis": {
+              "analyzer_contract": "isql-semantic-analysis/v0.2",
+              "analyzer_id": "gpt-5.6-sol/session-fixture/2026-08-17",
+              "coordinates": {
+                "claims": [
+                  "Changing a memory representation must not change the stable source address.",
+                  "The deterministic baseline must remain available when a semantic profile is added.",
+                  "Semantic and exact recovery are distinct success conditions.",
+                  "Only R4 may declare exact recovery when the original source is present.",
+                  "AI analyzers and decoders must disclose their identities and contracts.",
+                  "Token overlap is a transparent baseline metric rather than canonical semantic truth.",
+                  "Coordinate fidelity must be measured separately from text overlap.",
+                  "Representation size and recovery quality should be evaluated together."
+                ],
+                "concepts": [
+                  "stable source address",
+                  "memory profile",
+                  "deterministic baseline",
+                  "AI-assisted semantic coordinates",
+                  "multi-resolution memory",
+                  "exact recovery",
+                  "semantic recovery",
+                  "coordinate fidelity",
+                  "decoder provenance",
+                  "representation size"
+                ],
+                "entities": [
+                  "ISQL-MEM",
+                  "ISQL-ADDR",
+                  "R0",
+                  "R1",
+                  "R2",
+                  "R3",
+                  "R4",
+                  "AI analyzer",
+                  "AI decoder"
+                ],
+                "intent": "define and experimentally compare deterministic and AI-assisted multi-resolution memory profiles",
+                "language": "en",
+                "relations": [
+                  {
+                    "object": "exact source bytes",
+                    "predicate": "identifies",
+                    "subject": "ISQL-ADDR"
+                  },
+                  {
+                    "object": "stable source address",
+                    "predicate": "shares",
+                    "subject": "memory profile"
+                  },
+                  {
+                    "object": "semantic profile",
+                    "predicate": "coexists_with",
+                    "subject": "baseline profile"
+                  },
+                  {
+                    "object": "compact semantic gist",
+                    "predicate": "stores",
+                    "subject": "R1"
+                  },
+                  {
+                    "object": "typed semantic coordinates",
+                    "predicate": "stores",
+                    "subject": "R2"
+                  },
+                  {
+                    "object": "exact recovery",
+                    "predicate": "permits",
+                    "subject": "R4"
+                  },
+                  {
+                    "object": "analyzer provenance",
+                    "predicate": "must_disclose",
+                    "subject": "AI analyzer"
+                  },
+                  {
+                    "object": "stable source address",
+                    "predicate": "cannot_modify",
+                    "subject": "AI decoder"
+                  }
+                ],
+                "summary": "ISQL-MEM v0.2 separates immutable byte-derived address identity from replaceable deterministic or AI-assisted memory representations and measures recovery quality by resolution.",
+                "tags": [
+                  "ISQL",
+                  "memory",
+                  "AI",
+                  "addressing",
+                  "recoverability",
+                  "multi-resolution"
+                ],
+                "uncertainty": [
+                  "exact-label coordinate metrics do not capture paraphrase equivalence",
+                  "learned semantic distance remains a future derived metric"
+                ]
+              },
+              "schema": "isql.semantic-analysis/v0.2"
+            }
+          },
+          "resolution": "R3"
+        },
+        "R4": {
+          "code": "ISQL1:MEM:R4:M53376079485662927923179622011183546224429481860234026462649862707683686435029",
+          "data": {
+            "analyzer": {
+              "analyzer_contract": "isql-semantic-analysis/v0.2",
+              "analyzer_id": "gpt-5.6-sol/session-fixture/2026-08-17"
+            },
+            "exact_sha256": "52c509187befda50d0acaf75cbdc8e7b9ab41060b44fb88402e9d496de56a7d0",
+            "exact_source": "ISQL-MEM v0.2 treats memory as a representation layer rather than as object identity. The exact UTF-8 source receives a stable ISQL-ADDR code derived from its bytes. That address must remain stable even when an AI later rewrites, summarizes, expands, or reclassifies the memory. A memory record can therefore contain more than one profile under the same address. The baseline profile is deterministic and preserves the v0.1 preview, keyword, sentence-head, normalized-text, and exact-source hierarchy. The semantic profile stores an AI-assisted coordinate view without replacing the baseline. R0 is a locator and does not attempt reconstruction. R1 carries a compact gist, concept anchors, intent, tags, and language. R2 carries typed semantic coordinates including concepts, entities, relations, claims, uncertainty, and intent. R3 keeps normalized source text together with semantic provenance so richer reconstruction can still be audited. R4 retains the exact-source contract and is the only layer that may declare exact recovery when the original source is present. An AI analyzer must disclose its analyzer identifier and analysis contract. An AI decoder must disclose its decoder identifier and decoder contract. Neither analyzer nor decoder may modify the stable source address. Semantic recovery and exact recovery are intentionally different success conditions. Token overlap is useful as a transparent baseline metric but is not treated as semantic truth. Coordinate fidelity is therefore measured separately over concepts, entities, relations, claims, and intent. The first implementation uses exact normalized coordinate labels rather than embeddings so the score is reproducible and inspectable. Future versions may add learned similarity metrics as derived evidence, but they must not silently redefine canonical identity. Profile comparison also reports serialized layer size so compression and recoverability can be examined together. A smaller representation is not automatically better if it destroys required information. Likewise, a larger representation is not automatically better if the decoder can recover the same required semantics from fewer coordinates. The purpose of v0.2 is to make this tradeoff measurable. 這一層同時保留 UTF-8 多語言來源，地址仍然只由 exact bytes 決定。 The resulting architecture allows the same memory object to be tested across deterministic and AI-assisted encoders while keeping one immutable identity anchor.\n",
+            "profile": "semantic",
+            "source_ref": null
+          },
+          "resolution": "R4"
+        }
+      },
+      "profile_id": "semantic"
+    }
+  }
+}

@@ -7,11 +7,12 @@ import sys
 
 from .address import address_bytes, address_text
 from .code import parse_code
-from .decoder import DeterministicMemoryDecoder
-from .errors import ISQLError
-from .memory import encode_text_memory
-from .recoverability import evaluate_recovery
+from .decoder import DeterministicMemoryDecoder, SemanticCoordinateDecoder
+from .errors import ISQLError, ISQLExecutionError
+from .memory import MemoryRecord, encode_text_memory
+from .recoverability import SemanticReference, compare_memory_profiles, evaluate_recovery
 from .registry import DomainRegistry
+from .semantics import SemanticAnalysis
 from .store import MemoryStore
 
 
@@ -27,8 +28,61 @@ def _load_text(args: argparse.Namespace) -> str:
     raise ValueError("text or file required")
 
 
+def _load_source(args: argparse.Namespace) -> str:
+    if getattr(args, "source_text", None) is not None:
+        return args.source_text
+    if getattr(args, "source_file", None) is not None:
+        return Path(args.source_file).read_text(encoding="utf-8")
+    raise ValueError("source text or file required")
+
+
+def _load_semantic_analysis(args: argparse.Namespace) -> SemanticAnalysis | None:
+    raw: str | None = getattr(args, "semantic_analysis_json", None)
+    path: str | None = getattr(args, "semantic_analysis_file", None)
+    if raw is None and path is None:
+        return None
+    if raw is not None and path is not None:
+        raise ValueError("use only one of --semantic-analysis-json/--semantic-analysis-file")
+    data = json.loads(raw if raw is not None else Path(path).read_text(encoding="utf-8"))
+    if not isinstance(data, dict):
+        raise ValueError("semantic analysis must decode to an object")
+    return SemanticAnalysis.from_dict(data)
+
+
+def _load_semantic_reference(args: argparse.Namespace) -> SemanticReference | None:
+    raw: str | None = getattr(args, "semantic_reference_json", None)
+    path: str | None = getattr(args, "semantic_reference_file", None)
+    if raw is None and path is None:
+        return None
+    if raw is not None and path is not None:
+        raise ValueError("use only one of --semantic-reference-json/--semantic-reference-file")
+    data = json.loads(raw if raw is not None else Path(path).read_text(encoding="utf-8"))
+    if not isinstance(data, dict):
+        raise ValueError("semantic reference must decode to an object")
+    analysis = SemanticAnalysis.from_dict(data)
+    return SemanticReference.from_coordinates(analysis.coordinates)
+
+
+def _profile_for_code(record: MemoryRecord, code) -> str:
+    for profile_id, variant in record.variants.items():
+        layer = variant.layers.get(code.resolution)
+        if layer is not None and layer.code == code:
+            return profile_id
+    raise ISQLExecutionError("MEMORY_CODE_PROFILE_NOT_FOUND")
+
+
+def _decode_auto(store: MemoryStore, code):
+    record = store.find_by_memory_code(code)
+    profile_id = _profile_for_code(record, code)
+    if profile_id == "baseline":
+        return DeterministicMemoryDecoder(store).decode(code)
+    if profile_id == "semantic":
+        return SemanticCoordinateDecoder(store).decode(code)
+    raise ISQLExecutionError("NO_DECODER_FOR_MEMORY_PROFILE")
+
+
 def build_parser() -> argparse.ArgumentParser:
-    p = argparse.ArgumentParser(prog="isql-core", description="ISQL Core Runtime v0.1")
+    p = argparse.ArgumentParser(prog="isql-core", description="ISQL Core Runtime / ISQL-MEM v0.2")
     sub = p.add_subparsers(dest="command", required=True)
 
     sp = sub.add_parser("parse", help="Parse an ISQL wire code")
@@ -48,17 +102,35 @@ def build_parser() -> argparse.ArgumentParser:
     group.add_argument("--file")
     sp.add_argument("--metadata-json", default="{}")
     sp.add_argument("--source-ref")
+    sem = sp.add_mutually_exclusive_group()
+    sem.add_argument("--semantic-analysis-json")
+    sem.add_argument("--semantic-analysis-file")
 
-    sp = sub.add_parser("memory-decode", help="Decode a stored ISQL-MEM code")
+    sp = sub.add_parser("memory-decode", help="Decode a stored ISQL-MEM code using its profile decoder")
     sp.add_argument("--store", required=True)
     sp.add_argument("--code", required=True)
 
-    sp = sub.add_parser("recoverability", help="Measure exact/semantic recovery")
+    sp = sub.add_parser("recoverability", help="Measure exact/token recovery for any stored memory profile")
     sp.add_argument("--store", required=True)
     sp.add_argument("--code", required=True)
     group = sp.add_mutually_exclusive_group(required=True)
     group.add_argument("--source-text")
     group.add_argument("--source-file")
+
+    sp = sub.add_parser("memory-profiles", help="Inspect memory profiles under one stable address")
+    sp.add_argument("--store", required=True)
+    sp.add_argument("--address", required=True)
+
+    sp = sub.add_parser("memory-compare", help="Compare baseline and semantic memory profiles")
+    sp.add_argument("--store", required=True)
+    sp.add_argument("--address", required=True)
+    sp.add_argument("--resolution", required=True, choices=["R0", "R1", "R2", "R3", "R4"])
+    group = sp.add_mutually_exclusive_group(required=True)
+    group.add_argument("--source-text")
+    group.add_argument("--source-file")
+    ref = sp.add_mutually_exclusive_group()
+    ref.add_argument("--semantic-reference-json")
+    ref.add_argument("--semantic-reference-file")
 
     return p
 
@@ -91,7 +163,13 @@ def main(argv: list[str] | None = None) -> int:
             metadata = json.loads(args.metadata_json)
             if not isinstance(metadata, dict):
                 raise ValueError("--metadata-json must decode to an object")
-            record = encode_text_memory(text, metadata=metadata, source_ref=args.source_ref)
+            semantic_analysis = _load_semantic_analysis(args)
+            record = encode_text_memory(
+                text,
+                metadata=metadata,
+                source_ref=args.source_ref,
+                semantic_analysis=semantic_analysis,
+            )
             store = MemoryStore(args.store)
             store.put(record)
             print(_json(record.to_dict()))
@@ -101,7 +179,7 @@ def main(argv: list[str] | None = None) -> int:
             code = parse_code(args.code)
             registry.validate_code(code)
             registry.require_executable(code.domain)
-            result = DeterministicMemoryDecoder(MemoryStore(args.store)).decode(code)
+            result = _decode_auto(MemoryStore(args.store), code)
             print(_json(result.to_dict()))
             return 0
 
@@ -109,9 +187,45 @@ def main(argv: list[str] | None = None) -> int:
             code = parse_code(args.code)
             registry.validate_code(code)
             registry.require_executable(code.domain)
-            source = args.source_text if args.source_text is not None else Path(args.source_file).read_text(encoding="utf-8")
-            result = DeterministicMemoryDecoder(MemoryStore(args.store)).decode(code)
+            source = _load_source(args)
+            result = _decode_auto(MemoryStore(args.store), code)
             report = evaluate_recovery(source, result)
+            print(_json(report.to_dict()))
+            return 0
+
+        if args.command == "memory-profiles":
+            address = parse_code(args.address)
+            registry.validate_code(address)
+            if address.domain != "ADDR":
+                raise ValueError("--address must be an ADDR code")
+            record = MemoryStore(args.store).get(address)
+            profiles = {}
+            for profile_id, variant in record.variants.items():
+                profiles[profile_id] = {
+                    "encoder_version": variant.encoder_version,
+                    "analyzer_id": variant.analyzer_id,
+                    "analyzer_contract": variant.analyzer_contract,
+                    "layers": {r: layer.code.to_wire() for r, layer in variant.layers.items()},
+                }
+            print(_json({"address": record.address.to_wire(), "default_profile": record.default_profile, "profiles": profiles}))
+            return 0
+
+        if args.command == "memory-compare":
+            address = parse_code(args.address)
+            registry.validate_code(address)
+            if address.domain != "ADDR":
+                raise ValueError("--address must be an ADDR code")
+            store = MemoryStore(args.store)
+            record = store.get(address)
+            source = _load_source(args)
+            reference = _load_semantic_reference(args)
+            report = compare_memory_profiles(
+                source,
+                record,
+                store=store,
+                resolution=args.resolution,
+                semantic_reference=reference,
+            )
             print(_json(report.to_dict()))
             return 0
 
