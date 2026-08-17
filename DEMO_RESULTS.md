@@ -1,38 +1,41 @@
-# ISQL-MEM v0.2 — Live Semantic Coordinate Experiment
+# ISQL-MEM v0.3 Live Spectral Compaction Results
 
-## Purpose
+## Experiment
 
-Test whether one immutable ISQL-ADDR can carry both a deterministic memory profile and an AI-assisted semantic-coordinate profile, and measure both text recovery and structured coordinate fidelity.
+Three distinct source texts were stored under three distinct stable `ISQL-ADDR` values.
 
-This is a development-session mechanism test. The AI coordinate fixture and the review fixture were authored during the same development process and are **not independent scientific ground truth**.
+- Memory 1 uses the initial semantic vocabulary and pays the cold registry creation cost.
+- Memory 2 uses different surface wording but the same semantic coordinate vocabulary.
+- Memory 3 reuses most prior vocabulary while adding a few new spectral/compaction concepts.
 
-## Stable identity
+All records contain baseline, semantic, and spectral profiles.
 
-Both profiles are stored under exactly one source address. The semantic analyzer changes memory representation only; it does not participate in address generation.
+## R2 results
 
-## Results
+| Memory | Semantic layer bytes | Spectral layer bytes | Packet bytes | Registry delta | Cold total | Warm ratio vs coordinates | Cold ratio vs coordinates | Coordinate fidelity |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| 1 | 2265 | 332 | 321 | 1607 | 1928 | 0.1506 | 0.9047 | 1.0000 |
+| 2 | 2265 | 329 | 318 | 0 | 318 | 0.1492 | 0.1492 | 1.0000 |
+| 3 | 2296 | 343 | 332 | 310 | 642 | 0.1536 | 0.2969 | 1.0000 |
 
-| Resolution | Profile | Layer bytes | Token Jaccard | Coordinate aggregate | Exact |
-|---|---|---:|---:|---:|---:|
-| R0 | baseline | 165 | 0.0000 | — | false |
-| R0 | semantic | 304 | 0.0000 | — | false |
-| R1 | baseline | 238 | 0.1206 | — | false |
-| R1 | semantic | 651 | 0.0995 | 0.3333 | false |
-| R2 | baseline | 1284 | 0.5859 | — | false |
-| R2 | semantic | 2265 | 0.3026 | 0.9800 | false |
-| R3 | baseline | 2523 | 1.0000 | — | false |
-| R3 | semantic | 4835 | 1.0000 | 0.9800 | false |
-| R4 | baseline | 2608 | 1.0000 | — | true |
-| R4 | semantic | 2747 | 1.0000 | — | true |
+## Interpretation
 
-## Main finding
+The v0.2 negative result was that verbose semantic JSON preserved structure but was larger than the deterministic baseline. v0.3 changes the runtime representation rather than adding more semantic prose.
 
-The semantic profile succeeds at explicit structured semantic preservation, but the current JSON representation is not compact. In particular, semantic R2 is larger than deterministic R2.
-
-This creates a concrete next target:
+For this controlled fixture:
 
 $$
-\boxed{\text{ISQL-MEM v0.3: registry-backed spectral coordinate compaction}}
+\text{packet size}\approx 0.15\times\text{verbose coordinate size}
 $$
 
-Instead of storing long natural-language concept/claim/relation labels repeatedly, v0.3 should test compact registry IDs, reusable coordinate dictionaries, sparse relation tuples, and shared semantic namespaces.
+after vocabulary is already registered.
+
+The first memory still pays registry construction cost. That cost is not hidden: packet + registry growth is 1928 B, about 90.5% of the corresponding verbose coordinate representation.
+
+The third memory demonstrates partial reuse: a small registry delta is paid only for newly introduced vocabulary.
+
+Coordinate fidelity is 1.0 because the packet deterministically expands back to the same typed semantic coordinates used by the semantic profile. Text token recovery remains unchanged between semantic and spectral decoders for the same coordinates; v0.3 is compressing representation, not inventing a better semantic analyzer.
+
+## What this does not prove
+
+This does not prove universal semantic compression, optimal coding, or that every corpus will reach the same ratios. Registry amortization depends on vocabulary reuse. The current packet remains a registry-backed integer sequence encoded in compact JSON metadata, not the final pure-numeric ISQL wire format.

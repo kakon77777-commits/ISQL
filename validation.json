@@ -1,105 +1,93 @@
 {
-  "release": "ISQL Core Runtime v0.2.0 / ISQL-MEM v0.2",
-  "version": "0.2.0",
-  "memory_schema": "isql.memory-record/v0.2",
-  "semantic_analysis_schema": "isql.semantic-analysis/v0.2",
+  "release": "ISQL Core Runtime v0.3.0",
+  "feature": "ISQL-MEM v0.3 Spectral Coordinate Compaction",
   "tests": {
-    "count": 64,
+    "count": 88,
     "failures": 0,
-    "errors": 0,
-    "command": "PYTHONPATH=src python -m unittest discover -s tests -v"
+    "errors": 0
   },
   "compileall": true,
-  "wheel_build": true,
-  "wheel_install": true,
-  "installed_version": "0.2.0",
-  "installed_semantic_compare": true,
-  "stable_address": "ISQL1:ADDR:R0:H37437785231397108278540881178228903202353507366643505156119544624382725236688",
-  "profiles": [
-    "baseline",
-    "semantic"
-  ],
-  "live_comparisons": {
-    "R0": {
-      "baseline": {
-        "layer_data_bytes": 165,
-        "token_semantic_score": 0.0,
-        "coordinate_fidelity": null,
-        "exact": false
-      },
-      "semantic": {
-        "layer_data_bytes": 304,
-        "token_semantic_score": 0.0,
-        "coordinate_fidelity": null,
-        "exact": false
-      }
+  "wheel": {
+    "version": "0.3.0",
+    "build": true,
+    "install": true
+  },
+  "compatibility": {
+    "v01_v02_tests_preserved": true,
+    "baseline_semantic_codes_unchanged_when_spectral_added": true,
+    "stable_address_independent_of_spectral_profile": true,
+    "r4_exact_source_boundary_preserved": true
+  },
+  "spectral": {
+    "registry_append_only": true,
+    "revision_bound_packets": true,
+    "registry_hash_bound_packets": true,
+    "coordinate_round_trip_exact_for_live_records": true,
+    "cold": {
+      "memory": 1,
+      "address": "ISQL1:ADDR:R0:H106986899423495569474907434058611738091957888076345694899399123936551788924915",
+      "semantic_layer_bytes": 2265,
+      "spectral_layer_bytes": 332,
+      "packet_bytes": 321,
+      "registry_delta_bytes": 1607,
+      "cold_total_bytes": 1928,
+      "warm_ratio_vs_coordinates": 0.15063350539652745,
+      "cold_ratio_vs_coordinates": 0.9047395588925388,
+      "coordinate_fidelity": 1.0,
+      "token_recovery_semantic": 0.13675213675213677,
+      "token_recovery_spectral": 0.13675213675213677
     },
-    "R1": {
-      "baseline": {
-        "layer_data_bytes": 238,
-        "token_semantic_score": 0.12060301507537688,
-        "coordinate_fidelity": null,
-        "exact": false
-      },
-      "semantic": {
-        "layer_data_bytes": 651,
-        "token_semantic_score": 0.0995260663507109,
-        "coordinate_fidelity": 0.3333333333333333,
-        "exact": false
-      }
+    "warm_same_vocabulary": {
+      "memory": 2,
+      "address": "ISQL1:ADDR:R0:H69286040992164617705319158934637389745525042757377081083050557686410640876241",
+      "semantic_layer_bytes": 2265,
+      "spectral_layer_bytes": 329,
+      "packet_bytes": 318,
+      "registry_delta_bytes": 0,
+      "cold_total_bytes": 318,
+      "warm_ratio_vs_coordinates": 0.14922571562646644,
+      "cold_ratio_vs_coordinates": 0.14922571562646644,
+      "coordinate_fidelity": 1.0,
+      "token_recovery_semantic": 0.1111111111111111,
+      "token_recovery_spectral": 0.1111111111111111
     },
-    "R2": {
-      "baseline": {
-        "layer_data_bytes": 1284,
-        "token_semantic_score": 0.5858585858585859,
-        "coordinate_fidelity": null,
-        "exact": false
-      },
-      "semantic": {
-        "layer_data_bytes": 2265,
-        "token_semantic_score": 0.3026315789473684,
-        "coordinate_fidelity": 0.9800000000000001,
-        "exact": false
-      }
-    },
-    "R3": {
-      "baseline": {
-        "layer_data_bytes": 2523,
-        "token_semantic_score": 1.0,
-        "coordinate_fidelity": null,
-        "exact": false
-      },
-      "semantic": {
-        "layer_data_bytes": 4835,
-        "token_semantic_score": 1.0,
-        "coordinate_fidelity": 0.9800000000000001,
-        "exact": false
-      }
-    },
-    "R4": {
-      "baseline": {
-        "layer_data_bytes": 2608,
-        "token_semantic_score": 1.0,
-        "coordinate_fidelity": null,
-        "exact": true
-      },
-      "semantic": {
-        "layer_data_bytes": 2747,
-        "token_semantic_score": 1.0,
-        "coordinate_fidelity": null,
-        "exact": true
-      }
+    "partial_new_vocabulary": {
+      "memory": 3,
+      "address": "ISQL1:ADDR:R0:H77259634489075008482517302013190378695243565829049422210194175261354211745855",
+      "semantic_layer_bytes": 2296,
+      "spectral_layer_bytes": 343,
+      "packet_bytes": 332,
+      "registry_delta_bytes": 310,
+      "cold_total_bytes": 642,
+      "warm_ratio_vs_coordinates": 0.15356151711378355,
+      "cold_ratio_vs_coordinates": 0.2969472710453284,
+      "coordinate_fidelity": 1.0,
+      "token_recovery_semantic": 0.09649122807017543,
+      "token_recovery_spectral": 0.09649122807017543
     }
   },
   "integrity": {
-    "utf8_files": 83,
-    "json_files": 26,
-    "jsonl_rows": 0
+    "utf8_files_checked": 89,
+    "json_files_checked": 23
   },
-  "known_result": {
-    "semantic_r2_coordinate_fidelity": 0.9800000000000001,
-    "semantic_r2_larger_than_baseline": true,
-    "note": "The v0.2 semantic JSON representation preserves structured coordinates but does not outperform the deterministic baseline in serialized size for the bundled fixture."
-  },
-  "benchmark_caveat": "AI semantic and review fixtures were authored during the same development session; this is a mechanism test, not an independent benchmark."
+  "live_records": [
+    {
+      "memory": 1,
+      "address": "ISQL1:ADDR:R0:H106986899423495569474907434058611738091957888076345694899399123936551788924915",
+      "packet_revision": 1,
+      "packet_hash": "fa9418119f870e6db9e09c000389b3ffbd4aa24b3815209fc34c53e457052ef4"
+    },
+    {
+      "memory": 2,
+      "address": "ISQL1:ADDR:R0:H69286040992164617705319158934637389745525042757377081083050557686410640876241",
+      "packet_revision": 1,
+      "packet_hash": "fa9418119f870e6db9e09c000389b3ffbd4aa24b3815209fc34c53e457052ef4"
+    },
+    {
+      "memory": 3,
+      "address": "ISQL1:ADDR:R0:H77259634489075008482517302013190378695243565829049422210194175261354211745855",
+      "packet_revision": 2,
+      "packet_hash": "9a0991535396fc7e1725d74e324859e991d2100fab05e18704125d9289161700"
+    }
+  ]
 }

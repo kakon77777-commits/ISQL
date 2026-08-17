@@ -1,0 +1,74 @@
+{
+  "namespaces": {
+    "atom": [
+      "stable source address",
+      "memory profile",
+      "deterministic baseline",
+      "AI-assisted semantic coordinates",
+      "multi-resolution memory",
+      "exact recovery",
+      "semantic recovery",
+      "coordinate fidelity",
+      "decoder provenance",
+      "representation size",
+      "ISQL-MEM",
+      "ISQL-ADDR",
+      "R0",
+      "R1",
+      "R2",
+      "R3",
+      "R4",
+      "AI analyzer",
+      "AI decoder",
+      "exact source bytes",
+      "baseline profile",
+      "semantic profile",
+      "compact semantic gist",
+      "typed semantic coordinates",
+      "analyzer provenance"
+    ],
+    "claim": [
+      "Changing a memory representation must not change the stable source address.",
+      "The deterministic baseline must remain available when a semantic profile is added.",
+      "Semantic and exact recovery are distinct success conditions.",
+      "Only R4 may declare exact recovery when the original source is present.",
+      "AI analyzers and decoders must disclose their identities and contracts.",
+      "Token overlap is a transparent baseline metric rather than canonical semantic truth.",
+      "Coordinate fidelity must be measured separately from text overlap.",
+      "Representation size and recovery quality should be evaluated together."
+    ],
+    "intent": [
+      "define and experimentally compare deterministic and AI-assisted multi-resolution memory profiles"
+    ],
+    "language": [
+      "en"
+    ],
+    "predicate": [
+      "identifies",
+      "shares",
+      "coexists_with",
+      "stores",
+      "permits",
+      "must_disclose",
+      "cannot_modify"
+    ],
+    "summary": [
+      "ISQL-MEM v0.2 separates immutable byte-derived address identity from replaceable deterministic or AI-assisted memory representations and measures recovery quality by resolution."
+    ],
+    "tag": [
+      "ISQL",
+      "memory",
+      "AI",
+      "addressing",
+      "recoverability",
+      "multi-resolution"
+    ],
+    "uncertainty": [
+      "exact-label coordinate metrics do not capture paraphrase equivalence",
+      "learned semantic distance remains a future derived metric"
+    ]
+  },
+  "registry_id": "isql-spectral-registry/default",
+  "revision": 1,
+  "schema": "isql.spectral-registry/v0.3"
+}

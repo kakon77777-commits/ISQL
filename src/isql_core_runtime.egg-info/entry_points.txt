@@ -1,0 +1,2 @@
+[console_scripts]
+isql-core = isql_core.cli:main

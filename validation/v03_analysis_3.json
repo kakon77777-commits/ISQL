@@ -1,0 +1,102 @@
+{
+  "schema": "isql.semantic-analysis/v0.2",
+  "analyzer_id": "gpt-5.6-sol/session-fixture/2026-08-17",
+  "analyzer_contract": "isql-semantic-analysis/v0.2",
+  "coordinates": {
+    "summary": "ISQL spectral memory preserves stable identity while amortizing a shared registry across a corpus.",
+    "concepts": [
+      "stable source address",
+      "memory profile",
+      "deterministic baseline",
+      "AI-assisted semantic coordinates",
+      "multi-resolution memory",
+      "exact recovery",
+      "semantic recovery",
+      "coordinate fidelity",
+      "decoder provenance",
+      "representation size",
+      "amortized registry reuse",
+      "sparse spectral packet"
+    ],
+    "entities": [
+      "ISQL-MEM",
+      "ISQL-ADDR",
+      "R0",
+      "R1",
+      "R2",
+      "R3",
+      "R4",
+      "AI analyzer",
+      "AI decoder"
+    ],
+    "relations": [
+      {
+        "subject": "ISQL-ADDR",
+        "predicate": "identifies",
+        "object": "exact source bytes"
+      },
+      {
+        "subject": "memory profile",
+        "predicate": "shares",
+        "object": "stable source address"
+      },
+      {
+        "subject": "baseline profile",
+        "predicate": "coexists_with",
+        "object": "semantic profile"
+      },
+      {
+        "subject": "R1",
+        "predicate": "stores",
+        "object": "compact semantic gist"
+      },
+      {
+        "subject": "R2",
+        "predicate": "stores",
+        "object": "typed semantic coordinates"
+      },
+      {
+        "subject": "R4",
+        "predicate": "permits",
+        "object": "exact recovery"
+      },
+      {
+        "subject": "AI analyzer",
+        "predicate": "must_disclose",
+        "object": "analyzer provenance"
+      },
+      {
+        "subject": "AI decoder",
+        "predicate": "cannot_modify",
+        "object": "stable source address"
+      }
+    ],
+    "claims": [
+      "Changing a memory representation must not change the stable source address.",
+      "The deterministic baseline must remain available when a semantic profile is added.",
+      "Semantic and exact recovery are distinct success conditions.",
+      "Only R4 may declare exact recovery when the original source is present.",
+      "AI analyzers and decoders must disclose their identities and contracts.",
+      "Token overlap is a transparent baseline metric rather than canonical semantic truth.",
+      "Coordinate fidelity must be measured separately from text overlap.",
+      "Representation size and recovery quality should be evaluated together.",
+      "Shared registry overhead can be amortized across multiple memories."
+    ],
+    "intent": "compact semantic coordinates across a reusable memory corpus",
+    "uncertainty": [
+      "exact-label coordinate metrics do not capture paraphrase equivalence",
+      "learned semantic distance remains a future derived metric"
+    ],
+    "tags": [
+      "ISQL",
+      "memory",
+      "AI",
+      "addressing",
+      "recoverability",
+      "multi-resolution",
+      "spectral",
+      "compaction"
+    ],
+    "language": "en"
+  }
+}

@@ -1,10 +1,10 @@
 WARNING: The directory '/home/oai/.cache/pip' or its parent directory is not owned or is not writable by the current user. The cache has been disabled. Check the permissions and owner of that directory. If executing pip with sudo, you should use sudo's -H flag.
-Processing /mnt/data/ISQL_Core_Runtime_v0.2.0
+Processing /mnt/data/ISQL_Core_Runtime_v0.3.0
   Preparing metadata (pyproject.toml): started
   Preparing metadata (pyproject.toml): finished with status 'done'
 Building wheels for collected packages: isql-core-runtime
   Building wheel for isql-core-runtime (pyproject.toml): started
   Building wheel for isql-core-runtime (pyproject.toml): finished with status 'done'
-  Created wheel for isql-core-runtime: filename=isql_core_runtime-0.2.0-py3-none-any.whl size=18637 sha256=8ddb4b4d9a63e5504131d050c29936cd071f0630199fe72da6bf8db82179629b
-  Stored in directory: /tmp/pip-ephem-wheel-cache-r8dgzd00/wheels/5c/bf/f3/0af64087c7ecedac2da604eb8414f365d71fc1eef1646b9901
+  Created wheel for isql-core-runtime: filename=isql_core_runtime-0.3.0-py3-none-any.whl size=24233 sha256=e253d85e7bb4b124cce7b129a075454051cc2ef4c5bf90da3063c51e2c19e418
+  Stored in directory: /tmp/pip-ephem-wheel-cache-23uts5yt/wheels/e0/5f/7b/c13ed32fe6716b53fb5bf73d6b75d2aa1d7f35653e80ee1aea
 Successfully built isql-core-runtime

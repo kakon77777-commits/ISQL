@@ -1,0 +1,750 @@
+{
+  "address": "ISQL1:ADDR:R0:H69286040992164617705319158934637389745525042757377081083050557686410640876241",
+  "default_profile": "baseline",
+  "encoder_version": "isql-mem-encoder/v0.1",
+  "layers": {
+    "R0": {
+      "code": "ISQL1:MEM:R0:M22085105031666900820573234675623577994373107789909339261608119375529429115787",
+      "data": {
+        "address": "ISQL1:ADDR:R0:H69286040992164617705319158934637389745525042757377081083050557686410640876241",
+        "byte_length": 238,
+        "char_length": 238,
+        "source_type": "text"
+      },
+      "resolution": "R0"
+    },
+    "R1": {
+      "code": "ISQL1:MEM:R1:M88599548610563446940840358618657772575961014664967134250485923517785068868758",
+      "data": {
+        "keywords": [
+          "a",
+          "memory",
+          "may",
+          "second",
+          "wording",
+          "expresses",
+          "the",
+          "same"
+        ],
+        "preview": "A second wording expresses the same ISQL memory invariants: source identity stays stable, AI memory may adapt across multiple resolutions, exact reconstruction "
+      },
+      "resolution": "R1"
+    },
+    "R2": {
+      "code": "ISQL1:MEM:R2:M15771081069104904787599202740370694119907387601513214334242592051966071012687",
+      "data": {
+        "keywords": [
+          "a",
+          "memory",
+          "may",
+          "second",
+          "wording",
+          "expresses",
+          "the",
+          "same"
+        ],
+        "sentence_count_observed": 2,
+        "sentence_heads": [
+          "A second wording expresses the same ISQL memory invariants: source identity stays stable, AI memory may adapt across multiple resolutions, exact reconstruction belongs to R4, and repeated semantic coordinates may reuse a shared registry."
+        ]
+      },
+      "resolution": "R2"
+    },
+    "R3": {
+      "code": "ISQL1:MEM:R3:M113476064317599311951145133428705836041900626901010651547748932109265601986373",
+      "data": {
+        "metadata": {},
+        "normalized_text": "A second wording expresses the same ISQL memory invariants: source identity stays stable, AI memory may adapt across multiple resolutions, exact reconstruction belongs to R4, and repeated semantic coordinates may reuse a shared registry."
+      },
+      "resolution": "R3"
+    },
+    "R4": {
+      "code": "ISQL1:MEM:R4:M88923643575049777158076363205531387100441205084909536589811347394769321154037",
+      "data": {
+        "exact_sha256": "992e826e0c96ef4a3f7c2c943a6d35b06b4723853b3750ca5f4ffb98aab7e2d1",
+        "exact_source": "A second wording expresses the same ISQL memory invariants: source identity stays stable, AI memory may adapt across multiple resolutions, exact reconstruction belongs to R4, and repeated semantic coordinates may reuse a shared registry.\n",
+        "source_ref": null
+      },
+      "resolution": "R4"
+    }
+  },
+  "schema": "isql.memory-record/v0.2",
+  "source_type": "text",
+  "variants": {
+    "baseline": {
+      "encoder_version": "isql-mem-encoder/v0.1",
+      "layers": {
+        "R0": {
+          "code": "ISQL1:MEM:R0:M22085105031666900820573234675623577994373107789909339261608119375529429115787",
+          "data": {
+            "address": "ISQL1:ADDR:R0:H69286040992164617705319158934637389745525042757377081083050557686410640876241",
+            "byte_length": 238,
+            "char_length": 238,
+            "source_type": "text"
+          },
+          "resolution": "R0"
+        },
+        "R1": {
+          "code": "ISQL1:MEM:R1:M88599548610563446940840358618657772575961014664967134250485923517785068868758",
+          "data": {
+            "keywords": [
+              "a",
+              "memory",
+              "may",
+              "second",
+              "wording",
+              "expresses",
+              "the",
+              "same"
+            ],
+            "preview": "A second wording expresses the same ISQL memory invariants: source identity stays stable, AI memory may adapt across multiple resolutions, exact reconstruction "
+          },
+          "resolution": "R1"
+        },
+        "R2": {
+          "code": "ISQL1:MEM:R2:M15771081069104904787599202740370694119907387601513214334242592051966071012687",
+          "data": {
+            "keywords": [
+              "a",
+              "memory",
+              "may",
+              "second",
+              "wording",
+              "expresses",
+              "the",
+              "same"
+            ],
+            "sentence_count_observed": 2,
+            "sentence_heads": [
+              "A second wording expresses the same ISQL memory invariants: source identity stays stable, AI memory may adapt across multiple resolutions, exact reconstruction belongs to R4, and repeated semantic coordinates may reuse a shared registry."
+            ]
+          },
+          "resolution": "R2"
+        },
+        "R3": {
+          "code": "ISQL1:MEM:R3:M113476064317599311951145133428705836041900626901010651547748932109265601986373",
+          "data": {
+            "metadata": {},
+            "normalized_text": "A second wording expresses the same ISQL memory invariants: source identity stays stable, AI memory may adapt across multiple resolutions, exact reconstruction belongs to R4, and repeated semantic coordinates may reuse a shared registry."
+          },
+          "resolution": "R3"
+        },
+        "R4": {
+          "code": "ISQL1:MEM:R4:M88923643575049777158076363205531387100441205084909536589811347394769321154037",
+          "data": {
+            "exact_sha256": "992e826e0c96ef4a3f7c2c943a6d35b06b4723853b3750ca5f4ffb98aab7e2d1",
+            "exact_source": "A second wording expresses the same ISQL memory invariants: source identity stays stable, AI memory may adapt across multiple resolutions, exact reconstruction belongs to R4, and repeated semantic coordinates may reuse a shared registry.\n",
+            "source_ref": null
+          },
+          "resolution": "R4"
+        }
+      },
+      "profile_id": "baseline"
+    },
+    "semantic": {
+      "analyzer_contract": "isql-semantic-analysis/v0.2",
+      "analyzer_id": "gpt-5.6-sol/session-fixture/2026-08-17",
+      "encoder_version": "isql-mem-semantic-encoder/v0.2",
+      "layers": {
+        "R0": {
+          "code": "ISQL1:MEM:R0:M52185423124126210584694437099264867612274119774729147895698684529678937365166",
+          "data": {
+            "address": "ISQL1:ADDR:R0:H69286040992164617705319158934637389745525042757377081083050557686410640876241",
+            "analyzer": {
+              "analyzer_contract": "isql-semantic-analysis/v0.2",
+              "analyzer_id": "gpt-5.6-sol/session-fixture/2026-08-17"
+            },
+            "byte_length": 238,
+            "char_length": 238,
+            "profile": "semantic",
+            "source_type": "text"
+          },
+          "resolution": "R0"
+        },
+        "R1": {
+          "code": "ISQL1:MEM:R1:M13399648621042074238003786694805595434686422768921436943806061641157309537998",
+          "data": {
+            "analyzer": {
+              "analyzer_contract": "isql-semantic-analysis/v0.2",
+              "analyzer_id": "gpt-5.6-sol/session-fixture/2026-08-17"
+            },
+            "anchors": [
+              "stable source address",
+              "memory profile",
+              "deterministic baseline",
+              "AI-assisted semantic coordinates",
+              "multi-resolution memory"
+            ],
+            "intent": "define and experimentally compare deterministic and AI-assisted multi-resolution memory profiles",
+            "language": "en",
+            "summary": "ISQL-MEM v0.2 separates immutable byte-derived address identity from replaceable deterministic or AI-assisted memory representations and measures recovery quality by resolution.",
+            "tags": [
+              "ISQL",
+              "memory",
+              "AI",
+              "addressing",
+              "recoverability",
+              "multi-resolution"
+            ]
+          },
+          "resolution": "R1"
+        },
+        "R2": {
+          "code": "ISQL1:MEM:R2:M108908938104855243858122499480834574776497999957931435109412346241854103595150",
+          "data": {
+            "analyzer": {
+              "analyzer_contract": "isql-semantic-analysis/v0.2",
+              "analyzer_id": "gpt-5.6-sol/session-fixture/2026-08-17"
+            },
+            "coordinates": {
+              "claims": [
+                "Changing a memory representation must not change the stable source address.",
+                "The deterministic baseline must remain available when a semantic profile is added.",
+                "Semantic and exact recovery are distinct success conditions.",
+                "Only R4 may declare exact recovery when the original source is present.",
+                "AI analyzers and decoders must disclose their identities and contracts.",
+                "Token overlap is a transparent baseline metric rather than canonical semantic truth.",
+                "Coordinate fidelity must be measured separately from text overlap.",
+                "Representation size and recovery quality should be evaluated together."
+              ],
+              "concepts": [
+                "stable source address",
+                "memory profile",
+                "deterministic baseline",
+                "AI-assisted semantic coordinates",
+                "multi-resolution memory",
+                "exact recovery",
+                "semantic recovery",
+                "coordinate fidelity",
+                "decoder provenance",
+                "representation size"
+              ],
+              "entities": [
+                "ISQL-MEM",
+                "ISQL-ADDR",
+                "R0",
+                "R1",
+                "R2",
+                "R3",
+                "R4",
+                "AI analyzer",
+                "AI decoder"
+              ],
+              "intent": "define and experimentally compare deterministic and AI-assisted multi-resolution memory profiles",
+              "language": "en",
+              "relations": [
+                {
+                  "object": "exact source bytes",
+                  "predicate": "identifies",
+                  "subject": "ISQL-ADDR"
+                },
+                {
+                  "object": "stable source address",
+                  "predicate": "shares",
+                  "subject": "memory profile"
+                },
+                {
+                  "object": "semantic profile",
+                  "predicate": "coexists_with",
+                  "subject": "baseline profile"
+                },
+                {
+                  "object": "compact semantic gist",
+                  "predicate": "stores",
+                  "subject": "R1"
+                },
+                {
+                  "object": "typed semantic coordinates",
+                  "predicate": "stores",
+                  "subject": "R2"
+                },
+                {
+                  "object": "exact recovery",
+                  "predicate": "permits",
+                  "subject": "R4"
+                },
+                {
+                  "object": "analyzer provenance",
+                  "predicate": "must_disclose",
+                  "subject": "AI analyzer"
+                },
+                {
+                  "object": "stable source address",
+                  "predicate": "cannot_modify",
+                  "subject": "AI decoder"
+                }
+              ],
+              "summary": "ISQL-MEM v0.2 separates immutable byte-derived address identity from replaceable deterministic or AI-assisted memory representations and measures recovery quality by resolution.",
+              "tags": [
+                "ISQL",
+                "memory",
+                "AI",
+                "addressing",
+                "recoverability",
+                "multi-resolution"
+              ],
+              "uncertainty": [
+                "exact-label coordinate metrics do not capture paraphrase equivalence",
+                "learned semantic distance remains a future derived metric"
+              ]
+            }
+          },
+          "resolution": "R2"
+        },
+        "R3": {
+          "code": "ISQL1:MEM:R3:M80309147146726383276209162504385886270274509589185718148900276801353165157912",
+          "data": {
+            "metadata": {},
+            "normalized_text": "A second wording expresses the same ISQL memory invariants: source identity stays stable, AI memory may adapt across multiple resolutions, exact reconstruction belongs to R4, and repeated semantic coordinates may reuse a shared registry.",
+            "semantic_analysis": {
+              "analyzer_contract": "isql-semantic-analysis/v0.2",
+              "analyzer_id": "gpt-5.6-sol/session-fixture/2026-08-17",
+              "coordinates": {
+                "claims": [
+                  "Changing a memory representation must not change the stable source address.",
+                  "The deterministic baseline must remain available when a semantic profile is added.",
+                  "Semantic and exact recovery are distinct success conditions.",
+                  "Only R4 may declare exact recovery when the original source is present.",
+                  "AI analyzers and decoders must disclose their identities and contracts.",
+                  "Token overlap is a transparent baseline metric rather than canonical semantic truth.",
+                  "Coordinate fidelity must be measured separately from text overlap.",
+                  "Representation size and recovery quality should be evaluated together."
+                ],
+                "concepts": [
+                  "stable source address",
+                  "memory profile",
+                  "deterministic baseline",
+                  "AI-assisted semantic coordinates",
+                  "multi-resolution memory",
+                  "exact recovery",
+                  "semantic recovery",
+                  "coordinate fidelity",
+                  "decoder provenance",
+                  "representation size"
+                ],
+                "entities": [
+                  "ISQL-MEM",
+                  "ISQL-ADDR",
+                  "R0",
+                  "R1",
+                  "R2",
+                  "R3",
+                  "R4",
+                  "AI analyzer",
+                  "AI decoder"
+                ],
+                "intent": "define and experimentally compare deterministic and AI-assisted multi-resolution memory profiles",
+                "language": "en",
+                "relations": [
+                  {
+                    "object": "exact source bytes",
+                    "predicate": "identifies",
+                    "subject": "ISQL-ADDR"
+                  },
+                  {
+                    "object": "stable source address",
+                    "predicate": "shares",
+                    "subject": "memory profile"
+                  },
+                  {
+                    "object": "semantic profile",
+                    "predicate": "coexists_with",
+                    "subject": "baseline profile"
+                  },
+                  {
+                    "object": "compact semantic gist",
+                    "predicate": "stores",
+                    "subject": "R1"
+                  },
+                  {
+                    "object": "typed semantic coordinates",
+                    "predicate": "stores",
+                    "subject": "R2"
+                  },
+                  {
+                    "object": "exact recovery",
+                    "predicate": "permits",
+                    "subject": "R4"
+                  },
+                  {
+                    "object": "analyzer provenance",
+                    "predicate": "must_disclose",
+                    "subject": "AI analyzer"
+                  },
+                  {
+                    "object": "stable source address",
+                    "predicate": "cannot_modify",
+                    "subject": "AI decoder"
+                  }
+                ],
+                "summary": "ISQL-MEM v0.2 separates immutable byte-derived address identity from replaceable deterministic or AI-assisted memory representations and measures recovery quality by resolution.",
+                "tags": [
+                  "ISQL",
+                  "memory",
+                  "AI",
+                  "addressing",
+                  "recoverability",
+                  "multi-resolution"
+                ],
+                "uncertainty": [
+                  "exact-label coordinate metrics do not capture paraphrase equivalence",
+                  "learned semantic distance remains a future derived metric"
+                ]
+              },
+              "schema": "isql.semantic-analysis/v0.2"
+            }
+          },
+          "resolution": "R3"
+        },
+        "R4": {
+          "code": "ISQL1:MEM:R4:M108526537414974105271831034697599441503759375270583081783832758981327455655336",
+          "data": {
+            "analyzer": {
+              "analyzer_contract": "isql-semantic-analysis/v0.2",
+              "analyzer_id": "gpt-5.6-sol/session-fixture/2026-08-17"
+            },
+            "exact_sha256": "992e826e0c96ef4a3f7c2c943a6d35b06b4723853b3750ca5f4ffb98aab7e2d1",
+            "exact_source": "A second wording expresses the same ISQL memory invariants: source identity stays stable, AI memory may adapt across multiple resolutions, exact reconstruction belongs to R4, and repeated semantic coordinates may reuse a shared registry.\n",
+            "profile": "semantic",
+            "source_ref": null
+          },
+          "resolution": "R4"
+        }
+      },
+      "profile_id": "semantic"
+    },
+    "spectral": {
+      "analyzer_contract": "isql-semantic-analysis/v0.2",
+      "analyzer_id": "gpt-5.6-sol/session-fixture/2026-08-17",
+      "encoder_version": "isql-mem-spectral-encoder/v0.3",
+      "layers": {
+        "R0": {
+          "code": "ISQL1:MEM:R0:M82322962839226226795920196734522906700497594916835116897214965525246376323776",
+          "data": {
+            "address": "ISQL1:ADDR:R0:H69286040992164617705319158934637389745525042757377081083050557686410640876241",
+            "byte_length": 238,
+            "char_length": 238,
+            "profile": "spectral",
+            "source_type": "text"
+          },
+          "resolution": "R0"
+        },
+        "R1": {
+          "code": "ISQL1:MEM:R1:M63845435476872643827046400886625960958183630723148989324665946881167879887946",
+          "data": {
+            "packet": {
+              "d": 0,
+              "g": "isql-spectral-registry/default",
+              "h": "fa9418119f870e6db9e09c000389b3ffbd4aa24b3815209fc34c53e457052ef4",
+              "q": [
+                1,
+                5,
+                1,
+                2,
+                3,
+                4,
+                5,
+                0,
+                0,
+                0,
+                1,
+                0,
+                6,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                1
+              ],
+              "s": "isql.spectral-packet/v0.3",
+              "v": 1
+            }
+          },
+          "resolution": "R1"
+        },
+        "R2": {
+          "code": "ISQL1:MEM:R2:M1712108254252641591120288204781532601747865540876683970971261293060343357300",
+          "data": {
+            "packet": {
+              "d": 0,
+              "g": "isql-spectral-registry/default",
+              "h": "fa9418119f870e6db9e09c000389b3ffbd4aa24b3815209fc34c53e457052ef4",
+              "q": [
+                1,
+                10,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                9,
+                11,
+                12,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18,
+                19,
+                8,
+                12,
+                1,
+                20,
+                2,
+                2,
+                1,
+                21,
+                3,
+                22,
+                14,
+                4,
+                23,
+                15,
+                4,
+                24,
+                17,
+                5,
+                6,
+                18,
+                6,
+                25,
+                19,
+                7,
+                1,
+                8,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                1,
+                2,
+                1,
+                2,
+                6,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                1
+              ],
+              "s": "isql.spectral-packet/v0.3",
+              "v": 1
+            }
+          },
+          "resolution": "R2"
+        },
+        "R3": {
+          "code": "ISQL1:MEM:R3:M27392477178121760046198725085723202946022277832420886112066798086017445871650",
+          "data": {
+            "metadata": {},
+            "normalized_text": "A second wording expresses the same ISQL memory invariants: source identity stays stable, AI memory may adapt across multiple resolutions, exact reconstruction belongs to R4, and repeated semantic coordinates may reuse a shared registry.",
+            "semantic_analysis": {
+              "analyzer_contract": "isql-semantic-analysis/v0.2",
+              "analyzer_id": "gpt-5.6-sol/session-fixture/2026-08-17",
+              "coordinates": {
+                "claims": [
+                  "Changing a memory representation must not change the stable source address.",
+                  "The deterministic baseline must remain available when a semantic profile is added.",
+                  "Semantic and exact recovery are distinct success conditions.",
+                  "Only R4 may declare exact recovery when the original source is present.",
+                  "AI analyzers and decoders must disclose their identities and contracts.",
+                  "Token overlap is a transparent baseline metric rather than canonical semantic truth.",
+                  "Coordinate fidelity must be measured separately from text overlap.",
+                  "Representation size and recovery quality should be evaluated together."
+                ],
+                "concepts": [
+                  "stable source address",
+                  "memory profile",
+                  "deterministic baseline",
+                  "AI-assisted semantic coordinates",
+                  "multi-resolution memory",
+                  "exact recovery",
+                  "semantic recovery",
+                  "coordinate fidelity",
+                  "decoder provenance",
+                  "representation size"
+                ],
+                "entities": [
+                  "ISQL-MEM",
+                  "ISQL-ADDR",
+                  "R0",
+                  "R1",
+                  "R2",
+                  "R3",
+                  "R4",
+                  "AI analyzer",
+                  "AI decoder"
+                ],
+                "intent": "define and experimentally compare deterministic and AI-assisted multi-resolution memory profiles",
+                "language": "en",
+                "relations": [
+                  {
+                    "object": "exact source bytes",
+                    "predicate": "identifies",
+                    "subject": "ISQL-ADDR"
+                  },
+                  {
+                    "object": "stable source address",
+                    "predicate": "shares",
+                    "subject": "memory profile"
+                  },
+                  {
+                    "object": "semantic profile",
+                    "predicate": "coexists_with",
+                    "subject": "baseline profile"
+                  },
+                  {
+                    "object": "compact semantic gist",
+                    "predicate": "stores",
+                    "subject": "R1"
+                  },
+                  {
+                    "object": "typed semantic coordinates",
+                    "predicate": "stores",
+                    "subject": "R2"
+                  },
+                  {
+                    "object": "exact recovery",
+                    "predicate": "permits",
+                    "subject": "R4"
+                  },
+                  {
+                    "object": "analyzer provenance",
+                    "predicate": "must_disclose",
+                    "subject": "AI analyzer"
+                  },
+                  {
+                    "object": "stable source address",
+                    "predicate": "cannot_modify",
+                    "subject": "AI decoder"
+                  }
+                ],
+                "summary": "ISQL-MEM v0.2 separates immutable byte-derived address identity from replaceable deterministic or AI-assisted memory representations and measures recovery quality by resolution.",
+                "tags": [
+                  "ISQL",
+                  "memory",
+                  "AI",
+                  "addressing",
+                  "recoverability",
+                  "multi-resolution"
+                ],
+                "uncertainty": [
+                  "exact-label coordinate metrics do not capture paraphrase equivalence",
+                  "learned semantic distance remains a future derived metric"
+                ]
+              },
+              "schema": "isql.semantic-analysis/v0.2"
+            },
+            "spectral_packet": {
+              "d": 0,
+              "g": "isql-spectral-registry/default",
+              "h": "fa9418119f870e6db9e09c000389b3ffbd4aa24b3815209fc34c53e457052ef4",
+              "q": [
+                1,
+                10,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                9,
+                11,
+                12,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18,
+                19,
+                8,
+                12,
+                1,
+                20,
+                2,
+                2,
+                1,
+                21,
+                3,
+                22,
+                14,
+                4,
+                23,
+                15,
+                4,
+                24,
+                17,
+                5,
+                6,
+                18,
+                6,
+                25,
+                19,
+                7,
+                1,
+                8,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                1,
+                2,
+                1,
+                2,
+                6,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                1
+              ],
+              "s": "isql.spectral-packet/v0.3",
+              "v": 1
+            }
+          },
+          "resolution": "R3"
+        },
+        "R4": {
+          "code": "ISQL1:MEM:R4:M73386380735639545757637870585939166119870034334490348827508456810914368297607",
+          "data": {
+            "analyzer": {
+              "analyzer_contract": "isql-semantic-analysis/v0.2",
+              "analyzer_id": "gpt-5.6-sol/session-fixture/2026-08-17"
+            },
+            "exact_sha256": "992e826e0c96ef4a3f7c2c943a6d35b06b4723853b3750ca5f4ffb98aab7e2d1",
+            "exact_source": "A second wording expresses the same ISQL memory invariants: source identity stays stable, AI memory may adapt across multiple resolutions, exact reconstruction belongs to R4, and repeated semantic coordinates may reuse a shared registry.\n",
+            "profile": "spectral",
+            "source_ref": null
+          },
+          "resolution": "R4"
+        }
+      },
+      "profile_id": "spectral"
+    }
+  }
+}

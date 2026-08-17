@@ -1,0 +1,16 @@
+{
+  "counts": {
+    "atom": 25,
+    "claim": 8,
+    "intent": 1,
+    "language": 1,
+    "predicate": 7,
+    "summary": 1,
+    "tag": 6,
+    "uncertainty": 2
+  },
+  "registry_hash": "fa9418119f870e6db9e09c000389b3ffbd4aa24b3815209fc34c53e457052ef4",
+  "registry_id": "isql-spectral-registry/default",
+  "revision": 1,
+  "schema": "isql.spectral-registry-info/v0.3"
+}

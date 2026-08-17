@@ -1,0 +1,42 @@
+{
+  "schema": "isql.domain-registry/v1",
+  "protocol_version": 1,
+  "domains": [
+    {
+      "id": "ADDR",
+      "description": "Stable address and identity profile.",
+      "resolutions": ["R0"],
+      "executable": true
+    },
+    {
+      "id": "MEM",
+      "description": "Multi-resolution memory representation profile.",
+      "resolutions": ["R0", "R1", "R2", "R3", "R4"],
+      "executable": true
+    },
+    {
+      "id": "SEM",
+      "description": "Semantic coordinate profile.",
+      "resolutions": ["R0", "R1", "R2", "R3", "R4"],
+      "executable": true
+    },
+    {
+      "id": "STATE",
+      "description": "Dynamic state representation profile.",
+      "resolutions": ["R0", "R1", "R2", "R3", "R4"],
+      "executable": true
+    },
+    {
+      "id": "EXEC",
+      "description": "Executable semantic-code profile including SES/SPRC descendants.",
+      "resolutions": ["R0", "R1", "R2", "R3", "R4"],
+      "executable": true
+    },
+    {
+      "id": "RESERVED",
+      "description": "Undefined future domain; parseable but not executable.",
+      "resolutions": ["R0", "R1", "R2", "R3", "R4"],
+      "executable": false
+    }
+  ]
+}

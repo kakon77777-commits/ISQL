@@ -1,0 +1,82 @@
+{
+  "address": "ISQL1:ADDR:R0:H69286040992164617705319158934637389745525042757377081083050557686410640876241",
+  "profiles": {
+    "baseline": {
+      "code": "ISQL1:MEM:R2:M15771081069104904787599202740370694119907387601513214334242592051966071012687",
+      "compaction": null,
+      "coordinate_fidelity": null,
+      "layer_data_bytes": 364,
+      "profile_id": "baseline",
+      "recovery": {
+        "decoder_contract": "isql-memory-recovery/v0.2",
+        "decoder_id": "deterministic-memory-decoder/v0.2",
+        "exact": false,
+        "profile_id": "baseline",
+        "recovered_chars": 237,
+        "resolution": "R2",
+        "semantic_score": 1.0,
+        "source_chars": 238
+      }
+    },
+    "semantic": {
+      "code": "ISQL1:MEM:R2:M108908938104855243858122499480834574776497999957931435109412346241854103595150",
+      "compaction": null,
+      "coordinate_fidelity": {
+        "aggregate": 1.0,
+        "claim_recall": 1.0,
+        "concept_f1": 1.0,
+        "concept_precision": 1.0,
+        "concept_recall": 1.0,
+        "entity_recall": 1.0,
+        "intent_match": 1.0,
+        "relation_recall": 1.0
+      },
+      "layer_data_bytes": 2265,
+      "profile_id": "semantic",
+      "recovery": {
+        "decoder_contract": "isql-semantic-memory-recovery/v0.2",
+        "decoder_id": "semantic-coordinate-decoder/v0.2",
+        "exact": false,
+        "profile_id": "semantic",
+        "recovered_chars": 1198,
+        "resolution": "R2",
+        "semantic_score": 0.1111111111111111,
+        "source_chars": 238
+      }
+    },
+    "spectral": {
+      "code": "ISQL1:MEM:R2:M1712108254252641591120288204781532601747865540876683970971261293060343357300",
+      "compaction": {
+        "cold_ratio_vs_coordinates": 0.14922571562646644,
+        "cold_total_bytes": 318,
+        "packet_bytes": 318,
+        "registry_delta_bytes": 0,
+        "verbose_coordinate_bytes": 2131,
+        "warm_ratio_vs_coordinates": 0.14922571562646644
+      },
+      "coordinate_fidelity": {
+        "aggregate": 1.0,
+        "claim_recall": 1.0,
+        "concept_f1": 1.0,
+        "concept_precision": 1.0,
+        "concept_recall": 1.0,
+        "entity_recall": 1.0,
+        "intent_match": 1.0,
+        "relation_recall": 1.0
+      },
+      "layer_data_bytes": 329,
+      "profile_id": "spectral",
+      "recovery": {
+        "decoder_contract": "isql-spectral-memory-recovery/v0.3",
+        "decoder_id": "spectral-coordinate-decoder/v0.3",
+        "exact": false,
+        "profile_id": "spectral",
+        "recovered_chars": 1198,
+        "resolution": "R2",
+        "semantic_score": 0.1111111111111111,
+        "source_chars": 238
+      }
+    }
+  },
+  "resolution": "R2"
+}

@@ -1,25 +1,19 @@
-# Release Notes — ISQL Core Runtime v0.2.0 / ISQL-MEM v0.2
+# Release Notes
 
-## Added
+## v0.3.0 — ISQL-MEM Spectral Coordinate Compaction
 
-- `isql.memory-record/v0.2` profile-aware schema.
-- v0.1 record migration to `baseline` profile.
-- `SemanticCoordinateSet`, `SemanticRelation`, `SemanticAnalysis`.
-- `CallableSemanticAnalyzer` adapter for external/AI semantic analysis.
-- AI-assisted `semantic` R0–R4 memory variant.
-- `SemanticCoordinateDecoder`.
-- coordinate fidelity metrics separated from token overlap.
-- profile comparison with serialized layer size.
-- CLI: `--semantic-analysis-json`, `--semantic-analysis-file`, `memory-profiles`, `memory-compare`.
-- auto-selection of baseline vs semantic decoder in `memory-decode` and `recoverability`.
+- Added append-only, revisioned `SpectralRegistry` with immutable issued IDs.
+- Added registry snapshots and exact revision/hash packet binding.
+- Added `SpectralPacket` sparse integer coordinate sequences.
+- Added exact packet -> semantic-coordinate round-trip.
+- Added third `spectral` memory profile without changing existing address/baseline/semantic codes.
+- Added `SpectralCoordinateDecoder`.
+- Added compaction metrics separating packet cost and registry-growth cost.
+- Added `spectral-compile` and `spectral-registry-info` CLI commands.
+- Added `memory-encode --spectral` and spectral-aware profile comparison.
+- Preserved v0.1/v0.2 record compatibility and R4 exact-source boundary.
+- Live controlled experiment demonstrated 1.0 coordinate fidelity for all three test memories; warm shared-vocabulary packet was ~15% of verbose coordinate bytes.
 
-## Preserved
+## v0.2.0
 
-- exact-source SHA-256 address identity.
-- v0.1 baseline MEM code generation.
-- R4 exact recovery contract.
-- standard-library-only runtime.
-
-## Measured limitation
-
-The first semantic JSON representation is larger than the deterministic baseline at R1/R2 in the bundled live experiment. This release therefore demonstrates semantic-coordinate structure and comparison methodology, not superior compression.
+AI-assisted typed semantic memory profiles, semantic coordinate decoder, coordinate fidelity metrics, and baseline-vs-semantic comparison.

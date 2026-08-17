@@ -1,0 +1,1 @@
+A second wording expresses the same ISQL memory invariants: source identity stays stable, AI memory may adapt across multiple resolutions, exact reconstruction belongs to R4, and repeated semantic coordinates may reuse a shared registry.

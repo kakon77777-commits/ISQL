@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "isql-core-runtime"
-version = "0.2.0"
-description = "ISQL Core Runtime with profile-aware deterministic and AI-assisted multi-resolution memory."
+version = "0.3.0"
+description = "ISQL Core Runtime with registry-backed spectral coordinate compaction for multi-resolution AI memory."
 requires-python = ">=3.11"
 authors = [{name = "Neo.K / EVEMISSLAB"}]
 

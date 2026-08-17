@@ -1,0 +1,44 @@
+[
+  {
+    "memory": 1,
+    "address": "ISQL1:ADDR:R0:H106986899423495569474907434058611738091957888076345694899399123936551788924915",
+    "semantic_layer_bytes": 2265,
+    "spectral_layer_bytes": 332,
+    "packet_bytes": 321,
+    "registry_delta_bytes": 1607,
+    "cold_total_bytes": 1928,
+    "warm_ratio_vs_coordinates": 0.15063350539652745,
+    "cold_ratio_vs_coordinates": 0.9047395588925388,
+    "coordinate_fidelity": 1.0,
+    "token_recovery_semantic": 0.13675213675213677,
+    "token_recovery_spectral": 0.13675213675213677
+  },
+  {
+    "memory": 2,
+    "address": "ISQL1:ADDR:R0:H69286040992164617705319158934637389745525042757377081083050557686410640876241",
+    "semantic_layer_bytes": 2265,
+    "spectral_layer_bytes": 329,
+    "packet_bytes": 318,
+    "registry_delta_bytes": 0,
+    "cold_total_bytes": 318,
+    "warm_ratio_vs_coordinates": 0.14922571562646644,
+    "cold_ratio_vs_coordinates": 0.14922571562646644,
+    "coordinate_fidelity": 1.0,
+    "token_recovery_semantic": 0.1111111111111111,
+    "token_recovery_spectral": 0.1111111111111111
+  },
+  {
+    "memory": 3,
+    "address": "ISQL1:ADDR:R0:H77259634489075008482517302013190378695243565829049422210194175261354211745855",
+    "semantic_layer_bytes": 2296,
+    "spectral_layer_bytes": 343,
+    "packet_bytes": 332,
+    "registry_delta_bytes": 310,
+    "cold_total_bytes": 642,
+    "warm_ratio_vs_coordinates": 0.15356151711378355,
+    "cold_ratio_vs_coordinates": 0.2969472710453284,
+    "coordinate_fidelity": 1.0,
+    "token_recovery_semantic": 0.09649122807017543,
+    "token_recovery_spectral": 0.09649122807017543
+  }
+]

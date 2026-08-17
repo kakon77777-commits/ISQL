@@ -1,0 +1,1 @@
+A third ISQL memory keeps the same stable-address and multi-resolution principles, but adds an explicit notion of amortized registry reuse across a memory corpus and introduces sparse spectral packets as the runtime representation.

@@ -1,0 +1,1 @@
+ISQL keeps stable source addressing separate from adaptive AI memory. Semantic memory can use multiple resolutions while exact recovery remains restricted to R4. A shared registry can compact repeated semantic coordinates without changing the stable address of the original source.
