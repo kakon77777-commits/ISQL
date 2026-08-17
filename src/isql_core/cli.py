@@ -15,7 +15,17 @@ from .registry import DomainRegistry
 from .semantics import SemanticAnalysis
 from .store import MemoryStore
 from .spectral import SpectralRegistryStore, compile_spectral_packet
+from .hierarchical import (
+    HierarchicalRegistryStore,
+    compile_hierarchical_registry,
+    make_hierarchical_delta,
+)
+from .registry_wire import (
+    compile_registry_delta_wire,
+    decode_registry_delta_wire,
+)
 from .wire import compile_numeric_wire, decode_numeric_wire
+from .carrier import compile_digit_carrier, inspect_digit_carrier, unpack_digit_carrier
 
 
 def _json(value: object) -> str:
@@ -88,7 +98,7 @@ def _decode_auto(store: MemoryStore, code):
 
 
 def build_parser() -> argparse.ArgumentParser:
-    p = argparse.ArgumentParser(prog="isql-core", description="ISQL Core Runtime / ISQL-MEM v0.4")
+    p = argparse.ArgumentParser(prog="isql-core", description="ISQL Core Runtime / ISQL-MEM v0.6")
     sub = p.add_subparsers(dest="command", required=True)
 
     sp = sub.add_parser("parse", help="Parse an ISQL wire code")
@@ -132,6 +142,26 @@ def build_parser() -> argparse.ArgumentParser:
 
     sp = sub.add_parser("spectral-registry-info", help="Inspect the shared spectral registry")
     sp.add_argument("--store", required=True)
+
+    sp = sub.add_parser("registry-compile-hierarchical", help="Compile canonical spectral registry into hierarchical registry and numeric delta wire")
+    sp.add_argument("--store", required=True)
+
+    sp = sub.add_parser("registry-decode-wire", help="Decode a digits-only hierarchical registry delta wire")
+    sp.add_argument("--wire", required=True)
+
+    sp = sub.add_parser("registry-compare", help="Compare canonical, hierarchical, and numeric registry representations")
+    sp.add_argument("--store", required=True)
+
+    sp = sub.add_parser("carrier-pack", help="Pack a canonical digits-only wire into a binary physical carrier")
+    sp.add_argument("--wire", required=True)
+    sp.add_argument("--codec", choices=["bcd4", "d40"], default="d40")
+    sp.add_argument("--out", required=True)
+
+    sp = sub.add_parser("carrier-unpack", help="Unpack a binary physical carrier back to canonical digits")
+    sp.add_argument("--file", required=True)
+
+    sp = sub.add_parser("carrier-info", help="Inspect a binary physical carrier")
+    sp.add_argument("--file", required=True)
 
     sp = sub.add_parser("memory-decode", help="Decode a stored ISQL-MEM code using its profile decoder")
     sp.add_argument("--store", required=True)
@@ -246,6 +276,81 @@ def main(argv: list[str] | None = None) -> int:
                 "revision": registry.revision,
                 "registry_hash": registry.content_hash(),
                 "counts": {name: len(values) for name, values in registry.namespaces.items()},
+            }))
+            return 0
+
+        if args.command == "registry-compile-hierarchical":
+            canonical = SpectralRegistryStore(args.store).load_current()
+            hstore = HierarchicalRegistryStore(args.store)
+            previous = hstore.load_current()
+            compiled = compile_hierarchical_registry(canonical, previous=previous)
+            if compiled.registry.content_hash() == previous.content_hash():
+                committed = previous
+                delta = make_hierarchical_delta(previous, previous)
+            else:
+                committed = hstore.commit(compiled.registry)
+                delta = hstore.load_delta(committed.revision)
+            wire = compile_registry_delta_wire(delta)
+            print(_json({
+                "schema": "isql.hierarchical-registry-compile/v0.5",
+                "canonical_registry_revision": canonical.revision,
+                "canonical_registry_hash": canonical.content_hash(),
+                "hierarchical_revision": committed.revision,
+                "hierarchical_hash": committed.content_hash(),
+                "new_lexeme_count": len(delta.new_lexemes),
+                "new_program_count": sum(len(rows) for rows in delta.new_programs.values()),
+                "numeric_delta_wire": wire.to_dict(),
+            }))
+            return 0
+
+        if args.command == "registry-decode-wire":
+            delta = decode_registry_delta_wire(args.wire)
+            print(_json({
+                "schema": "isql.hierarchical-registry-wire-decode/v0.5",
+                "delta": delta.to_dict(),
+            }))
+            return 0
+
+        if args.command == "carrier-pack":
+            result = compile_digit_carrier(args.wire, codec=args.codec)
+            out_path = Path(args.out)
+            out_path.parent.mkdir(parents=True, exist_ok=True)
+            out_path.write_bytes(result.carrier)
+            payload = result.to_dict()
+            payload["schema"] = "isql.digit-carrier-pack/v0.6"
+            payload["output_file"] = str(out_path)
+            print(_json(payload))
+            return 0
+
+        if args.command == "carrier-unpack":
+            wire = unpack_digit_carrier(Path(args.file).read_bytes())
+            print(wire)
+            return 0
+
+        if args.command == "carrier-info":
+            print(_json(inspect_digit_carrier(Path(args.file).read_bytes())))
+            return 0
+
+        if args.command == "registry-compare":
+            canonical = SpectralRegistryStore(args.store).load_current()
+            hstore = HierarchicalRegistryStore(args.store)
+            hierarchical = hstore.load_current()
+            if hierarchical.revision == 0:
+                raise ValueError("hierarchical registry has not been compiled")
+            delta = hstore.load_delta(hierarchical.revision)
+            wire = compile_registry_delta_wire(delta)
+            canonical_bytes = len(json.dumps(canonical.to_dict(), ensure_ascii=False, sort_keys=True, separators=(",", ":"), allow_nan=False).encode("utf-8"))
+            hierarchical_bytes = len(json.dumps(hierarchical.to_dict(), ensure_ascii=False, sort_keys=True, separators=(",", ":"), allow_nan=False).encode("utf-8"))
+            print(_json({
+                "schema": "isql.hierarchical-registry-compare/v0.5",
+                "canonical_revision": canonical.revision,
+                "canonical_registry_json_bytes": canonical_bytes,
+                "hierarchical_registry_json_bytes": hierarchical_bytes,
+                "latest_delta_json_bytes": len(delta.canonical_bytes()),
+                "latest_numeric_delta_wire_bytes": wire.wire_bytes,
+                "latest_structural_binary_bytes": wire.structural_binary_bytes,
+                "new_lexeme_utf8_bytes": wire.new_lexeme_utf8_bytes,
+                "program_reference_count": wire.program_reference_count,
             }))
             return 0
 

@@ -1,0 +1,10 @@
+test_memory_compare_includes_spectral_compaction (tests.test_cli_v03.CLIV03Tests.test_memory_compare_includes_spectral_compaction) ... ok
+test_memory_decode_auto_selects_spectral_decoder (tests.test_cli_v03.CLIV03Tests.test_memory_decode_auto_selects_spectral_decoder) ... ok
+test_memory_encode_spectral_flag_adds_third_profile (tests.test_cli_v03.CLIV03Tests.test_memory_encode_spectral_flag_adds_third_profile) ... ok
+test_spectral_flag_without_semantic_analysis_fails_closed (tests.test_cli_v03.CLIV03Tests.test_spectral_flag_without_semantic_analysis_fails_closed) ... ok
+test_spectral_registry_info_and_compile_show_warm_reuse (tests.test_cli_v03.CLIV03Tests.test_spectral_registry_info_and_compile_show_warm_reuse) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 6.823s
+
+OK

@@ -1,79 +1,118 @@
 {
-  "compileall": true,
-  "installed_cli": {
-    "cold_registry_delta_bytes": 1607,
-    "digits_only": true,
-    "round_trip_registry_hash": true,
-    "round_trip_sequence": true,
-    "spectral_packet_bytes": 321,
-    "warm_registry_delta_bytes": 0,
-    "wire_bytes": 262
+  "release": "ISQL Core Runtime v0.6.0",
+  "feature": "ISQL-MEM v0.6 Physical Digit Carrier Packing",
+  "tests": {
+    "total_tests": 147,
+    "full_suite_pass": true,
+    "evidence": "validation/v06_final_unittest.txt"
+  },
+  "compileall_pass": true,
+  "wheel_build_pass": true,
+  "wheel_install_pass": true,
+  "installed_package_version": "0.6.0",
+  "installed_3515_digit_roundtrip_pass": true,
+  "compatibility": {
+    "v04_numeric_memory_wire_byte_compatible": true,
+    "v05_registry_numeric_wire_byte_compatible": true,
+    "new_memory_profile_added": false
+  },
+  "carrier": {
+    "magic": "IPC6",
+    "version": 6,
+    "codecs": [
+      "bcd4",
+      "d40"
+    ],
+    "d40_full_block": "12 digits -> 5 bytes",
+    "frozen_artifacts": [
+      {
+        "artifact": "v06_memory_r2_d40.ipc6",
+        "carrier_bytes": 122,
+        "wire_bytes": 262,
+        "roundtrip": true
+      },
+      {
+        "artifact": "v06_registry_cold_d40.ipc6",
+        "carrier_bytes": 1477,
+        "wire_bytes": 3515,
+        "roundtrip": true
+      },
+      {
+        "artifact": "v06_registry_partial_d40.ipc6",
+        "carrier_bytes": 388,
+        "wire_bytes": 902,
+        "roundtrip": true
+      }
+    ]
   },
   "integrity": {
-    "coordinate_round_trip": true,
-    "json_files_checked": 22,
-    "numeric_r1_r2_digits_only": true,
-    "previous_profiles_preserved": true,
-    "r4_exact_contract_preserved": true,
-    "utf8_files_checked": 76
+    "utf8_files_checked": 133,
+    "json_files_checked": 44,
+    "binary_carrier_roundtrips": 3
   },
-  "isql_mem": "v0.4 Numeric Wire Encoding",
-  "limitations": [
-    "The shared spectral registry is still a textual JSON dictionary.",
-    "CRC32 is an accidental-corruption guard, not cryptographic authentication.",
-    "The three live fixtures are not a universal compression benchmark."
-  ],
-  "live_experiment": [
-    {
-      "address": "ISQL1:ADDR:R0:H106986899423495569474907434058611738091957888076345694899399123936551788924915",
-      "coordinate_fidelity": 1.0,
-      "memory": 1,
-      "numeric_cold_ratio_vs_coordinates": 0.8770530267480057,
-      "numeric_cold_total_bytes": 1869,
-      "numeric_ratio_vs_coordinates": 0.12294697325199437,
-      "numeric_wire_bytes": 262,
-      "registry_delta_bytes": 1607,
-      "spectral_cold_total_bytes": 1928,
-      "spectral_packet_json_bytes": 321,
-      "verbose_coordinate_bytes": 2131,
-      "wire_vs_packet_ratio": 0.8161993769470405
-    },
-    {
-      "address": "ISQL1:ADDR:R0:H69286040992164617705319158934637389745525042757377081083050557686410640876241",
-      "coordinate_fidelity": 1.0,
-      "memory": 2,
-      "numeric_cold_ratio_vs_coordinates": 0.12294697325199437,
-      "numeric_cold_total_bytes": 262,
-      "numeric_ratio_vs_coordinates": 0.12294697325199437,
-      "numeric_wire_bytes": 262,
-      "registry_delta_bytes": 0,
-      "spectral_cold_total_bytes": 318,
-      "spectral_packet_json_bytes": 318,
-      "verbose_coordinate_bytes": 2131,
-      "wire_vs_packet_ratio": 0.8238993710691824
-    },
-    {
-      "address": "ISQL1:ADDR:R0:H77259634489075008482517302013190378695243565829049422210194175261354211745855",
-      "coordinate_fidelity": 1.0,
-      "memory": 3,
-      "numeric_cold_ratio_vs_coordinates": 0.2719703977798335,
-      "numeric_cold_total_bytes": 588,
-      "numeric_ratio_vs_coordinates": 0.12858464384828863,
-      "numeric_wire_bytes": 278,
-      "registry_delta_bytes": 310,
-      "spectral_cold_total_bytes": 642,
-      "spectral_packet_json_bytes": 332,
-      "verbose_coordinate_bytes": 2162,
-      "wire_vs_packet_ratio": 0.8373493975903614
-    }
-  ],
-  "release": "ISQL Core Runtime v0.4.0",
-  "status": "VALID",
-  "tests": {
-    "errors": 0,
-    "failures": 0,
-    "total": 104
-  },
-  "wheel_build": true,
-  "wheel_install": true
+  "live_experiment": {
+    "schema": "isql.v06-live-summary/v0.6",
+    "experiment": "physical digit carrier packing",
+    "rows": [
+      {
+        "kind": "memory_numeric_r2",
+        "index": 1,
+        "ascii_wire_bytes": 262,
+        "bcd4_carrier_bytes": 143,
+        "bcd4_ratio": 0.5458015267175572,
+        "d40_carrier_bytes": 122,
+        "d40_payload_bytes": 110,
+        "d40_ratio": 0.46564885496183206,
+        "d40_sha256": "6cdc7b64aa359545a2d3756b39bc3c1c8599aca77e0a8e23c9eb08cc548568f1"
+      },
+      {
+        "kind": "memory_numeric_r2",
+        "index": 2,
+        "ascii_wire_bytes": 262,
+        "bcd4_carrier_bytes": 143,
+        "bcd4_ratio": 0.5458015267175572,
+        "d40_carrier_bytes": 122,
+        "d40_payload_bytes": 110,
+        "d40_ratio": 0.46564885496183206,
+        "d40_sha256": "6cdc7b64aa359545a2d3756b39bc3c1c8599aca77e0a8e23c9eb08cc548568f1"
+      },
+      {
+        "kind": "memory_numeric_r2",
+        "index": 3,
+        "ascii_wire_bytes": 278,
+        "bcd4_carrier_bytes": 151,
+        "bcd4_ratio": 0.5431654676258992,
+        "d40_carrier_bytes": 128,
+        "d40_payload_bytes": 116,
+        "d40_ratio": 0.460431654676259,
+        "d40_sha256": "ac21f5ea479029ef6a0c9fb6b3b3d5abd0713a62156e783c1d57df4328c7a490"
+      },
+      {
+        "kind": "registry_cold",
+        "ascii_wire_bytes": 3515,
+        "structural_binary_bytes": 1452,
+        "bcd4_carrier_bytes": 1770,
+        "bcd4_ratio": 0.5035561877667141,
+        "d40_carrier_bytes": 1477,
+        "d40_payload_bytes": 1465,
+        "d40_ratio": 0.420199146514936,
+        "d40_vs_structural_ratio": 1.0172176308539944,
+        "d40_over_structural_bytes": 25,
+        "d40_sha256": "f57552689c05bb0666bdd8d58bcf8e3aa7736a24b7fc962a01bc75f7264c0908"
+      },
+      {
+        "kind": "registry_partial",
+        "ascii_wire_bytes": 902,
+        "structural_binary_bytes": 368,
+        "bcd4_carrier_bytes": 463,
+        "bcd4_ratio": 0.5133037694013304,
+        "d40_carrier_bytes": 388,
+        "d40_payload_bytes": 376,
+        "d40_ratio": 0.43015521064301554,
+        "d40_vs_structural_ratio": 1.0543478260869565,
+        "d40_over_structural_bytes": 20,
+        "d40_sha256": "5b997a338a7557d68d753692548ddb4d98f17d9c9609cb3c8bf43b7d81361054"
+      }
+    ]
+  }
 }

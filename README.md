@@ -1,4 +1,60 @@
-# ISQL Core Runtime v0.4.0
+# ISQL Core Runtime v0.6.0
+
+ISQL Core Runtime v0.6.0 implements **ISQL-MEM v0.6 Physical Digit Carrier Packing** without changing the canonical v0.4 numeric memory wire or v0.5 numeric registry wire.
+
+## v0.6 in one line
+
+```text
+canonical digits-only wire
+→ BCD4 / D40 physical packing
+→ binary storage/transport
+→ exact unpack to the same canonical digits
+```
+
+The canonical sequence remains digits-only. The binary carrier is transport-only and does not create a new memory profile.
+
+### Live result
+
+- 3515 B cold registry numeric wire → **1477 B D40 carrier**; direct v0.5 structural binary is 1452 B, so packed-numeric overhead is only **25 B / +1.72%**.
+- 902 B partial-growth registry wire → **388 B D40 carrier** versus 368 B structural binary (**+20 B / +5.43%**).
+- 262 B memory numeric wire → **122 B D40 carrier** (~46.6%).
+- 278 B memory numeric wire → **128 B D40 carrier** (~46.0%).
+- BCD4 provides a simpler ~50% payload-density baseline; D40 uses 12 decimal digits per 5 bytes.
+- All carriers unpack byte-for-byte to the original numeric wire.
+
+See `docs/ISQL_MEM_v0.6_Physical_Digit_Carrier_Packing.md`.
+
+---
+
+## Historical v0.5 Runtime Notes
+
+ISQL Core Runtime v0.5.0 implements **ISQL-MEM v0.5 Hierarchical Spectral Registry Compaction** while preserving every v0.4 memory code and numeric wire.
+
+## v0.5 in one line
+
+```text
+canonical spectral registry
+→ shared lexeme registry
+→ namespace value programs
+→ incremental structural delta
+→ digits-only registry wire
+```
+
+The canonical spectral registry remains authoritative. The hierarchical registry is a derived, exactly reconstructable representation.
+
+### Live result
+
+- Cold canonical JSON append delta: 1902 B → structural hierarchical delta: **1452 B (76.3%)**.
+- Partial-vocabulary append delta: 600 B → **368 B (61.3%)**.
+- Warm identical vocabulary: **0 B registry update required**.
+- ASCII digits-only transport is larger (3515 B / 902 B), so v0.5 explicitly separates semantic structural compaction from physical decimal-carrier density.
+- Coordinate fidelity remains **1.0** and canonical registry hashes reconstruct exactly.
+
+See `docs/ISQL_MEM_v0.5_Hierarchical_Spectral_Registry_Compaction.md`.
+
+---
+
+## Historical v0.4 Runtime Notes
 
 ISQL Core Runtime v0.4.0 implements **ISQL-MEM v0.4 Numeric Wire Encoding** on top of the v0.1–v0.3 code-space, stable addressing, multi-resolution memory, AI semantic analysis, and registry-backed spectral coordinate layers.
 

@@ -1,0 +1,135 @@
+{
+  "base_lexeme_count": 121,
+  "canonical_hash": "9a0991535396fc7e1725d74e324859e991d2100fab05e18704125d9289161700",
+  "canonical_registry_id": "isql-spectral-registry/default",
+  "canonical_revision": 2,
+  "from_revision": 1,
+  "new_lexemes": [
+    "spectral",
+    "preserves",
+    "while",
+    "amortizing",
+    "shared",
+    "registry",
+    "across",
+    "corpus",
+    "amortized",
+    "reuse",
+    "sparse",
+    "packet",
+    "Shared",
+    "overhead",
+    "can",
+    "multiple",
+    "memories",
+    "reusable",
+    "compaction"
+  ],
+  "new_programs": {
+    "atom": [
+      [
+        130,
+        4,
+        127,
+        4,
+        131
+      ],
+      [
+        132,
+        4,
+        122,
+        4,
+        133
+      ]
+    ],
+    "claim": [
+      [
+        134,
+        4,
+        127,
+        4,
+        135,
+        4,
+        136,
+        4,
+        97,
+        4,
+        130,
+        4,
+        128,
+        4,
+        137,
+        4,
+        138,
+        6
+      ]
+    ],
+    "intent": [
+      [
+        50,
+        4,
+        32,
+        4,
+        33,
+        4,
+        128,
+        4,
+        61,
+        4,
+        139,
+        4,
+        20,
+        4,
+        129
+      ]
+    ],
+    "language": [],
+    "predicate": [],
+    "summary": [
+      [
+        1,
+        4,
+        122,
+        4,
+        20,
+        4,
+        123,
+        4,
+        28,
+        4,
+        13,
+        4,
+        124,
+        4,
+        125,
+        4,
+        61,
+        4,
+        126,
+        4,
+        127,
+        4,
+        128,
+        4,
+        61,
+        4,
+        129,
+        6
+      ]
+    ],
+    "tag": [
+      [
+        122
+      ],
+      [
+        140
+      ]
+    ],
+    "uncertainty": []
+  },
+  "previous_hierarchical_hash": "b8b8531eff99d4fb4ea3aea8e25d2b00eb7a933cf8bb20703796087c17219812",
+  "registry_id": "isql-hierarchical-registry/default",
+  "schema": "isql.hierarchical-registry-delta/v0.5",
+  "target_hierarchical_hash": "766d195ff95ca8838d2d1c21da2f5cec87f1d6df542c0ef908767e8387635406",
+  "to_revision": 2
+}

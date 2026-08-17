@@ -1,0 +1,11 @@
+{
+  "canonical_registry_json_bytes": 1823,
+  "canonical_revision": 1,
+  "hierarchical_registry_json_bytes": 2597,
+  "latest_delta_json_bytes": 2844,
+  "latest_numeric_delta_wire_bytes": 3515,
+  "latest_structural_binary_bytes": 1452,
+  "new_lexeme_utf8_bytes": 799,
+  "program_reference_count": 364,
+  "schema": "isql.hierarchical-registry-compare/v0.5"
+}

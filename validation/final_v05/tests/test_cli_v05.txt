@@ -1,0 +1,8 @@
+test_registry_compare_reports_structural_and_wire_costs (tests.test_cli_v05.CLIV05Tests.test_registry_compare_reports_structural_and_wire_costs) ... ok
+test_registry_compile_hierarchical_and_decode_wire (tests.test_cli_v05.CLIV05Tests.test_registry_compile_hierarchical_and_decode_wire) ... ok
+test_v04_numeric_memory_wire_is_byte_for_byte_unchanged (tests.test_cli_v05.CLIV05Tests.test_v04_numeric_memory_wire_is_byte_for_byte_unchanged) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 5.492s
+
+OK

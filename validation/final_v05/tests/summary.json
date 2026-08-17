@@ -1,0 +1,29 @@
+{
+  "total_tests": 128,
+  "runs": {
+    "non_cli.txt": {
+      "tests": 107,
+      "ok": true
+    },
+    "test_cli.txt": {
+      "tests": 4,
+      "ok": true
+    },
+    "test_cli_v02.txt": {
+      "tests": 5,
+      "ok": true
+    },
+    "test_cli_v03.txt": {
+      "tests": 5,
+      "ok": true
+    },
+    "test_cli_v04.txt": {
+      "tests": 4,
+      "ok": true
+    },
+    "test_cli_v05.txt": {
+      "tests": 3,
+      "ok": true
+    }
+  }
+}

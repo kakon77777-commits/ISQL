@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "isql-core-runtime"
-version = "0.4.0"
-description = "ISQL Core Runtime with digits-only numeric wire encoding over registry-backed spectral coordinates."
+version = "0.6.0"
+description = "ISQL Core Runtime with packed physical carriers for canonical numeric ISQL wires."
 requires-python = ">=3.11"
 authors = [{name = "Neo.K / EVEMISSLAB"}]
 

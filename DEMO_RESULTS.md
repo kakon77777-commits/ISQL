@@ -1,54 +1,44 @@
-# ISQL-MEM v0.4 — Numeric Wire Live Results
+# ISQL-MEM v0.6 Live Results — Physical Digit Carrier Packing
 
-Date: 2026-08-17
+The v0.6 experiment reuses canonical numeric wires produced by the unchanged v0.4/v0.5 encoders. No semantic coordinates, memory codes, spectral packets, or hierarchical registry IDs were regenerated under a new meaning.
 
-The v0.4 experiment reuses the same three semantic-coordinate fixture family from v0.3 so the only new variable is numeric wire serialization.
+## Memory numeric R2 carriers
 
-## R2 results
+| Memory | Canonical ASCII wire | BCD4 carrier | D40 carrier | D40 / ASCII |
+|---|---:|---:|---:|---:|
+| 1 | 262 B | 143 B | **122 B** | **46.56%** |
+| 2 | 262 B | 143 B | **122 B** | **46.56%** |
+| 3 | 278 B | 151 B | **128 B** | **46.04%** |
 
-| Memory | Verbose coordinates | v0.3 SpectralPacket JSON | v0.4 numeric wire | Registry delta | v0.4 total | Coordinate fidelity |
-|---|---:|---:|---:|---:|---:|---:|
-| 1 — cold registry | 2131 B | 321 B | **262 B** | 1607 B | **1869 B** | 1.000 |
-| 2 — full vocabulary reuse | 2131 B | 318 B | **262 B** | **0 B** | **262 B** | 1.000 |
-| 3 — partial vocabulary growth | 2162 B | 332 B | **278 B** | 310 B | **588 B** | 1.000 |
+All unpack exactly to the original digits-only wire.
 
-## Ratios
+## Hierarchical registry delta carriers
 
-Memory 1:
+| Registry update | ASCII numeric wire | Direct structural binary | BCD4 carrier | D40 carrier | D40 vs structural |
+|---|---:|---:|---:|---:|---:|
+| Cold bootstrap | 3515 B | 1452 B | 1770 B | **1477 B** | **+25 B / 1.0172×** |
+| Partial growth | 902 B | 368 B | 463 B | **388 B** | **+20 B / 1.0543×** |
 
-- wire / SpectralPacket JSON: 0.8162
-- wire / verbose coordinates: 0.1229
-- wire + cold registry delta / verbose coordinates: **0.8771**
+The warm identical-vocabulary case requires no registry update, so the transport cost remains 0 B by policy rather than transmitting a packed no-op delta.
 
-Memory 2:
+## Interpretation
 
-- wire / SpectralPacket JSON: 0.8239
-- wire / verbose coordinates: **0.1229**
-- registry delta: **0 B**
+v0.5 demonstrated that the registry's hierarchical structural representation was compact but the ASCII decimal wire was physically expensive. v0.6 keeps the decimal sequence as the canonical form while storing/transmitting it with bounded decimal packing.
 
-Memory 3:
+For the cold registry fixture:
 
-- wire / SpectralPacket JSON: 0.8373
-- wire / verbose coordinates: 0.1286
-- wire + registry delta / verbose coordinates: **0.2720**
+$$
+3515\ \text{ASCII bytes}
+\rightarrow
+1477\ \text{D40 carrier bytes}
+$$
 
-## What changed from v0.3
+while the direct structural binary is 1452 B. The price of preserving the canonical numeric-sequence layer is therefore only 25 B in this fixture.
 
-v0.3 already replaced verbose relation objects and semantic strings with shared registry IDs and sparse integer tuple structure. v0.4 removes packet JSON framing from the runtime carrier.
+D40 does not claim universal optimality. Its full-block density is fixed at:
 
-The wire contains ASCII digits only and reconstructs the same:
+$$
+12\ \text{digits}/5\ \text{bytes}.
+$$
 
-- registry revision;
-- full registry SHA-256 binding;
-- sparse integer sequence;
-- typed semantic coordinates.
-
-All three fixtures round-trip to the original v0.2 coordinate sets exactly.
-
-## Important negative boundary
-
-The shared Spectral Registry is still a textual dictionary stored as JSON snapshots. Therefore v0.4 is **not** yet a fully numeric representation of the whole memory system.
-
-The result demonstrated here is narrower:
-
-> A registry-backed typed semantic packet can use a deterministic, separator-free, digits-only runtime carrier while preserving the typed coordinate set exactly.
+This controlled result shows that a canonical numeric ISQL wire does not require paying one physical byte per decimal digit.

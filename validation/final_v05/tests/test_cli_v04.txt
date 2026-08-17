@@ -1,0 +1,9 @@
+test_memory_compare_includes_numeric_compaction (tests.test_cli_v04.CLIV04Tests.test_memory_compare_includes_numeric_compaction) ... ok
+test_memory_encode_numeric_wire_adds_numeric_profile_and_decode_auto_selects (tests.test_cli_v04.CLIV04Tests.test_memory_encode_numeric_wire_adds_numeric_profile_and_decode_auto_selects) ... ok
+test_numeric_wire_compile_and_decode_round_trip (tests.test_cli_v04.CLIV04Tests.test_numeric_wire_compile_and_decode_round_trip) ... ok
+test_numeric_wire_without_semantic_analysis_fails_closed (tests.test_cli_v04.CLIV04Tests.test_numeric_wire_without_semantic_analysis_fails_closed) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 6.713s
+
+OK

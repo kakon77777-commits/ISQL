@@ -1,5 +1,30 @@
 # Release Notes
 
+## v0.6.0 — ISQL-MEM Physical Digit Carrier Packing
+
+- Added transport-only `IPC6` binary carrier framing while preserving canonical digits-only wires.
+- Added BCD4 baseline codec with exact odd-length sentinel validation.
+- Added D40 bounded decimal packing: 12 digits → 5 bytes, with deterministic partial-block widths.
+- Preserves leading zeros and avoids whole-wire arbitrary big-integer conversion.
+- Added CRC32 accidental-corruption detection and fail-closed framing.
+- Added `carrier-pack`, `carrier-unpack`, and `carrier-info` CLI commands.
+- Preserved v0.4 numeric memory wires and v0.5 registry numeric wires byte-for-byte.
+- Cold 3515-byte registry numeric wire packs to 1477 B, only 25 B above the 1452 B direct structural binary.
+- Partial 902-byte registry numeric wire packs to 388 B, 20 B above the 368 B direct structural binary.
+
+## v0.5.0 — ISQL-MEM Hierarchical Spectral Registry Compaction
+
+- Added exact Unicode lexeme registry and namespace value programs.
+- Added append-only hierarchical revision deltas and persistent revision store.
+- Added exact canonical-registry reconstruction with SHA-256 verification.
+- Added compact structural binary registry frames.
+- Added digits-only numeric registry delta wire.
+- Added `registry-compile-hierarchical`, `registry-decode-wire`, and `registry-compare` CLI commands.
+- Preserved v0.4 numeric memory wire byte-for-byte.
+- Live partial-vocabulary structural delta is 368 B versus a 600 B canonical JSON append delta (61.3%).
+- Explicitly records that ASCII decimal transport is larger than the compact binary structural frame.
+
+
 ## v0.4.0 — ISQL-MEM Numeric Wire Encoding
 
 - Adds a digits-only numeric wire carrier over v0.3 spectral packets.

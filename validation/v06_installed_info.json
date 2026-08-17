@@ -1,0 +1,11 @@
+{
+  "carrier_bytes": 1477,
+  "carrier_sha256": "f57552689c05bb0666bdd8d58bcf8e3aa7736a24b7fc962a01bc75f7264c0908",
+  "carrier_vs_wire_ratio": 0.420199146514936,
+  "codec": "d40",
+  "digit_count": 3515,
+  "payload_bytes": 1465,
+  "schema": "isql.digit-carrier-info/v0.6",
+  "version": 6,
+  "wire_bytes": 3515
+}

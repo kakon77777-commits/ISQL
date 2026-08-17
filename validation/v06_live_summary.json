@@ -1,0 +1,65 @@
+{
+  "schema": "isql.v06-live-summary/v0.6",
+  "experiment": "physical digit carrier packing",
+  "rows": [
+    {
+      "kind": "memory_numeric_r2",
+      "index": 1,
+      "ascii_wire_bytes": 262,
+      "bcd4_carrier_bytes": 143,
+      "bcd4_ratio": 0.5458015267175572,
+      "d40_carrier_bytes": 122,
+      "d40_payload_bytes": 110,
+      "d40_ratio": 0.46564885496183206,
+      "d40_sha256": "6cdc7b64aa359545a2d3756b39bc3c1c8599aca77e0a8e23c9eb08cc548568f1"
+    },
+    {
+      "kind": "memory_numeric_r2",
+      "index": 2,
+      "ascii_wire_bytes": 262,
+      "bcd4_carrier_bytes": 143,
+      "bcd4_ratio": 0.5458015267175572,
+      "d40_carrier_bytes": 122,
+      "d40_payload_bytes": 110,
+      "d40_ratio": 0.46564885496183206,
+      "d40_sha256": "6cdc7b64aa359545a2d3756b39bc3c1c8599aca77e0a8e23c9eb08cc548568f1"
+    },
+    {
+      "kind": "memory_numeric_r2",
+      "index": 3,
+      "ascii_wire_bytes": 278,
+      "bcd4_carrier_bytes": 151,
+      "bcd4_ratio": 0.5431654676258992,
+      "d40_carrier_bytes": 128,
+      "d40_payload_bytes": 116,
+      "d40_ratio": 0.460431654676259,
+      "d40_sha256": "ac21f5ea479029ef6a0c9fb6b3b3d5abd0713a62156e783c1d57df4328c7a490"
+    },
+    {
+      "kind": "registry_cold",
+      "ascii_wire_bytes": 3515,
+      "structural_binary_bytes": 1452,
+      "bcd4_carrier_bytes": 1770,
+      "bcd4_ratio": 0.5035561877667141,
+      "d40_carrier_bytes": 1477,
+      "d40_payload_bytes": 1465,
+      "d40_ratio": 0.420199146514936,
+      "d40_vs_structural_ratio": 1.0172176308539944,
+      "d40_over_structural_bytes": 25,
+      "d40_sha256": "f57552689c05bb0666bdd8d58bcf8e3aa7736a24b7fc962a01bc75f7264c0908"
+    },
+    {
+      "kind": "registry_partial",
+      "ascii_wire_bytes": 902,
+      "structural_binary_bytes": 368,
+      "bcd4_carrier_bytes": 463,
+      "bcd4_ratio": 0.5133037694013304,
+      "d40_carrier_bytes": 388,
+      "d40_payload_bytes": 376,
+      "d40_ratio": 0.43015521064301554,
+      "d40_vs_structural_ratio": 1.0543478260869565,
+      "d40_over_structural_bytes": 20,
+      "d40_sha256": "5b997a338a7557d68d753692548ddb4d98f17d9c9609cb3c8bf43b7d81361054"
+    }
+  ]
+}

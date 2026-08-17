@@ -1,0 +1,10 @@
+{
+  "carrier_bytes": 1477,
+  "carrier_sha256": "f57552689c05bb0666bdd8d58bcf8e3aa7736a24b7fc962a01bc75f7264c0908",
+  "carrier_vs_wire_ratio": 0.420199146514936,
+  "codec": "d40",
+  "output_file": "/tmp/isql_v06_registry.ipc6",
+  "payload_bytes": 1465,
+  "schema": "isql.digit-carrier-pack/v0.6",
+  "wire_bytes": 3515
+}
