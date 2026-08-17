@@ -1,132 +1,81 @@
 {
-  "release": "ISQL Core Runtime v0.7.0",
-  "package_version": "0.7.0",
-  "feature": "ISQL-MEM v0.7 Machine-Native Canonical Representation",
-  "canonical_path": "spectral integer sequence -> ISN7 machine-native binary frame",
-  "human_readable_required": false,
+  "release": "ISQL Core Runtime v0.8.0",
+  "feature": "ISQL-MEM v0.8 Locality Delta Frames and Random-Access Partial Decode",
   "tests": {
-    "non_cli": 141,
-    "cli": 26,
-    "total": 167,
+    "non_cli": 161,
+    "cli": 28,
+    "total": 189,
     "failures": 0,
     "errors": 0
   },
-  "compileall": true,
-  "wheel_build_offline": true,
-  "wheel_install_target": true,
-  "installed_native_smoke": {
-    "package_version": "0.7.0",
-    "frame_bytes": 121,
-    "frame_sha256": "0e311629c1415c1e01680f5f1e16336fdc2c239171db8589c3313745453c43c0",
-    "address_match": true,
-    "coordinate_fidelity": 1.0,
-    "registry_hash": "fa9418119f870e6db9e09c000389b3ffbd4aa24b3815209fc34c53e457052ef4"
+  "compileall": "PASS",
+  "wheel_build": "PASS",
+  "wheel_install": "PASS",
+  "installed_smoke": {
+    "schema": "isql.v08-installed-smoke/v0.8",
+    "delta_bytes": 87,
+    "target_native_bytes": 121,
+    "ratio": 0.71900826446281,
+    "block_2_values": 16,
+    "restored_byte_equal": true,
+    "delta_sha256": "78f826d1d0a163632b2445e635702e0dccfcae99d7c45e9d0b3083cd505f90c8"
   },
-  "installed_cli_info": {
-    "address_sha256": "ec88706dd897964792501ec0381087dca3ca992bedfe47895f81a053eecccff3",
-    "frame_bytes": 121,
-    "frame_sha256": "0e311629c1415c1e01680f5f1e16336fdc2c239171db8589c3313745453c43c0",
-    "kind": "spectral-memory",
-    "max_coordinate": 25,
-    "registry_hash": "fa9418119f870e6db9e09c000389b3ffbd4aa24b3815209fc34c53e457052ef4",
-    "registry_revision": 1,
-    "resolution": "R2",
-    "schema": "isql.native-frame-info/v0.7",
-    "sequence_items": 68,
-    "version": 7
+  "live_summary": {
+    "schema": "isql.v08-live-summary/v0.8",
+    "cases": [
+      {
+        "case": "identical_semantic_neighbor",
+        "standalone_bytes": 121,
+        "delta_bytes": 87,
+        "selected_mode": "delta",
+        "selected_bytes": 87,
+        "ratio": 0.71900826446281,
+        "mode_counts": {
+          "copy": 5,
+          "delta": 0,
+          "replace": 0
+        },
+        "random_block_2_match": true
+      },
+      {
+        "case": "same_registry_near_neighbor",
+        "standalone_bytes": 121,
+        "delta_bytes": 97,
+        "selected_mode": "delta",
+        "selected_bytes": 97,
+        "ratio": 0.8016528925619835,
+        "mode_counts": {
+          "copy": 3,
+          "delta": 2,
+          "replace": 0
+        },
+        "random_block_1_match": true
+      },
+      {
+        "case": "registry_growth_low_locality",
+        "standalone_bytes": 126,
+        "delta_bytes": 168,
+        "selected_mode": "native",
+        "selected_bytes": 126,
+        "ratio": 1.0
+      }
+    ],
+    "compatibility": {
+      "v07_isn7_unchanged": true
+    },
+    "delta_chain_depth": 1
   },
-  "live_rows": [
-    {
-      "memory": 1,
-      "address": "ISQL1:ADDR:R0:H106986899423495569474907434058611738091957888076345694899399123936551788924915",
-      "numeric_ascii_bytes": 262,
-      "d40_carrier_bytes": 122,
-      "native_frame_bytes": 121,
-      "native_vs_numeric_ratio": 0.4618320610687023,
-      "native_vs_d40_ratio": 0.9918032786885246,
-      "sequence_items": 68,
-      "coordinate_fidelity": 1.0,
-      "native_frame_sha256": "0e311629c1415c1e01680f5f1e16336fdc2c239171db8589c3313745453c43c0",
-      "native_info": {
-        "schema": "isql.native-frame-info/v0.7",
-        "version": 7,
-        "kind": "spectral-memory",
-        "resolution": "R2",
-        "address_sha256": "ec88706dd897964792501ec0381087dca3ca992bedfe47895f81a053eecccff3",
-        "registry_revision": 1,
-        "registry_hash": "fa9418119f870e6db9e09c000389b3ffbd4aa24b3815209fc34c53e457052ef4",
-        "sequence_items": 68,
-        "max_coordinate": 25,
-        "frame_bytes": 121,
-        "frame_sha256": "0e311629c1415c1e01680f5f1e16336fdc2c239171db8589c3313745453c43c0"
-      }
-    },
-    {
-      "memory": 2,
-      "address": "ISQL1:ADDR:R0:H69286040992164617705319158934637389745525042757377081083050557686410640876241",
-      "numeric_ascii_bytes": 262,
-      "d40_carrier_bytes": 122,
-      "native_frame_bytes": 121,
-      "native_vs_numeric_ratio": 0.4618320610687023,
-      "native_vs_d40_ratio": 0.9918032786885246,
-      "sequence_items": 68,
-      "coordinate_fidelity": 1.0,
-      "native_frame_sha256": "c8fb7ed9c43e4cd26fad0720826baaac62b4f9531aec1caa0759abd6d2e74a01",
-      "native_info": {
-        "schema": "isql.native-frame-info/v0.7",
-        "version": 7,
-        "kind": "spectral-memory",
-        "resolution": "R2",
-        "address_sha256": "992e826e0c96ef4a3f7c2c943a6d35b06b4723853b3750ca5f4ffb98aab7e2d1",
-        "registry_revision": 1,
-        "registry_hash": "fa9418119f870e6db9e09c000389b3ffbd4aa24b3815209fc34c53e457052ef4",
-        "sequence_items": 68,
-        "max_coordinate": 25,
-        "frame_bytes": 121,
-        "frame_sha256": "c8fb7ed9c43e4cd26fad0720826baaac62b4f9531aec1caa0759abd6d2e74a01"
-      }
-    },
-    {
-      "memory": 3,
-      "address": "ISQL1:ADDR:R0:H77259634489075008482517302013190378695243565829049422210194175261354211745855",
-      "numeric_ascii_bytes": 278,
-      "d40_carrier_bytes": 128,
-      "native_frame_bytes": 126,
-      "native_vs_numeric_ratio": 0.45323741007194246,
-      "native_vs_d40_ratio": 0.984375,
-      "sequence_items": 73,
-      "coordinate_fidelity": 1.0,
-      "native_frame_sha256": "4b05e20902e3d43632f0150414c5412ca4063b3a168739655b3a30e541b38bf8",
-      "native_info": {
-        "schema": "isql.native-frame-info/v0.7",
-        "version": 7,
-        "kind": "spectral-memory",
-        "resolution": "R2",
-        "address_sha256": "aacf674a77a6e817a00b2b38229621f6a5050e817dc3befcdcec996e6fad203f",
-        "registry_revision": 2,
-        "registry_hash": "9a0991535396fc7e1725d74e324859e991d2100fab05e18704125d9289161700",
-        "sequence_items": 73,
-        "max_coordinate": 27,
-        "frame_bytes": 126,
-        "frame_sha256": "4b05e20902e3d43632f0150414c5412ca4063b3a168739655b3a30e541b38bf8"
-      }
-    }
-  ],
   "compatibility": {
-    "v04_numeric_memory_wire_unchanged": true,
-    "v05_registry_numeric_wire_unchanged": true,
-    "v06_d40_carrier_unchanged": true
-  },
-  "invariants": {
-    "native_path_uses_decimal_intermediary": false,
-    "raw_address_digest_bytes": 32,
-    "raw_registry_hash_bytes": 32,
-    "coordinate_fidelity": 1.0,
-    "debug_render_canonical": false,
-    "native_reencode_exact": true
+    "v04_numeric_memory_wire": "UNCHANGED",
+    "v05_registry_numeric_wire": "UNCHANGED",
+    "v06_d40_carrier": "UNCHANGED",
+    "v07_isn7_frames": "UNCHANGED"
   },
   "integrity": {
-    "utf8_text_files": 151,
-    "json_files": 48
+    "utf8_files_checked": 175,
+    "json_files_checked": 56,
+    "jsonl_rows_checked": 0,
+    "delta_chain_depth": 1,
+    "installed_restored_target_byte_equal": true
   }
 }

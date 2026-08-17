@@ -1,4 +1,4 @@
-"""ISQL Core Runtime / ISQL-MEM v0.7 machine-native canonical representation."""
+"""ISQL Core Runtime / ISQL-MEM v0.8 locality delta and random-access memory."""
 
 from .code import ISQLCode, parse_code
 from .address import address_code_to_digest, digest_to_address_code
@@ -35,14 +35,31 @@ from .carrier import (
 )
 
 from .native import (
+    NativeBlockIndex,
     NativeMemoryCompileResult,
     NativeSpectralFrame,
     compile_native_memory,
+    decode_native_sequence_block,
+    decode_native_sequence_range,
     decode_native_spectral_frame,
     encode_native_spectral_frame,
     expand_native_memory,
+    index_native_blocks,
     inspect_native_frame,
     render_native_debug,
+)
+
+
+from .delta import (
+    DeltaBlockIndex,
+    LocalityCompileResult,
+    compile_locality_memory,
+    decode_delta_block,
+    decode_delta_frame,
+    decode_delta_range,
+    encode_delta_frame,
+    index_delta_blocks,
+    inspect_delta_frame,
 )
 
 from .wire import (
@@ -54,7 +71,7 @@ from .wire import (
     encode_uint,
 )
 
-__version__ = "0.7.0"
+__version__ = "0.8.0"
 
 __all__ = [
     "ISQLCode",
@@ -80,12 +97,16 @@ __all__ = [
     "decode_registry_delta_wire",
     "encode_registry_delta_binary",
     "encode_registry_delta_wire",
+    "NativeBlockIndex",
     "NativeMemoryCompileResult",
     "NativeSpectralFrame",
     "compile_native_memory",
+    "decode_native_sequence_block",
+    "decode_native_sequence_range",
     "decode_native_spectral_frame",
     "encode_native_spectral_frame",
     "expand_native_memory",
+    "index_native_blocks",
     "inspect_native_frame",
     "render_native_debug",
     "CarrierCompileResult",
@@ -99,5 +120,14 @@ __all__ = [
     "decode_uint",
     "encode_numeric_wire",
     "encode_uint",
+    "DeltaBlockIndex",
+    "LocalityCompileResult",
+    "compile_locality_memory",
+    "decode_delta_block",
+    "decode_delta_frame",
+    "decode_delta_range",
+    "encode_delta_frame",
+    "index_delta_blocks",
+    "inspect_delta_frame",
     "__version__",
 ]

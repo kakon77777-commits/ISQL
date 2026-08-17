@@ -146,6 +146,128 @@ def _decode_sequence(data: bytes, pos: int, item_count: int) -> tuple[tuple[int,
     return tuple(values), pos
 
 
+
+@dataclass(frozen=True, slots=True)
+class NativeBlockIndex:
+    block_index: int
+    item_start: int
+    item_count: int
+    encoded_offset: int
+    encoded_length: int
+    bit_width: int
+
+
+def _native_body_and_sequence_start(frame: bytes) -> tuple[bytes, int, int]:
+    if not isinstance(frame, (bytes, bytearray, memoryview)):
+        raise ISQLValidationError("NATIVE_FRAME_BYTES_REQUIRED")
+    data = bytes(frame)
+    if len(data) < 4 + 4 + 32 + 1 + 32 + 1 + 1 + 4:
+        raise ISQLValidationError("TRUNCATED_NATIVE_FRAME")
+    body = data[:-4]
+    actual = int.from_bytes(data[-4:], "big")
+    expected = zlib.crc32(body) & 0xFFFFFFFF
+    if actual != expected:
+        raise ISQLValidationError("NATIVE_FRAME_CHECKSUM_MISMATCH")
+    if not body.startswith(NATIVE_MAGIC):
+        raise ISQLValidationError("INVALID_NATIVE_MAGIC")
+    pos = len(NATIVE_MAGIC)
+    version = body[pos]
+    pos += 1
+    if version != NATIVE_VERSION:
+        raise ISQLValidationError("UNSUPPORTED_NATIVE_VERSION")
+    kind = body[pos]
+    pos += 1
+    if kind != NATIVE_KIND_SPECTRAL_MEMORY:
+        raise ISQLValidationError("UNSUPPORTED_NATIVE_KIND")
+    resolution_id = body[pos]
+    pos += 1
+    if resolution_id not in _ID_TO_RESOLUTION:
+        raise ISQLValidationError("NATIVE_UNSUPPORTED_RESOLUTION")
+    flags = body[pos]
+    pos += 1
+    if flags != 0:
+        raise ISQLValidationError("NATIVE_UNSUPPORTED_FLAGS")
+    if pos + 32 > len(body):
+        raise ISQLValidationError("TRUNCATED_NATIVE_ADDRESS")
+    pos += 32
+    _, pos = _uvarint_decode(body, pos)
+    if pos + 32 > len(body):
+        raise ISQLValidationError("TRUNCATED_NATIVE_REGISTRY_HASH")
+    pos += 32
+    item_count, pos = _uvarint_decode(body, pos)
+    if item_count <= 0 or item_count > NATIVE_MAX_SEQUENCE_ITEMS:
+        raise ISQLValidationError("NATIVE_INVALID_SEQUENCE_LENGTH")
+    return body, pos, item_count
+
+
+def index_native_blocks(frame: bytes) -> tuple[NativeBlockIndex, ...]:
+    body, pos, item_count = _native_body_and_sequence_start(frame)
+    out: list[NativeBlockIndex] = []
+    remaining = item_count
+    item_start = 0
+    block_index = 0
+    while remaining:
+        count = min(NATIVE_BLOCK_SIZE, remaining)
+        encoded_offset = pos
+        if pos >= len(body):
+            raise ISQLValidationError("TRUNCATED_NATIVE_BLOCK_WIDTH")
+        width = body[pos]
+        if width > NATIVE_MAX_BIT_WIDTH:
+            raise ISQLValidationError("NATIVE_INVALID_BLOCK_WIDTH")
+        pos += 1
+        byte_count = (width * count + 7) // 8 if width else 0
+        if pos + byte_count > len(body):
+            raise ISQLValidationError("TRUNCATED_NATIVE_BLOCK")
+        pos += byte_count
+        out.append(NativeBlockIndex(
+            block_index=block_index,
+            item_start=item_start,
+            item_count=count,
+            encoded_offset=encoded_offset,
+            encoded_length=1 + byte_count,
+            bit_width=width,
+        ))
+        remaining -= count
+        item_start += count
+        block_index += 1
+    if pos != len(body):
+        raise ISQLValidationError("NATIVE_FRAME_TRAILING_BYTES")
+    return tuple(out)
+
+
+def decode_native_sequence_block(frame: bytes, block_index: int) -> tuple[int, ...]:
+    if not isinstance(block_index, int) or isinstance(block_index, bool) or block_index < 0:
+        raise ISQLValidationError("NATIVE_INVALID_BLOCK_INDEX")
+    body, _, _ = _native_body_and_sequence_start(frame)
+    blocks = index_native_blocks(frame)
+    if block_index >= len(blocks):
+        raise ISQLValidationError("NATIVE_BLOCK_INDEX_OUT_OF_RANGE")
+    block = blocks[block_index]
+    values, end = _unpack_block(body, block.encoded_offset, block.item_count)
+    if end != block.encoded_offset + block.encoded_length:
+        raise ISQLValidationError("NATIVE_BLOCK_LENGTH_MISMATCH")
+    return values
+
+
+def decode_native_sequence_range(frame: bytes, start_block: int, block_count: int) -> tuple[int, ...]:
+    if (
+        not isinstance(start_block, int)
+        or isinstance(start_block, bool)
+        or start_block < 0
+        or not isinstance(block_count, int)
+        or isinstance(block_count, bool)
+        or block_count <= 0
+    ):
+        raise ISQLValidationError("NATIVE_INVALID_BLOCK_RANGE")
+    blocks = index_native_blocks(frame)
+    if start_block >= len(blocks) or start_block + block_count > len(blocks):
+        raise ISQLValidationError("NATIVE_BLOCK_RANGE_OUT_OF_RANGE")
+    out: list[int] = []
+    for index in range(start_block, start_block + block_count):
+        out.extend(decode_native_sequence_block(frame, index))
+    return tuple(out)
+
+
 @dataclass(frozen=True, slots=True)
 class NativeSpectralFrame:
     address_digest: bytes

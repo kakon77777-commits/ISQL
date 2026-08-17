@@ -1,0 +1,45 @@
+{
+  "schema": "isql.v08-live-summary/v0.8",
+  "cases": [
+    {
+      "case": "identical_semantic_neighbor",
+      "standalone_bytes": 121,
+      "delta_bytes": 87,
+      "selected_mode": "delta",
+      "selected_bytes": 87,
+      "ratio": 0.71900826446281,
+      "mode_counts": {
+        "copy": 5,
+        "delta": 0,
+        "replace": 0
+      },
+      "random_block_2_match": true
+    },
+    {
+      "case": "same_registry_near_neighbor",
+      "standalone_bytes": 121,
+      "delta_bytes": 97,
+      "selected_mode": "delta",
+      "selected_bytes": 97,
+      "ratio": 0.8016528925619835,
+      "mode_counts": {
+        "copy": 3,
+        "delta": 2,
+        "replace": 0
+      },
+      "random_block_1_match": true
+    },
+    {
+      "case": "registry_growth_low_locality",
+      "standalone_bytes": 126,
+      "delta_bytes": 168,
+      "selected_mode": "native",
+      "selected_bytes": 126,
+      "ratio": 1.0
+    }
+  ],
+  "compatibility": {
+    "v07_isn7_unchanged": true
+  },
+  "delta_chain_depth": 1
+}

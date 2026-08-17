@@ -1,4 +1,24 @@
-# ISQL Core Runtime v0.7.0
+# ISQL Core Runtime v0.8.0
+
+ISQL Core Runtime v0.8.0 implements **ISQL-MEM v0.8 Locality Delta Frames + Random-Access Partial Decode** on top of the unchanged v0.7 machine-native `ISN7` frame.
+
+## v0.8 in one line
+
+```text
+standalone ISN7 base
++ nearby spectral memory
+→ canonical COPY / DELTA / REPLACE blocks
+→ ISD8 only when smaller
+→ block-level random access
+```
+
+Frozen live results: identical semantic neighbor **121 B → 87 B**; same-registry near neighbor **121 B → 97 B**; registry-growth low-locality case rejects a 168 B delta and keeps the **126 B standalone** target.
+
+See `docs/ISQL_MEM_v0.8_Locality_Delta_and_Random_Access.md`.
+
+---
+
+## Historical v0.7 Runtime Notes
 
 ISQL Core Runtime v0.7.0 implements **ISQL-MEM v0.7 Machine-Native Canonical Representation**. Human-readable decimal text is no longer a canonical requirement.
 

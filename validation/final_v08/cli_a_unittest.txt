@@ -1,0 +1,23 @@
+test_address_text (tests.test_cli.CLITests.test_address_text) ... ok
+test_memory_encode_decode_and_recoverability (tests.test_cli.CLITests.test_memory_encode_decode_and_recoverability) ... ok
+test_parse (tests.test_cli.CLITests.test_parse) ... ok
+test_registry_info (tests.test_cli.CLITests.test_registry_info) ... ok
+test_invalid_semantic_analysis_fails_closed (tests.test_cli_v02.CLIV02Tests.test_invalid_semantic_analysis_fails_closed) ... ok
+test_memory_compare_reports_baseline_and_semantic (tests.test_cli_v02.CLIV02Tests.test_memory_compare_reports_baseline_and_semantic) ... ok
+test_memory_decode_auto_selects_semantic_decoder (tests.test_cli_v02.CLIV02Tests.test_memory_decode_auto_selects_semantic_decoder) ... ok
+test_memory_encode_accepts_semantic_analysis_json (tests.test_cli_v02.CLIV02Tests.test_memory_encode_accepts_semantic_analysis_json) ... ok
+test_memory_profiles_lists_both_profiles (tests.test_cli_v02.CLIV02Tests.test_memory_profiles_lists_both_profiles) ... ok
+test_memory_compare_includes_spectral_compaction (tests.test_cli_v03.CLIV03Tests.test_memory_compare_includes_spectral_compaction) ... ok
+test_memory_decode_auto_selects_spectral_decoder (tests.test_cli_v03.CLIV03Tests.test_memory_decode_auto_selects_spectral_decoder) ... ok
+test_memory_encode_spectral_flag_adds_third_profile (tests.test_cli_v03.CLIV03Tests.test_memory_encode_spectral_flag_adds_third_profile) ... ok
+test_spectral_flag_without_semantic_analysis_fails_closed (tests.test_cli_v03.CLIV03Tests.test_spectral_flag_without_semantic_analysis_fails_closed) ... ok
+test_spectral_registry_info_and_compile_show_warm_reuse (tests.test_cli_v03.CLIV03Tests.test_spectral_registry_info_and_compile_show_warm_reuse) ... ok
+test_memory_compare_includes_numeric_compaction (tests.test_cli_v04.CLIV04Tests.test_memory_compare_includes_numeric_compaction) ... ok
+test_memory_encode_numeric_wire_adds_numeric_profile_and_decode_auto_selects (tests.test_cli_v04.CLIV04Tests.test_memory_encode_numeric_wire_adds_numeric_profile_and_decode_auto_selects) ... ok
+test_numeric_wire_compile_and_decode_round_trip (tests.test_cli_v04.CLIV04Tests.test_numeric_wire_compile_and_decode_round_trip) ... ok
+test_numeric_wire_without_semantic_analysis_fails_closed (tests.test_cli_v04.CLIV04Tests.test_numeric_wire_without_semantic_analysis_fails_closed) ... ok
+
+----------------------------------------------------------------------
+Ran 18 tests in 23.085s
+
+OK

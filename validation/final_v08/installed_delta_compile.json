@@ -1,0 +1,21 @@
+{
+  "base_frame_sha256": "0e311629c1415c1e01680f5f1e16336fdc2c239171db8589c3313745453c43c0",
+  "block_count": 5,
+  "frame_bytes": 87,
+  "frame_sha256": "78f826d1d0a163632b2445e635702e0dccfcae99d7c45e9d0b3083cd505f90c8",
+  "kind": "spectral-memory-delta",
+  "mode_counts": {
+    "copy": 5,
+    "delta": 0,
+    "replace": 0
+  },
+  "output_file": "validation/final_v08/installed_delta.isqld8",
+  "registry_hash": "fa9418119f870e6db9e09c000389b3ffbd4aa24b3815209fc34c53e457052ef4",
+  "registry_override": false,
+  "registry_revision": 1,
+  "resolution": "R2",
+  "schema": "isql.delta-compile/v0.8",
+  "sequence_items": 68,
+  "target_address_sha256": "992e826e0c96ef4a3f7c2c943a6d35b06b4723853b3750ca5f4ffb98aab7e2d1",
+  "version": 8
+}

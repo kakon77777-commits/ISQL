@@ -1,5 +1,19 @@
 # Release Notes
 
+## v0.8.0 — ISQL-MEM Locality Delta Frames and Random Access
+
+- Added one-hop `ISD8` locality delta frames referencing exact standalone `ISN7` bases by SHA-256.
+- Added canonical per-block COPY, signed DELTA, and REPLACE modes.
+- Added registry-binding inheritance with explicit override only when the target registry changes.
+- Added native and delta block indexes plus block/range random-access decode.
+- Added locality compiler that chooses delta only when smaller than standalone native.
+- Added `delta-compile`, `delta-info`, `delta-decode`, `delta-block`, and `locality-compile` CLI commands.
+- Preserved v0.7 `ISN7` frozen frames byte-for-byte.
+- Live identical semantic neighbor: 121 B standalone → 87 B delta (5 COPY blocks).
+- Live same-registry near neighbor: 121 B → 97 B delta (3 COPY + 2 DELTA).
+- Live registry-growth low-locality target: candidate delta 168 B, selector keeps 126 B standalone.
+
+
 ## v0.7.0 — ISQL-MEM Machine-Native Canonical Representation
 
 - Removed human-readable decimal text from the canonical memory requirement.

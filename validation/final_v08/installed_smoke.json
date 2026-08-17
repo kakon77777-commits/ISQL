@@ -1,0 +1,9 @@
+{
+  "schema": "isql.v08-installed-smoke/v0.8",
+  "delta_bytes": 87,
+  "target_native_bytes": 121,
+  "ratio": 0.71900826446281,
+  "block_2_values": 16,
+  "restored_byte_equal": true,
+  "delta_sha256": "78f826d1d0a163632b2445e635702e0dccfcae99d7c45e9d0b3083cd505f90c8"
+}

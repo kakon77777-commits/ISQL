@@ -1,0 +1,15 @@
+test_registry_compare_reports_structural_and_wire_costs (tests.test_cli_v05.CLIV05Tests.test_registry_compare_reports_structural_and_wire_costs) ... ok
+test_registry_compile_hierarchical_and_decode_wire (tests.test_cli_v05.CLIV05Tests.test_registry_compile_hierarchical_and_decode_wire) ... ok
+test_v04_numeric_memory_wire_is_byte_for_byte_unchanged (tests.test_cli_v05.CLIV05Tests.test_v04_numeric_memory_wire_is_byte_for_byte_unchanged) ... ok
+test_bcd4_cli_round_trip (tests.test_cli_v06.CLIV06Tests.test_bcd4_cli_round_trip) ... ok
+test_invalid_carrier_file_fails_closed (tests.test_cli_v06.CLIV06Tests.test_invalid_carrier_file_fails_closed) ... ok
+test_pack_unpack_and_info_binary_carrier (tests.test_cli_v06.CLIV06Tests.test_pack_unpack_and_info_binary_carrier) ... ok
+test_native_compile_decode_info_and_debug (tests.test_cli_v07.CLIV07Tests.test_native_compile_decode_info_and_debug) ... ok
+test_native_decode_rejects_wrong_registry_store (tests.test_cli_v07.CLIV07Tests.test_native_decode_rejects_wrong_registry_store) ... ok
+test_delta_compile_info_decode_and_block (tests.test_cli_v08.CLIV08Tests.test_delta_compile_info_decode_and_block) ... ok
+test_locality_compile_selects_delta_or_native (tests.test_cli_v08.CLIV08Tests.test_locality_compile_selects_delta_or_native) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 16.252s
+
+OK

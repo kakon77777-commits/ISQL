@@ -27,6 +27,13 @@ from .registry_wire import (
 from .wire import compile_numeric_wire, decode_numeric_wire
 from .carrier import compile_digit_carrier, inspect_digit_carrier, unpack_digit_carrier
 from .native import compile_native_memory, expand_native_memory, inspect_native_frame, render_native_debug
+from .delta import (
+    compile_locality_memory,
+    decode_delta_block,
+    decode_delta_frame,
+    encode_delta_frame,
+    inspect_delta_frame,
+)
 
 
 def _json(value: object) -> str:
@@ -99,7 +106,7 @@ def _decode_auto(store: MemoryStore, code):
 
 
 def build_parser() -> argparse.ArgumentParser:
-    p = argparse.ArgumentParser(prog="isql-core", description="ISQL Core Runtime / ISQL-MEM v0.7")
+    p = argparse.ArgumentParser(prog="isql-core", description="ISQL Core Runtime / ISQL-MEM v0.8")
     sub = p.add_subparsers(dest="command", required=True)
 
     sp = sub.add_parser("parse", help="Parse an ISQL wire code")
@@ -178,6 +185,31 @@ def build_parser() -> argparse.ArgumentParser:
 
     sp = sub.add_parser("native-debug", help="Render a non-canonical human debug view of a native frame")
     sp.add_argument("--input", required=True)
+
+    sp = sub.add_parser("delta-compile", help="Compile a one-hop ISD8 delta between two ISN7 frames")
+    sp.add_argument("--base", required=True)
+    sp.add_argument("--target", required=True)
+    sp.add_argument("--out", required=True)
+
+    sp = sub.add_parser("delta-info", help="Inspect an ISD8 delta frame against its base")
+    sp.add_argument("--base", required=True)
+    sp.add_argument("--input", required=True)
+
+    sp = sub.add_parser("delta-decode", help="Reconstruct an ISN7 target from ISD8 + base")
+    sp.add_argument("--base", required=True)
+    sp.add_argument("--input", required=True)
+    sp.add_argument("--out", required=True)
+
+    sp = sub.add_parser("delta-block", help="Decode one coordinate block from ISD8 without materializing the full target")
+    sp.add_argument("--base", required=True)
+    sp.add_argument("--input", required=True)
+    sp.add_argument("--block", required=True, type=int)
+
+    sp = sub.add_parser("locality-compile", help="Choose smaller of standalone ISN7 or one-hop ISD8")
+    sp.add_argument("--base", required=True)
+    sp.add_argument("--record", required=True)
+    sp.add_argument("--resolution", choices=["R1", "R2"], default="R2")
+    sp.add_argument("--out", required=True)
 
     sp = sub.add_parser("memory-decode", help="Decode a stored ISQL-MEM code using its profile decoder")
     sp.add_argument("--store", required=True)
@@ -372,6 +404,61 @@ def main(argv: list[str] | None = None) -> int:
 
         if args.command == "native-debug":
             print(render_native_debug(Path(args.input).read_bytes()), end="")
+            return 0
+
+        if args.command == "delta-compile":
+            base = Path(args.base).read_bytes()
+            target = Path(args.target).read_bytes()
+            frame = encode_delta_frame(base, target)
+            out_path = Path(args.out)
+            out_path.parent.mkdir(parents=True, exist_ok=True)
+            out_path.write_bytes(frame)
+            payload = inspect_delta_frame(frame, base)
+            payload["schema"] = "isql.delta-compile/v0.8"
+            payload["output_file"] = str(out_path)
+            print(_json(payload))
+            return 0
+
+        if args.command == "delta-info":
+            print(_json(inspect_delta_frame(Path(args.input).read_bytes(), Path(args.base).read_bytes())))
+            return 0
+
+        if args.command == "delta-decode":
+            base = Path(args.base).read_bytes()
+            delta = Path(args.input).read_bytes()
+            target = decode_delta_frame(delta, base).to_bytes()
+            out_path = Path(args.out)
+            out_path.parent.mkdir(parents=True, exist_ok=True)
+            out_path.write_bytes(target)
+            print(_json({
+                "schema": "isql.delta-decode/v0.8",
+                "output_file": str(out_path),
+                "target_frame_bytes": len(target),
+                "target_frame_sha256": __import__("hashlib").sha256(target).hexdigest(),
+            }))
+            return 0
+
+        if args.command == "delta-block":
+            values = decode_delta_block(Path(args.input).read_bytes(), Path(args.base).read_bytes(), args.block)
+            print(_json({
+                "schema": "isql.delta-block/v0.8",
+                "block": args.block,
+                "values": list(values),
+            }))
+            return 0
+
+        if args.command == "locality-compile":
+            raw = json.loads(Path(args.record).read_text(encoding="utf-8"))
+            if not isinstance(raw, dict):
+                raise ValueError("locality record must decode to an object")
+            record = MemoryRecord.from_dict(raw)
+            result = compile_locality_memory(Path(args.base).read_bytes(), record, resolution=args.resolution)
+            out_path = Path(args.out)
+            out_path.parent.mkdir(parents=True, exist_ok=True)
+            out_path.write_bytes(result.frame)
+            payload = result.to_dict()
+            payload["output_file"] = str(out_path)
+            print(_json(payload))
             return 0
 
         if args.command == "registry-compare":
