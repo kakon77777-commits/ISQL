@@ -1,0 +1,24 @@
+{
+  "version": "v0.2",
+  "canonical_source": "ISQL_Core_Code_Base_Space_v0.2_2026-08-17.md",
+  "encoding": "UTF-8",
+  "utf8_decode": true,
+  "display_math_delimiter": "$$...$$",
+  "inline_math_delimiter": "$...$",
+  "forbidden_bracket_math": false,
+  "forbidden_parenthesis_math": false,
+  "display_delimiter_count": 250,
+  "display_delimiters_balanced": true,
+  "sections_present": {
+    "kernel": true,
+    "domains": true,
+    "address_memory_split": true,
+    "multi_resolution": true,
+    "decoder_contract": true,
+    "recoverability": true,
+    "code_space": true,
+    "invariants": true,
+    "experiments": true
+  },
+  "contains_tbd": false
+}
