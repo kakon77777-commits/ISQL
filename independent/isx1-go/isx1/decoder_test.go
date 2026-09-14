@@ -39,7 +39,7 @@ func loadVectors(t *testing.T) vectorFile {
 	if !ok {
 		t.Fatal("runtime.Caller failed")
 	}
-	path := filepath.Join(filepath.Dir(source), "..", "..", "..", "conformance", "isx1", "experimental_vectors_v0.1.json")
+	path := filepath.Join(filepath.Dir(source), "..", "..", "..", "conformance", "isx1", "experimental_vectors_v0.2.json")
 	raw, err := os.ReadFile(path)
 	if err != nil {
 		t.Fatal(err)
