@@ -35,6 +35,12 @@ def _canonical_json_bytes(value: object) -> bytes:
     ).encode("utf-8")
 
 
+def _require_identity_text(value: str, *, code: str) -> str:
+    if not isinstance(value, str) or not value or "\x00" in value:
+        raise ISQLValidationError(code)
+    return value
+
+
 def _normalize_text(value: str, *, code: str) -> str:
     if not isinstance(value, str):
         raise ISQLValidationError(code)
@@ -67,7 +73,10 @@ class SemanticProfileBinding:
         object.__setattr__(
             self,
             "analyzer_id",
-            _normalize_text(self.analyzer_id, code="SEMANTIC_PROFILE_ANALYZER_ID_INVALID"),
+            _require_identity_text(
+                self.analyzer_id,
+                code="SEMANTIC_PROFILE_ANALYZER_ID_INVALID",
+            ),
         )
         if not isinstance(self.revision, int) or isinstance(self.revision, bool) or self.revision < 0:
             raise ISQLValidationError("SEMANTIC_PROFILE_REVISION_INVALID")
@@ -202,7 +211,7 @@ class ExactStateRef:
         object.__setattr__(
             self,
             "entity_id",
-            _normalize_text(self.entity_id, code="EXACT_ENTITY_ID_INVALID"),
+            _require_identity_text(self.entity_id, code="EXACT_ENTITY_ID_INVALID"),
         )
         object.__setattr__(
             self,
@@ -254,7 +263,10 @@ class SemanticAddressIndex:
     def __post_init__(self) -> None:
         if not isinstance(self.entries, tuple):
             raise ISQLValidationError("SEMANTIC_INDEX_ENTRIES_REQUIRED")
-        keys = [(entry.exact.entity_id, entry.exact.state_sha256) for entry in self.entries]
+        keys = [
+            (entry.address.profile, entry.exact.entity_id, entry.exact.state_sha256)
+            for entry in self.entries
+        ]
         if len(keys) != len(set(keys)):
             raise ISQLValidationError("SEMANTIC_INDEX_DUPLICATE_EXACT_REF")
         expected = tuple(sorted(
