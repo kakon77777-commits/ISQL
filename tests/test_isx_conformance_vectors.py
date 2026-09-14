@@ -10,7 +10,7 @@ VECTOR_PATH = (
     Path(__file__).resolve().parents[1]
     / "conformance"
     / "isx1"
-    / "experimental_vectors_v0.1.json"
+    / "experimental_vectors_v0.2.json"
 )
 
 
