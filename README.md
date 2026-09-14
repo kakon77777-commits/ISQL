@@ -33,6 +33,22 @@ Starting at v1.0, ISQL formally splits into two governance lines:
 - **Public ISQL** — stable identity, canonical encodings, deterministic decode, independent implementations, backward compatibility, reproducible test vectors, fail-closed behavior, explicit versioning, externally auditable claims. Priority: stability over novelty velocity.
 - **Experimental / Internal ISQL** — free to change coordinate topology, registry architecture, memory organization, AI decoder, index/search architecture, compression, or break backward compatibility. Nothing here becomes Public protocol just because it works in an experimental branch — promotion requires: research candidate → independent validation → specification → conformance vectors → public release.
 
+### Internal Meta-Core alignment — non-normative
+
+The Internal line now explicitly distinguishes the ISQL Meta-Core abstraction from any one wire format or reference runtime. In particular, the current Python `ISN7` implementation's `NATIVE_MAX_BIT_WIDTH = 64` is a **current implementation / Public 1.0 wire ceiling**, not a claim that ISQL semantic state is ontologically limited to 64-bit values.
+
+Internal research separates:
+
+```text
+semantic width != logical representation width != carrier width != machine word width
+semantic address != exact identity != physical placement
+entity identity != exact mutable-state revision
+```
+
+Existing Public 1.0 `ISN7` bytes are unchanged. Any future extended-width encoding must use an explicit experimental/new format boundary rather than silently reinterpreting the stable Public grammar.
+
+See [`docs/internal/ISQL_MetaCore_Internal_Architecture_v0.1.md`](docs/internal/ISQL_MetaCore_Internal_Architecture_v0.1.md) for the non-normative architecture alignment, responsibility split across Origin/Core/DSR/SEDB integration, and the staged W1→W5 experimental promotion path.
+
 ## Public 1.0 stable core
 
 `(Identity, Registry Binding, ISN7, ISD8, ILI1, Exact/Semantic Recovery Boundary, Fail-Closed Canonicality)`
@@ -68,6 +84,7 @@ Universal compression optimum, a completed AGI-native universal language, lossle
 - **[`public-boundary/SOURCE_BASIS.md`](public-boundary/SOURCE_BASIS.md)** — which v1.0 artifacts this boundary was derived from.
 - **[`public-boundary/CONFORMANCE_VECTOR_FORMAT_v1.example.json`](public-boundary/CONFORMANCE_VECTOR_FORMAT_v1.example.json)** — starter format for future golden/invalid conformance vectors.
 - **[`docs/RUNTIME_NOTES.md`](docs/RUNTIME_NOTES.md)** — the Python `isql-core` v1.0.0 reference-implementation README: quickstart, CLI, and the full v0.1→v1.0 controlled-experiment results. Non-normative.
+- **[`docs/internal/ISQL_MetaCore_Internal_Architecture_v0.1.md`](docs/internal/ISQL_MetaCore_Internal_Architecture_v0.1.md)** — non-normative Internal architecture alignment: Meta-Core separation rules, width independence, dual addressing, repo responsibilities, and the experimental promotion path.
 - **[`docs/`](docs/)** — per-version design docs (`ISQL_MEM_v0.x_*.md`) and superpowers plans/specs behind each release.
 
 ## Acceptance gate (not yet complete)
