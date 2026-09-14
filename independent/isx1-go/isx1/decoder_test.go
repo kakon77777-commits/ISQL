@@ -73,7 +73,7 @@ func TestPositiveVectors(t *testing.T) {
 			if hex.EncodeToString(frame.AddressDigest[:]) != vector.AddressSHA256 {
 				t.Fatal("address digest mismatch")
 			}
-			if frame.RegistryRevision != vector.RegistryRevision {
+			if frame.RegistryRevision.Cmp(new(big.Int).SetUint64(vector.RegistryRevision)) != 0 {
 				t.Fatal("registry revision mismatch")
 			}
 			if hex.EncodeToString(frame.RegistryHash[:]) != vector.RegistryHash {
