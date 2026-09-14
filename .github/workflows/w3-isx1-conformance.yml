@@ -1,0 +1,45 @@
+name: W3 ISX1 experimental conformance
+
+on:
+  pull_request:
+    paths:
+      - "src/isql_core/native_ext.py"
+      - "tests/test_isx_frame.py"
+      - "tests/test_isx_conformance_vectors.py"
+      - "tests/test_native_frame.py"
+      - "conformance/isx1/**"
+      - "independent/isx1-go/**"
+      - ".github/workflows/w3-isx1-conformance.yml"
+  push:
+    branches:
+      - "agent/meta-core-w3-independent-conformance"
+
+jobs:
+  python-reference:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install Core source
+        run: python -m pip install -e .
+      - name: Compile source
+        run: python -m compileall -q src
+      - name: Run ISX1 and legacy-separation tests
+        run: >-
+          python -m unittest -v
+          tests.test_isx_frame
+          tests.test_isx_conformance_vectors
+          tests.test_native_frame
+
+  independent-go:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.23.2"
+      - name: Run independent Go conformance suite
+        working-directory: independent/isx1-go
+        run: go test ./...
