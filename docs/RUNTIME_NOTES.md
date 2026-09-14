@@ -2,6 +2,8 @@
 
 ISQL Core Runtime v1.0.0 closes the first end-to-end **AI-native memory runtime**: compact semantic coordinates, machine-native memory frames, one-hop locality deltas, and a compact machine-native locality index whose heuristic recall is still subordinated to actual byte cost.
 
+> **Internal width-boundary note (non-normative):** the current Python reference implementation defines `NATIVE_MAX_BIT_WIDTH = 64`, and the stable Public 1.0 `ISN7` grammar stores a block width in one byte. This is the current implementation / Public 1.0 format boundary, not a Meta-Core claim that ISQL semantic values can never exceed 64 bits. Internal research now separates semantic width, logical representation width, carrier width, and host machine word width. Existing `ISN7` bytes remain unchanged; any extended-width successor must use an explicit new experimental/versioned format boundary. See `docs/internal/ISQL_MetaCore_Internal_Architecture_v0.1.md`.
+
 ## v1.0 in one line
 
 ```text
