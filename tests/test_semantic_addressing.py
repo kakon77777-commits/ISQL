@@ -53,6 +53,14 @@ class DualAddressingPrototypeTests(unittest.TestCase):
         self.assertNotEqual(a.content_hash(), b.content_hash())
         self.assertEqual(left.state_sha256, right.state_sha256)
 
+    def test_exact_entity_identity_is_not_semantically_casefolded(self):
+        upper = exact_state_ref("Entity-A", b"same")
+        lower = exact_state_ref("entity-a", b"same")
+        self.assertNotEqual(upper, lower)
+        self.assertEqual(upper.state_sha256, lower.state_sha256)
+        self.assertEqual(upper.entity_id, "Entity-A")
+        self.assertEqual(lower.entity_id, "entity-a")
+
     def test_similar_semantics_do_not_collapse_different_exact_states(self):
         semantic = analysis(concepts=("memory",), tags=("agent",))
         index = build_semantic_address_index([
@@ -64,6 +72,15 @@ class DualAddressingPrototypeTests(unittest.TestCase):
             index.entries[0].exact.state_sha256,
             index.entries[1].exact.state_sha256,
         )
+
+    def test_same_exact_state_can_have_multiple_profile_projections(self):
+        index = build_semantic_address_index([
+            ("entity-a", b"same", analysis(contract="contract-v1", concepts=("memory",))),
+            ("entity-a", b"same", analysis(contract="contract-v2", concepts=("memory",))),
+        ])
+        self.assertEqual(len(index.entries), 2)
+        self.assertEqual(index.entries[0].exact, index.entries[1].exact)
+        self.assertNotEqual(index.entries[0].address.profile, index.entries[1].address.profile)
 
     def test_exact_verification_is_independent_of_semantic_match(self):
         exact = exact_state_ref("entity-a", b"authoritative bytes")
@@ -80,6 +97,14 @@ class DualAddressingPrototypeTests(unittest.TestCase):
         )
         self.assertEqual(result.profile_entry_count, 0)
         self.assertEqual(result.probe_count, 0)
+        self.assertEqual(result.candidates, ())
+
+    def test_analyzer_id_is_part_of_exact_profile_binding(self):
+        stored = analysis(analyzer_id="Analyzer-A", concepts=("memory",))
+        query = analysis(analyzer_id="analyzer-a", concepts=("memory",))
+        index = build_semantic_address_index([("entity-a", b"state", stored)])
+        result = resolve_semantic_candidates(semantic_address_from_analysis(query), index)
+        self.assertEqual(result.profile_entry_count, 0)
         self.assertEqual(result.candidates, ())
 
     def test_typed_evidence_ranks_more_complete_candidate_first(self):
@@ -172,7 +197,7 @@ class DualAddressingPrototypeTests(unittest.TestCase):
         self.assertNotIn("location", address.to_dict())
         self.assertEqual(set(exact.to_dict()), {"entity_id", "state_sha256"})
 
-    def test_duplicate_exact_reference_is_rejected(self):
+    def test_duplicate_exact_reference_in_same_profile_is_rejected(self):
         semantic = analysis(concepts=("memory",))
         with self.assertRaisesRegex(ISQLValidationError, "SEMANTIC_INDEX_DUPLICATE_EXACT_REF"):
             build_semantic_address_index([
