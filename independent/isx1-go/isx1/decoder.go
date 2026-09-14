@@ -24,7 +24,7 @@ const (
 type Frame struct {
 	Resolution       byte
 	AddressDigest    [32]byte
-	RegistryRevision uint64
+	RegistryRevision *big.Int
 	RegistryHash     [32]byte
 	Sequence         []*big.Int
 }
@@ -40,47 +40,57 @@ func resolutionName(id byte) (string, error) {
 	}
 }
 
-func encodeUVarint(v uint64) []byte {
-	out := make([]byte, 0, 10)
+func encodeUVarint(v *big.Int) ([]byte, error) {
+	if v == nil || v.Sign() < 0 {
+		return nil, errors.New("nonnegative varint required")
+	}
+	value := new(big.Int).Set(v)
+	mask := big.NewInt(0x7f)
+	out := make([]byte, 0, MaxVarintBytes)
 	for {
-		b := byte(v & 0x7f)
-		v >>= 7
-		if v != 0 {
+		part := new(big.Int).And(new(big.Int).Set(value), mask).Uint64()
+		value.Rsh(value, 7)
+		b := byte(part)
+		if value.Sign() != 0 {
 			out = append(out, b|0x80)
 		} else {
-			return append(out, b)
+			out = append(out, b)
+			if len(out) > MaxVarintBytes {
+				return nil, errors.New("varint too large")
+			}
+			return out, nil
+		}
+		if len(out) >= MaxVarintBytes {
+			return nil, errors.New("varint too large")
 		}
 	}
 }
 
-func decodeUVarint(data []byte, pos int) (uint64, int, error) {
+func decodeUVarint(data []byte, pos int) (*big.Int, int, error) {
 	start := pos
-	var v uint64
-	var shift uint
+	value := new(big.Int)
+	shift := uint(0)
 	for {
 		if pos >= len(data) {
-			return 0, pos, errors.New("truncated varint")
+			return nil, pos, errors.New("truncated varint")
 		}
 		if pos-start >= MaxVarintBytes {
-			return 0, pos, errors.New("varint too large")
+			return nil, pos, errors.New("varint too large")
 		}
 		b := data[pos]
 		pos++
-		part := uint64(b & 0x7f)
-		if shift >= 64 && part != 0 {
-			return 0, pos, errors.New("varint overflow")
-		}
-		if shift < 64 {
-			if part > (^uint64(0) >> shift) {
-				return 0, pos, errors.New("varint overflow")
-			}
-			v |= part << shift
-		}
+		part := new(big.Int).SetUint64(uint64(b & 0x7f))
+		part.Lsh(part, shift)
+		value.Or(value, part)
 		if b&0x80 == 0 {
-			if !bytes.Equal(data[start:pos], encodeUVarint(v)) {
-				return 0, pos, errors.New("noncanonical varint")
+			canonical, err := encodeUVarint(value)
+			if err != nil {
+				return nil, pos, err
 			}
-			return v, pos, nil
+			if !bytes.Equal(data[start:pos], canonical) {
+				return nil, pos, errors.New("noncanonical varint")
+			}
+			return value, pos, nil
 		}
 		shift += 7
 	}
@@ -93,7 +103,11 @@ func encodeWidth(width int) ([]byte, error) {
 	if width < int(WidthMarker) {
 		return []byte{byte(width)}, nil
 	}
-	return append([]byte{WidthMarker}, encodeUVarint(uint64(width))...), nil
+	encoded, err := encodeUVarint(new(big.Int).SetUint64(uint64(width)))
+	if err != nil {
+		return nil, err
+	}
+	return append([]byte{WidthMarker}, encoded...), nil
 }
 
 func decodeWidth(data []byte, pos int) (int, int, error) {
@@ -105,13 +119,14 @@ func decodeWidth(data []byte, pos int) (int, int, error) {
 	if first != WidthMarker {
 		return int(first), pos, nil
 	}
-	width, next, err := decodeUVarint(data, pos)
+	widthValue, next, err := decodeUVarint(data, pos)
 	if err != nil {
 		return 0, next, err
 	}
-	if width < uint64(WidthMarker) {
+	if !widthValue.IsUint64() || widthValue.Uint64() < uint64(WidthMarker) {
 		return 0, next, errors.New("noncanonical extended width")
 	}
+	width := widthValue.Uint64()
 	if width > MaxBitWidth {
 		return 0, next, errors.New("block width exceeds cap")
 	}
@@ -273,15 +288,15 @@ func Decode(data []byte) (*Frame, error) {
 	copy(registryHash[:], body[pos:pos+32])
 	pos += 32
 
-	itemCount64, next, err := decodeUVarint(body, pos)
+	itemCountValue, next, err := decodeUVarint(body, pos)
 	if err != nil {
 		return nil, err
 	}
 	pos = next
-	if itemCount64 == 0 || itemCount64 > MaxSequenceItems {
+	if !itemCountValue.IsUint64() || itemCountValue.Sign() == 0 || itemCountValue.Uint64() > MaxSequenceItems {
 		return nil, errors.New("invalid sequence length")
 	}
-	itemCount := int(itemCount64)
+	itemCount := int(itemCountValue.Uint64())
 
 	sequence := make([]*big.Int, 0, itemCount)
 	remaining := itemCount
@@ -332,9 +347,17 @@ func Encode(frame *Frame) ([]byte, error) {
 	body := append([]byte{}, Magic...)
 	body = append(body, Version, KindSpectral, frame.Resolution, 0)
 	body = append(body, frame.AddressDigest[:]...)
-	body = append(body, encodeUVarint(frame.RegistryRevision)...)
+	revisionBytes, err := encodeUVarint(frame.RegistryRevision)
+	if err != nil {
+		return nil, err
+	}
+	body = append(body, revisionBytes...)
 	body = append(body, frame.RegistryHash[:]...)
-	body = append(body, encodeUVarint(uint64(len(frame.Sequence)))...)
+	countBytes, err := encodeUVarint(new(big.Int).SetUint64(uint64(len(frame.Sequence))))
+	if err != nil {
+		return nil, err
+	}
+	body = append(body, countBytes...)
 	for i := 0; i < len(frame.Sequence); i += BlockSize {
 		end := i + BlockSize
 		if end > len(frame.Sequence) {
