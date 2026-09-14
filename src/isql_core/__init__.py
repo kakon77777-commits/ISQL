@@ -3,6 +3,21 @@
 from .code import ISQLCode, parse_code
 from .address import address_code_to_digest, digest_to_address_code
 from .semantics import SemanticAnalysis, SemanticCoordinateSet, SemanticRelation
+from .semantic_addressing import (
+    SemanticProfileBinding,
+    SemanticAtom,
+    SemanticAddress,
+    ExactStateRef,
+    SemanticAddressIndexEntry,
+    SemanticAddressIndex,
+    SemanticCandidate,
+    SemanticResolveResult,
+    semantic_address_from_analysis,
+    exact_state_ref,
+    verify_exact_state,
+    build_semantic_address_index,
+    resolve_semantic_candidates,
+)
 from .spectral import (
     SpectralPacket,
     SpectralRegistry,
@@ -111,6 +126,19 @@ __all__ = [
     "SemanticAnalysis",
     "SemanticCoordinateSet",
     "SemanticRelation",
+    "SemanticProfileBinding",
+    "SemanticAtom",
+    "SemanticAddress",
+    "ExactStateRef",
+    "SemanticAddressIndexEntry",
+    "SemanticAddressIndex",
+    "SemanticCandidate",
+    "SemanticResolveResult",
+    "semantic_address_from_analysis",
+    "exact_state_ref",
+    "verify_exact_state",
+    "build_semantic_address_index",
+    "resolve_semantic_candidates",
     "SpectralPacket",
     "SpectralRegistry",
     "SpectralRegistryStore",
